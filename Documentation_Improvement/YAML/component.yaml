@@ -1,0 +1,246 @@
+# ============================================================
+# ONDE Class Definition: ONDE_COMPONENT
+# ============================================================
+# This file is the authoritative source of truth for the
+# ONDE_COMPONENT class and its subclasses. Documentation text
+# fields support Markdown formatting, including inline images.
+# ============================================================
+
+onde_class: ONDE_COMPONENT
+version: "0.4.0"
+inherits: []
+subclasses:
+  - ONDE_PLANE
+  - ONDE_CYLINDER
+  - ONDE_2DCAD
+  - ONDE_3DCAD
+  - ONDE_WELD
+see_also:
+  - ONDE_GEOMETRIC_SETUP
+compatibility:
+  MFMC: "Equivalent to SPECIMEN block in MFMC 2.0.0b"
+
+description: |
+  The component block describes the inspected specimen, including its material
+  properties, geometry, and positioning within the reference frame. This version
+  of the format handles only isotropic materials.
+
+  The geometric shape of the inspected component is defined by the subclass of
+  `ONDE_COMPONENT`. It can be one of the following: `ONDE_PLANE`, `ONDE_CYLINDER`,
+  `ONDE_2DCAD`, `ONDE_3DCAD`, `ONDE_WELD`. While the format is quite generic by
+  handling CAD files, parametric description is available for plane, cylindrical,
+  and weld specimens. Other parameterized shapes can be added in future versions.
+
+fields:
+  ONDE_TYPE:
+    full_name: "ONDE:TYPE"
+    required: true
+    storage: attribute
+    hdf5_type: H5T_STRING
+    description: "Class type identifier."
+
+  ONDE_LABEL:
+    full_name: "ONDE:LABEL"
+    required: false
+    storage: attribute
+    hdf5_type: H5T_STRING
+    description: "Human-readable label."
+
+  VELOCITIES:
+    required: true
+    storage: attribute
+    hdf5_type: H5T_FLOAT
+    dimensions: "[2]"
+    units: m/s
+    description: "Longitudinal and shear wave velocities."
+    detailed_description: |
+      The two values of the `VELOCITIES` array indicate the inspected component
+      longitudinal and shear wave velocity respectively. If both velocities
+      (Longitudinal and Shear) are not available, the missing one should be
+      replaced by a NaN.
+
+      > **Limitation:** This version of the format handles only isotropic materials.
+
+  DENSITY:
+    required: false
+    storage: attribute
+    hdf5_type: H5T_FLOAT
+    dimensions: "1"
+    units: "kg/m³"
+    description: "Material density."
+
+  VISUALIZATION_CAD:
+    required: false
+    storage: attribute
+    hdf5_type: H5T_STRING
+    dimensions: "1"
+    description: |
+      DXF or STL file for component visualization. When using a DXF file, the
+      profile will be extruded linearly or cylindrically according to the
+      component type.
+
+  VISUALIZATION_CAD_FRAME:
+    required: false
+    storage: attribute
+    hdf5_type: H5T_FLOAT
+    dimensions: "[7]"
+    default: identity
+    description: |
+      Definition of the frame defining the visualization CAD with offset and
+      quaternions in the specimen frame. Identity is used if absent.
+
+      See [frame conventions](../../UT_specification/UT_file_format.md#definition-of-frames)
+      for details on the 7-value frame representation (3 offset + 4 quaternion).
+
+  COMPONENT_FRAME:
+    required: false
+    storage: attribute
+    hdf5_type: H5T_FLOAT
+    dimensions: "[7]"
+    default: identity
+    description: |
+      Definition of the specimen frame in the reference frame. If not provided,
+      the default value is identity with the reference frame.
+
+  COMMENT:
+    required: false
+    storage: attribute
+    hdf5_type: H5T_STRING
+    dimensions: "1"
+    description: "Free-form comment."
+
+  IMAGE:
+    required: false
+    storage: attribute
+    hdf5_type: H5T_FLOAT
+    dimensions: "[3]"
+    description: "Image reference."
+
+notes:
+  - title: "Conventions for planar specimens"
+    content: |
+      In the planar coordinate system, the z direction is defined as the one
+      corresponding to the thickness of the inspected specimen (see Figure 6).
+      The dimensions are given by `PLATE_DIMENSIONS`, as a triplet with values
+      for length, width, and thickness.
+
+      ![Trajectory planar coordinate system convention](../../images/media/figure6.png)
+
+      *Figure 6: Trajectory planar coordinate system convention*
+
+  - title: "Conventions for cylindrical components"
+    content: |
+      In the cylindrical coordinate system, the x direction is the one
+      corresponding to the cylinder axis (see Figure 7). The dimensions are
+      given by `CYLINDER_DIMENSIONS`, with a triplet for outer diameter,
+      thickness, and length.
+
+      ![Trajectory cylindrical coordinate system convention](../../images/media/figure7.png)
+
+      *Figure 7: Trajectory cylindrical coordinate system convention*
+
+  - title: "Conventions for 2D CAD components"
+    content: |
+      The DXF file gives, in the (X, Z) frame, the 2D CAD description of the
+      component, either for a planar or a cylindrical extrusion.
+
+      For 2D CAD specimen with planar extrusion, the origin is implicitly
+      defined as the (0,0) point in the 2D CAD sketch (see Figure 8).
+
+      ![Convention for 2D CAD component with planar extrusion](../../images/media/figure8.png)
+
+      *Figure 8: Convention for 2D CAD component with planar extrusion*
+
+      For 2D CAD specimen with cylinder extrusion, the rotation is performed
+      along the X axis of the DXF schema (see Figure 9).
+
+      ![Convention for 2D CAD component with cylinder extrusion](../../images/media/figure9.png)
+
+      *Figure 9: Convention for 2D CAD component with cylinder extrusion*
+
+  - title: "Visualization CAD"
+    content: |
+      When a DXF is provided for the Visualization CAD, the extrusion of the
+      CAD is implied from the specimen shape.
+
+      ![Convention for visualization CAD in a planar component](../../images/media/figure10.png)
+
+      *Figure 10: Visualization CAD in a planar component*
+
+      ![Convention for visualization CAD in a cylindrical component](../../images/media/figure11.png)
+
+      *Figure 11: Visualization CAD in a cylindrical component*
+
+  - title: "Transformations"
+    content: |
+      The global coordinate system is distinct from the specimen coordinate
+      system: 2D and 3D CAD coordinates are defined in the specimen frame and
+      repositioned in the global coordinate system with the transformation
+      defined in `COMPONENT_FRAME`.
+
+# ============================================================
+# Subclass: ONDE_PLANE
+# ============================================================
+
+---
+
+onde_class: ONDE_PLANE
+version: "0.4.0"
+inherits:
+  - ONDE_COMPONENT
+
+description: |
+  A planar component. Inherits all fields from `ONDE_COMPONENT`.
+
+  For plane components, the dimensions are given by `PLATE_DIMENSIONS`, with a
+  triplet for length, width, and height.
+
+fields:
+  ONDE_TYPE:
+    full_name: "ONDE:TYPE"
+    required: true
+    storage: attribute
+    hdf5_type: H5T_STRING
+    dimensions: "[2]"
+    allowed_values: '["ONDE_COMPONENT","ONDE_PLANE"]'
+    description: "Type chain including parent."
+
+  PLATE_DIMENSIONS:
+    required: true
+    storage: attribute
+    hdf5_type: H5T_FLOAT
+    dimensions: "[3]"
+    units: m
+    description: "Length, width, thickness."
+
+# ============================================================
+# Subclass: ONDE_CYLINDER
+# ============================================================
+
+---
+
+onde_class: ONDE_CYLINDER
+version: "0.4.0"
+inherits:
+  - ONDE_COMPONENT
+
+description: |
+  A cylindrical component. Inherits all fields from `ONDE_COMPONENT`.
+
+fields:
+  ONDE_TYPE:
+    full_name: "ONDE:TYPE"
+    required: true
+    storage: attribute
+    hdf5_type: H5T_STRING
+    dimensions: "[2]"
+    allowed_values: '["ONDE_COMPONENT","ONDE_CYLINDER"]'
+    description: "Type chain including parent."
+
+  DIMENSIONS:
+    required: true
+    storage: attribute
+    hdf5_type: H5T_FLOAT
+    dimensions: "[3]"
+    units: m
+    description: "Outer diameter, thickness, length."

@@ -1,0 +1,201 @@
+# ============================================================
+# ONDE Class Definition: ONDE_ULTRASONIC_SETUP
+# ============================================================
+
+onde_class: ONDE_ULTRASONIC_SETUP
+version: "0.4.0"
+inherits: []
+subclasses: []
+see_also:
+  - ONDE_SETUP
+  - ONDE_UT_LAW
+  - ONDE_PHASED_ARRAY_SETUP
+
+description: |
+  The ultrasonic setup block describes the electronic acquisition parameters
+  for a dataset. It defines the digitization settings (sampling rate, gain,
+  rectification), filtering, and links to the focal law definitions for
+  multi-element setups.
+
+fields:
+  ONDE_TYPE:
+    full_name: "ONDE:TYPE"
+    required: true
+    storage: attribute
+    hdf5_type: H5T_STRING
+    dimensions: "[1]"
+    allowed_values: '["ONDE_ULTRASONIC_SETUP"]'
+    description: "Class type identifier."
+
+  ONDE_LABEL:
+    full_name: "ONDE:LABEL"
+    required: false
+    storage: attribute
+    hdf5_type: H5T_STRING
+    dimensions: "1"
+    description: "Human-readable label."
+
+  RECTIFICATION:
+    required: true
+    storage: attribute
+    hdf5_type: H5T_INTEGER
+    description: "Signal rectification mode."
+    allowed_values:
+      FULL_WAVE: "No rectification applied"
+      RECTIFIED_POSITIVE: "Positive half-wave rectification"
+      RECTIFIED_NEGATIVE: "Negative half-wave rectification"
+      RECTIFIED_FULL: "Full-wave rectification"
+
+  FILTER_TYPE:
+    required: false
+    storage: attribute
+    hdf5_type: H5T_INTEGER
+    description: "Type of filtering applied."
+    allowed_values:
+      NO_FILTER: "No filtering applied"
+      LOW_PASS: "Low-pass filter"
+      HIGH_PASS: "High-pass filter"
+      BAND_PASS: "Band-pass filter"
+      OTHER: "Custom filter (see FILTER_PARAMETERS)"
+
+  FILTER_PARAMETERS:
+    required: false
+    storage: attribute
+    hdf5_type: H5T_FLOAT
+    dimensions: "1 or [N_Ascan<m>] or [N_DF<m>,N_Ascan<m>]"
+    units: Hz
+    description: "Filter frequency parameters."
+    detailed_description: |
+      The filtering parameters take different values following the filter type:
+
+      - For `HIGH_PASS` or `LOW_PASS`: a single value giving the −3 dB
+        cut-off frequency
+      - For `BAND_PASS`: two values for the lower and upper −3 dB cut-off
+        frequencies
+      - For `OTHER`: an `[3,N_DF<m>]` matrix where the first row is frequency
+        and the second and third rows provide the real and imaginary parts of
+        the filter's transfer function at that frequency
+
+  FILTER_DESCRIPTION:
+    required: false
+    storage: attribute
+    hdf5_type: H5T_STRING
+    dimensions: "1"
+    description: "Description of filtering."
+
+  ASCAN_SAMPLE_RATE:
+    required: true
+    storage: attribute
+    hdf5_type: H5T_FLOAT
+    dimensions: "1"
+    units: Hz
+    description: "A-scan sampling frequency."
+
+  ASCAN_START:
+    required: true
+    storage: dataset
+    hdf5_type: H5T_FLOAT
+    dimensions: "1 or [N_Ascan<m>] or [N_Ascan<m>,N_DF<m>]"
+    units: s
+    description: "Acquisition start time."
+    detailed_description: |
+      This indicates the starting time for data acquisition. If dimension is
+      `1`, the same start time is used for all A-Scans; otherwise a different
+      start time is specified for each A-Scan.
+
+      The acquisition gate is implicitly defined by:
+
+      **t_end = ASCAN_START + (N_Time\<m\> - 1) / ASCAN_SAMPLE_RATE**
+
+  SIGNAL:
+    required: false
+    storage: dataset
+    hdf5_type: H5T_FLOAT
+    dimensions: "[N_TSig<m>,2]"
+    default: "impulse at t=0.0"
+    description: |
+      Digitization of the emission signal (can be used to store arbitrary
+      signals). 2D array with one row for time and one for amplitude. If
+      missing, impulse emission at time 0.0 is assumed.
+
+  GAIN:
+    required: true
+    storage: dataset
+    hdf5_type: H5T_FLOAT
+    dimensions: "[N_Ascan<m>]"
+    description: |
+      Total reception gain per A-scan. Multiplying factor applied at
+      acquisition.
+
+  PRF:
+    required: false
+    storage: dataset
+    hdf5_type: H5T_FLOAT
+    dimensions: "[N_Ascan<m>] or [2]"
+    units: Hz
+    description: "Pulse Repetition Frequency for each Tx/Rx combination."
+
+  TCG_CURVE:
+    required: false
+    storage: dataset
+    hdf5_type: H5T_FLOAT
+    dimensions: "[N_Ascan<m>,N_TCG<m>]"
+    description: "Time-corrected gain curve."
+    detailed_description: |
+      The TCG curve is applied to the received signals. The amplitude
+      correction is given for each time sample as a multiplying factor.
+
+      > **Important:** The amplification from TCG must be cumulated with the
+      > global gain defined by the `GAIN` field.
+
+  PHASED_ARRAY_SETUP:
+    required: false
+    storage: attribute
+    hdf5_type: H5T_STD_REF_OBJ
+    dimensions: "1"
+    ref_target: ONDE_PHASED_ARRAY_SETUP
+    description: "Reference to phased array setup."
+
+  TRANSMIT_LAW:
+    required: true
+    storage: dataset
+    hdf5_type: H5T_STD_REF_OBJ
+    dimensions: "[N_Ascan<m>] or [N_DF<m>,N_Ascan<m>]"
+    ref_target: ONDE_UT_LAW
+    description: "Transmit focal law references."
+    conditional_requirement: "Mandatory for phased array setups."
+    detailed_description: |
+      Each A-scan in a dataframe must be associated with both a transmit and
+      a receive focal law. These contain HDF5 references to groups of type
+      `ONDE_UT_LAW`.
+
+      **Dynamic laws:** The cardinality can be either:
+      - **1D array** `[N_Ascan<m>]` — same laws for each dataframe
+      - **2D array** `[N_DF<m>,N_Ascan<m>]` — differentiated laws per
+        dataframe
+
+  RECEIVE_LAW:
+    required: false
+    storage: dataset
+    hdf5_type: H5T_STD_REF_OBJ
+    dimensions: "[N_Ascan<m>] or [N_DF<m>,N_Ascan<m>]"
+    ref_target: ONDE_UT_LAW
+    description: "Receive focal law references."
+    detailed_description: |
+      Optional but recommended. Same structure as TRANSMIT_LAW.
+
+notes:
+  - title: "Variable gates"
+    content: |
+      Variable gates are not handled in this version — they can be emulated
+      by zero-padding the data block.
+
+  - title: "Combination between offsets and trajectories"
+    content: |
+      The offsets and directions provided in the dataset blocks can be
+      combined with the data of the trajectory block in order to share common
+      trajectories between different probes (as is common in TOFD controls).
+
+      ![Example of offset and trajectory combination in TOFD](../../images/media/figure23.png)
+
+      *Figure 23: Example of offset and trajectory combination in TOFD*
