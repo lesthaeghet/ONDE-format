@@ -4,12 +4,7 @@
 ONDE_COMPONENT
 ===============
 
-:Version: 0.4.0
 :Inherits: --
-:Subclasses: :ref:`ONDE_PLANE`, :ref:`ONDE_CYLINDER`, :ref:`ONDE_2DCAD`,
-             :ref:`ONDE_3DCAD`, :ref:`ONDE_WELD`
-:See Also: :ref:`ONDE_GEOMETRIC_SETUP`
-:Compatibility: Equivalent to SPECIMEN block in MFMC 2.0.0b
 
 The component block describes the inspected specimen, including its material
 properties, geometry, and positioning within the reference frame. This version
@@ -22,17 +17,15 @@ format is quite generic by handling CAD files, parametric description is
 available for plane, cylindrical, and weld specimens. Other parameterized
 shapes can be added in future versions.
 
+The MFMC equivalent is the SPECIMEN block (MFMC 2.0.0b).
+
 
 Field Definitions
 -----------------
 
-..
-   MACHINE-PARSEABLE: This table is the authoritative field schema.
-   Automated tools extract field definitions from this table.
-
 .. list-table::
    :header-rows: 1
-   :widths: 20 5 10 15 10 8 10 22
+   :widths: 25 5 10 15 10 8 10 17
 
    * - Field
      - Req
@@ -58,7 +51,7 @@ Field Definitions
      -
      -
      - Human-readable label
-   * - ``VELOCITIES``
+   * - ``ONDE_COMPONENT:VELOCITIES``
      - M
      - Attribute
      - ``H5T_FLOAT``
@@ -66,7 +59,7 @@ Field Definitions
      - m/s
      -
      - Longitudinal and shear wave velocities
-   * - ``DENSITY``
+   * - ``ONDE_COMPONENT:DENSITY``
      - O
      - Attribute
      - ``H5T_FLOAT``
@@ -74,7 +67,7 @@ Field Definitions
      - kg/m³
      -
      - Material density
-   * - ``VISUALIZATION_CAD``
+   * - ``ONDE_COMPONENT:VISUALIZATION_CAD``
      - O
      - Attribute
      - ``H5T_STRING``
@@ -82,7 +75,7 @@ Field Definitions
      -
      -
      - DXF or STL file for visualization
-   * - ``VISUALIZATION_CAD_FRAME``
+   * - ``ONDE_COMPONENT:VISUALIZATION_CAD_FRAME``
      - O
      - Attribute
      - ``H5T_FLOAT``
@@ -90,7 +83,7 @@ Field Definitions
      -
      - identity
      - Frame defining visualization CAD position
-   * - ``COMPONENT_FRAME``
+   * - ``ONDE_COMPONENT:COMPONENT_FRAME``
      - O
      - Attribute
      - ``H5T_FLOAT``
@@ -98,7 +91,7 @@ Field Definitions
      -
      - identity
      - Specimen frame in the reference frame
-   * - ``COMMENT``
+   * - ``ONDE_COMPONENT:COMMENT``
      - O
      - Attribute
      - ``H5T_STRING``
@@ -106,7 +99,7 @@ Field Definitions
      -
      -
      - Free-form comment
-   * - ``IMAGE``
+   * - ``ONDE_COMPONENT:IMAGE``
      - O
      - Attribute
      - ``H5T_FLOAT``
@@ -119,8 +112,8 @@ Field Definitions
 Detailed Field Documentation
 -----------------------------
 
-VELOCITIES
-^^^^^^^^^^
+ONDE_COMPONENT:VELOCITIES
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The two values of the ``VELOCITIES`` array indicate the inspected component
 longitudinal and shear wave velocity respectively. If both velocities
@@ -131,15 +124,15 @@ by a NaN.
 
    This version of the format handles only isotropic materials.
 
-VISUALIZATION_CAD
-^^^^^^^^^^^^^^^^^
+ONDE_COMPONENT:VISUALIZATION_CAD
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-``VISUALIZATION_CAD`` contains a DXF or STL file for the component
-visualization. When using a DXF file, the profile will be extruded linearly or
-cylindrically according to the component type.
+Contains a DXF or STL file for the component visualization. When using a DXF
+file, the profile will be extruded linearly or cylindrically according to the
+component type.
 
-VISUALIZATION_CAD_FRAME
-^^^^^^^^^^^^^^^^^^^^^^^
+ONDE_COMPONENT:VISUALIZATION_CAD_FRAME
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Definition of the frame defining the visualization CAD with offset and
 quaternions in the specimen frame. Identity is used if absent.
@@ -147,8 +140,8 @@ quaternions in the specimen frame. Identity is used if absent.
 See :ref:`frame_conventions` for details on the 7-value frame representation
 (3 offset + 4 quaternion).
 
-COMPONENT_FRAME
-^^^^^^^^^^^^^^^
+ONDE_COMPONENT:COMPONENT_FRAME
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Definition of the specimen frame in the reference frame. If not provided, the
 default value is identity with the reference frame.
@@ -162,8 +155,8 @@ Conventions for planar specimens
 
 In the planar coordinate system, the z direction is defined as the one
 corresponding to the thickness of the inspected specimen (see Figure 6). The
-dimensions are given by ``PLATE_DIMENSIONS``, as a triplet with values for
-length, width, and thickness.
+dimensions are given by ``ONDE_PLANE:PLATE_DIMENSIONS``, as a triplet with
+values for length, width, and thickness.
 
 .. figure:: ../../images/media/figure6.png
    :alt: Trajectory planar coordinate system convention
@@ -175,8 +168,8 @@ Conventions for cylindrical components
 
 In the cylindrical coordinate system, the x direction is the one corresponding
 to the cylinder axis (see Figure 7). The dimensions are given by
-``CYLINDER_DIMENSIONS``, with a triplet for outer diameter, thickness, and
-length.
+``ONDE_CYLINDER:DIMENSIONS``, with a triplet for outer diameter, thickness,
+and length.
 
 .. figure:: ../../images/media/figure7.png
    :alt: Trajectory cylindrical coordinate system convention
@@ -187,53 +180,41 @@ Conventions for 2D CAD components
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The DXF file gives, in the (X, Z) frame, the 2D CAD description of the
-component, either for a planar or a cylindrical extrusion. For 2D extruded
-components, extrusion is provided by ``EXTRUSION_TYPE`` (plane or cylindrical)
-and ``EXTRUSION_DIMENSION`` for the length for plane extrusion, the diameter
-for cylindrical ones.
-
-For 2D CAD specimen with planar extrusion, the origin is implicitly defined as
-the (0,0) point in the 2D CAD sketch (see Figure 8).
+component, either for a planar or a cylindrical extrusion.
 
 .. figure:: ../../images/media/figure8.png
    :alt: Convention for 2D CAD component with planar extrusion
 
-   Figure 8: Convention for the description of a 2D CAD component with planar extrusion
-
-For 2D CAD specimen with cylinder extrusion, the rotation is performed along
-the X axis of the DXF schema and the 3D origin corresponds to the projection
-on this axis of the 2D CAD sketch origin (see Figure 9).
+   Figure 8: Convention for 2D CAD component with planar extrusion
 
 .. figure:: ../../images/media/figure9.png
    :alt: Convention for 2D CAD component with cylinder extrusion
 
-   Figure 9: Convention for the description of a 2D CAD component with cylinder extrusion
+   Figure 9: Convention for 2D CAD component with cylinder extrusion
 
 Visualization CAD
 ^^^^^^^^^^^^^^^^^
 
 When a DXF is provided for the Visualization CAD, the extrusion of the CAD is
-implied from the specimen shape: it is of linear nature if the specimen is a
-plate or a 2D CAD with linear extrusion, it is cylindrical if the specimen is
-a cylinder or a 2D CAD with cylindrical extrusion.
+implied from the specimen shape.
 
 .. figure:: ../../images/media/figure10.png
    :alt: Convention for visualization CAD in a planar component
 
-   Figure 10: Convention for the positioning of the visualization CAD in a planar component
+   Figure 10: Visualization CAD in a planar component
 
 .. figure:: ../../images/media/figure11.png
    :alt: Convention for visualization CAD in a cylindrical component
 
-   Figure 11: Convention for the positioning of the visualization CAD in a cylindrical component
+   Figure 11: Visualization CAD in a cylindrical component
 
 Transformations
 ^^^^^^^^^^^^^^^
 
 The global coordinate system is distinct from the specimen coordinate system:
-for example, 2D and 3D CAD coordinates are defined in the specimen frame and
-repositioned in the global coordinate system with the transformation defined
-in ``COMPONENT_FRAME``.
+2D and 3D CAD coordinates are defined in the specimen frame and repositioned
+in the global coordinate system with the transformation defined in
+``ONDE_COMPONENT:COMPONENT_FRAME``.
 
 
 ----
@@ -245,13 +226,9 @@ in ``COMPONENT_FRAME``.
 ONDE_PLANE
 ==========
 
-:Version: 0.4.0
 :Inherits: :ref:`ONDE_COMPONENT`
 
 A planar component. Inherits all fields from :ref:`ONDE_COMPONENT`.
-
-For plane components, the dimensions are given by ``PLATE_DIMENSIONS``, with a
-triplet for length, width, and height.
 
 
 Field Definitions
@@ -259,7 +236,7 @@ Field Definitions
 
 .. list-table::
    :header-rows: 1
-   :widths: 20 5 10 15 10 8 10 22
+   :widths: 25 5 10 15 10 8 10 17
 
    * - Field
      - Req
@@ -277,7 +254,7 @@ Field Definitions
      -
      - ``["ONDE_COMPONENT","ONDE_PLANE"]``
      - Type chain including parent
-   * - ``PLATE_DIMENSIONS``
+   * - ``ONDE_PLANE:PLATE_DIMENSIONS``
      - M
      - Attribute
      - ``H5T_FLOAT``
@@ -296,13 +273,9 @@ Field Definitions
 ONDE_CYLINDER
 =============
 
-:Version: 0.4.0
 :Inherits: :ref:`ONDE_COMPONENT`
 
 A cylindrical component. Inherits all fields from :ref:`ONDE_COMPONENT`.
-
-For cylindrical components, the dimensions are given by ``DIMENSIONS``, with a
-triplet for outer diameter, thickness, and length.
 
 
 Field Definitions
@@ -310,7 +283,7 @@ Field Definitions
 
 .. list-table::
    :header-rows: 1
-   :widths: 20 5 10 15 10 8 10 22
+   :widths: 25 5 10 15 10 8 10 17
 
    * - Field
      - Req
@@ -328,7 +301,7 @@ Field Definitions
      -
      - ``["ONDE_COMPONENT","ONDE_CYLINDER"]``
      - Type chain including parent
-   * - ``DIMENSIONS``
+   * - ``ONDE_CYLINDER:DIMENSIONS``
      - M
      - Attribute
      - ``H5T_FLOAT``

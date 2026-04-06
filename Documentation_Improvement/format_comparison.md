@@ -3,6 +3,11 @@
 All five prototype formats have been written to `Documentation_Improvement/` using
 the same two representative classes (ONDE_COMPONENT family and ONDE_ULTRASONIC_SETUP).
 
+**Design principle:** Each file contains only the minimum authoritative data needed —
+class name, inheritance parent, field definitions (with full prefixed names), and
+narrative documentation. Properties that can be inferred (e.g., subclass lists,
+format version) are omitted and derived automatically by tooling.
+
 ## Files Created
 
 | Format | Folder | Files |
