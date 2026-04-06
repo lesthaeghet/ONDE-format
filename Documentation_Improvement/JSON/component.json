@@ -1,0 +1,156 @@
+{
+  "classes": [
+    {
+      "onde_class": "ONDE_COMPONENT",
+      "inherits": [],
+
+      "description": "The component block describes the inspected specimen, including its material properties, geometry, and positioning within the reference frame. This version of the format handles only isotropic materials.\n\nThe MFMC equivalent is the SPECIMEN block (MFMC 2.0.0b).",
+
+      "fields": [
+        {
+          "name": "ONDE:TYPE",
+          "required": "M",
+          "storage": "Attribute",
+          "type": "H5T_STRING",
+          "brief": "Class type identifier"
+        },
+        {
+          "name": "ONDE:LABEL",
+          "required": "O",
+          "storage": "Attribute",
+          "type": "H5T_STRING",
+          "brief": "Human-readable label"
+        },
+        {
+          "name": "ONDE_COMPONENT:VELOCITIES",
+          "required": "M",
+          "storage": "Attribute",
+          "type": "H5T_FLOAT",
+          "dimensions": "[2]",
+          "units": "m/s",
+          "brief": "Longitudinal and shear wave velocities",
+          "detail": "The two values indicate the inspected component longitudinal and shear wave velocity respectively. If a velocity is unavailable, replace with NaN.\n\n**Limitation:** Only isotropic materials in this version."
+        },
+        {
+          "name": "ONDE_COMPONENT:DENSITY",
+          "required": "O",
+          "storage": "Attribute",
+          "type": "H5T_FLOAT",
+          "dimensions": "1",
+          "units": "kg/m³",
+          "brief": "Material density"
+        },
+        {
+          "name": "ONDE_COMPONENT:VISUALIZATION_CAD",
+          "required": "O",
+          "storage": "Attribute",
+          "type": "H5T_STRING",
+          "dimensions": "1",
+          "brief": "DXF or STL file for visualization"
+        },
+        {
+          "name": "ONDE_COMPONENT:VISUALIZATION_CAD_FRAME",
+          "required": "O",
+          "storage": "Attribute",
+          "type": "H5T_FLOAT",
+          "dimensions": "[7]",
+          "default": "identity",
+          "brief": "Frame defining visualization CAD position"
+        },
+        {
+          "name": "ONDE_COMPONENT:COMPONENT_FRAME",
+          "required": "O",
+          "storage": "Attribute",
+          "type": "H5T_FLOAT",
+          "dimensions": "[7]",
+          "default": "identity",
+          "brief": "Specimen frame in the reference frame",
+          "detail": "Definition of the specimen frame in the reference frame. If not provided, the default value is identity with the reference frame."
+        },
+        {
+          "name": "ONDE_COMPONENT:COMMENT",
+          "required": "O",
+          "storage": "Attribute",
+          "type": "H5T_STRING",
+          "dimensions": "1",
+          "brief": "Free-form comment"
+        },
+        {
+          "name": "ONDE_COMPONENT:IMAGE",
+          "required": "O",
+          "storage": "Attribute",
+          "type": "H5T_FLOAT",
+          "dimensions": "[3]",
+          "brief": "Image reference"
+        }
+      ],
+
+      "notes": [
+        {
+          "title": "Conventions for planar specimens",
+          "content": "In the planar coordinate system, the z direction corresponds to the thickness.\n\n![Planar coordinate convention](../../images/media/figure6.png)"
+        },
+        {
+          "title": "Conventions for cylindrical components",
+          "content": "In the cylindrical coordinate system, the x direction corresponds to the cylinder axis.\n\n![Cylindrical coordinate convention](../../images/media/figure7.png)"
+        }
+      ]
+    },
+
+    {
+      "onde_class": "ONDE_PLANE",
+      "inherits": ["ONDE_COMPONENT"],
+
+      "description": "A planar component. Inherits all fields from ONDE_COMPONENT.",
+
+      "fields": [
+        {
+          "name": "ONDE:TYPE",
+          "required": "M",
+          "storage": "Attribute",
+          "type": "H5T_STRING",
+          "dimensions": "[2]",
+          "default": "[\"ONDE_COMPONENT\",\"ONDE_PLANE\"]",
+          "brief": "Type chain including parent"
+        },
+        {
+          "name": "ONDE_PLANE:PLATE_DIMENSIONS",
+          "required": "M",
+          "storage": "Attribute",
+          "type": "H5T_FLOAT",
+          "dimensions": "[3]",
+          "units": "m",
+          "brief": "Length, width, thickness"
+        }
+      ]
+    },
+
+    {
+      "onde_class": "ONDE_CYLINDER",
+      "inherits": ["ONDE_COMPONENT"],
+
+      "description": "A cylindrical component. Inherits all fields from ONDE_COMPONENT.",
+
+      "fields": [
+        {
+          "name": "ONDE:TYPE",
+          "required": "M",
+          "storage": "Attribute",
+          "type": "H5T_STRING",
+          "dimensions": "[2]",
+          "default": "[\"ONDE_COMPONENT\",\"ONDE_CYLINDER\"]",
+          "brief": "Type chain including parent"
+        },
+        {
+          "name": "ONDE_CYLINDER:DIMENSIONS",
+          "required": "M",
+          "storage": "Attribute",
+          "type": "H5T_FLOAT",
+          "dimensions": "[3]",
+          "units": "m",
+          "brief": "Outer diameter, thickness, length"
+        }
+      ]
+    }
+  ]
+}

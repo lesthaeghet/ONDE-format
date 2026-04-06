@@ -10,8 +10,10 @@ Generates one CSV per format in Documentation_Improvement/<Format>/extracted.csv
 """
 
 import csv
+import json
 import re
 import sys
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -349,6 +351,64 @@ def parse_yaml(files):
 
 
 # ================================================================
+# 6. XML PARSER
+# ================================================================
+def parse_xml(files):
+    """Parse XML files with element tree — stdlib, no external deps."""
+    records = []
+    for fpath in files:
+        tree = ET.parse(fpath)
+        root = tree.getroot()
+
+        for cls in root.findall("class"):
+            class_name = cls.get("name", "UNKNOWN")
+
+            for field in cls.findall("fields/field"):
+                brief_el = field.find("brief")
+                records.append({
+                    "Class": class_name,
+                    "Field": field.get("name", ""),
+                    "Required": req_str(field.get("required", "O")),
+                    "Storage": field.get("storage", ""),
+                    "Type": field.get("type", ""),
+                    "Dimensions": field.get("dimensions", ""),
+                    "Units": field.get("units", ""),
+                    "Default": field.get("default", ""),
+                    "Description": brief_el.text.strip() if brief_el is not None else "",
+                })
+
+    return records
+
+
+# ================================================================
+# 7. JSON PARSER
+# ================================================================
+def parse_json(files):
+    """Parse JSON files — stdlib, no external deps."""
+    records = []
+    for fpath in files:
+        data = json.loads(fpath.read_text(encoding="utf-8"))
+
+        for cls in data.get("classes", []):
+            class_name = cls.get("onde_class", "UNKNOWN")
+
+            for field in cls.get("fields", []):
+                records.append({
+                    "Class": class_name,
+                    "Field": field.get("name", ""),
+                    "Required": req_str(field.get("required", "O")),
+                    "Storage": field.get("storage", ""),
+                    "Type": field.get("type", ""),
+                    "Dimensions": field.get("dimensions", ""),
+                    "Units": field.get("units", ""),
+                    "Default": field.get("default", ""),
+                    "Description": field.get("brief", ""),
+                })
+
+    return records
+
+
+# ================================================================
 # MAIN
 # ================================================================
 def main():
@@ -377,6 +437,16 @@ def main():
             "parser": parse_yaml,
             "ext": "*.yaml",
             "dir": DOC_DIR / "YAML",
+        },
+        "XML": {
+            "parser": parse_xml,
+            "ext": "*.xml",
+            "dir": DOC_DIR / "XML",
+        },
+        "JSON": {
+            "parser": parse_json,
+            "ext": "*.json",
+            "dir": DOC_DIR / "JSON",
         },
     }
 

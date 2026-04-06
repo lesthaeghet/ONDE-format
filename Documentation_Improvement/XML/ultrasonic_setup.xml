@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ONDE Class Definition: ONDE_ULTRASONIC_SETUP
+-->
+<onde-schema>
+
+  <class name="ONDE_ULTRASONIC_SETUP">
+    <inherits/>
+
+    <description>
+      The ultrasonic setup block describes the electronic acquisition parameters
+      for a dataset. It defines the digitization settings (sampling rate, gain,
+      rectification), filtering, and links to the focal law definitions for
+      multi-element setups.
+    </description>
+
+    <fields>
+      <field name="ONDE:TYPE" required="M" storage="Attribute" type="H5T_STRING"
+             dimensions="[1]" default='["ONDE_ULTRASONIC_SETUP"]'>
+        <brief>Class type identifier</brief>
+      </field>
+
+      <field name="ONDE:LABEL" required="O" storage="Attribute" type="H5T_STRING"
+             dimensions="1">
+        <brief>Human-readable label</brief>
+      </field>
+
+      <field name="ONDE_ULTRASONIC_SETUP:RECTIFICATION" required="M" storage="Attribute"
+             type="H5T_INTEGER">
+        <brief>Signal rectification mode</brief>
+        <enum>
+          <value name="FULL_WAVE">No rectification applied</value>
+          <value name="RECTIFIED_POSITIVE">Positive half-wave rectification</value>
+          <value name="RECTIFIED_NEGATIVE">Negative half-wave rectification</value>
+          <value name="RECTIFIED_FULL">Full-wave rectification</value>
+        </enum>
+      </field>
+
+      <field name="ONDE_ULTRASONIC_SETUP:FILTER_TYPE" required="O" storage="Attribute"
+             type="H5T_INTEGER">
+        <brief>Type of filtering applied</brief>
+        <enum>
+          <value name="NO_FILTER">No filtering applied</value>
+          <value name="LOW_PASS">Low-pass filter</value>
+          <value name="HIGH_PASS">High-pass filter</value>
+          <value name="BAND_PASS">Band-pass filter</value>
+          <value name="OTHER">Custom filter (see FILTER_PARAMETERS)</value>
+        </enum>
+      </field>
+
+      <field name="ONDE_ULTRASONIC_SETUP:FILTER_PARAMETERS" required="O" storage="Attribute"
+             type="H5T_FLOAT" dimensions="1 or [N_Ascan&lt;m&gt;] or [N_DF&lt;m&gt;,N_Ascan&lt;m&gt;]"
+             units="Hz">
+        <brief>Filter frequency parameters</brief>
+        <detail>
+          The filtering parameters take different values following the filter type:
+          - For HIGH_PASS or LOW_PASS: a single value giving the −3 dB cut-off frequency
+          - For BAND_PASS: two values for the lower and upper −3 dB cut-off frequencies
+          - For OTHER: an [3,N_DF] matrix with frequency, real, and imaginary parts
+        </detail>
+      </field>
+
+      <field name="ONDE_ULTRASONIC_SETUP:FILTER_DESCRIPTION" required="O" storage="Attribute"
+             type="H5T_STRING" dimensions="1">
+        <brief>Description of filtering</brief>
+      </field>
+
+      <field name="ONDE_ULTRASONIC_SETUP:ASCAN_SAMPLE_RATE" required="M" storage="Attribute"
+             type="H5T_FLOAT" dimensions="1" units="Hz">
+        <brief>A-scan sampling frequency</brief>
+      </field>
+
+      <field name="ONDE_ULTRASONIC_SETUP:ASCAN_START" required="M" storage="Dataset"
+             type="H5T_FLOAT"
+             dimensions="1 or [N_Ascan&lt;m&gt;] or [N_Ascan&lt;m&gt;,N_DF&lt;m&gt;]"
+             units="s">
+        <brief>Acquisition start time</brief>
+        <detail>
+          This indicates the starting time for data acquisition. If dimension
+          is 1, the same start time is used for all A-Scans.
+        </detail>
+      </field>
+
+      <field name="ONDE_ULTRASONIC_SETUP:SIGNAL" required="O" storage="Dataset"
+             type="H5T_FLOAT" dimensions="[N_TSig&lt;m&gt;,2]"
+             default="impulse at t=0.0">
+        <brief>Emission signal digitization</brief>
+      </field>
+
+      <field name="ONDE_ULTRASONIC_SETUP:GAIN" required="M" storage="Dataset"
+             type="H5T_FLOAT" dimensions="[N_Ascan&lt;m&gt;]">
+        <brief>Total reception gain per A-scan</brief>
+      </field>
+
+      <field name="ONDE_ULTRASONIC_SETUP:PRF" required="O" storage="Dataset"
+             type="H5T_FLOAT" dimensions="[N_Ascan&lt;m&gt;] or [2]" units="Hz">
+        <brief>Pulse Repetition Frequency</brief>
+      </field>
+
+      <field name="ONDE_ULTRASONIC_SETUP:TCG_CURVE" required="O" storage="Dataset"
+             type="H5T_FLOAT" dimensions="[N_Ascan&lt;m&gt;,N_TCG&lt;m&gt;]">
+        <brief>Time-corrected gain curve</brief>
+        <detail>
+          The amplification from TCG must be cumulated with the global gain
+          defined by the GAIN field.
+        </detail>
+      </field>
+
+      <field name="ONDE_ULTRASONIC_SETUP:PHASED_ARRAY_SETUP" required="O" storage="Attribute"
+             type="H5T_STD_REF_OBJ" dimensions="1">
+        <brief>Reference to phased array setup</brief>
+      </field>
+
+      <field name="ONDE_ULTRASONIC_SETUP:TRANSMIT_LAW" required="M" storage="Dataset"
+             type="H5T_STD_REF_OBJ"
+             dimensions="[N_Ascan&lt;m&gt;] or [N_DF&lt;m&gt;,N_Ascan&lt;m&gt;]">
+        <brief>Transmit focal law references</brief>
+      </field>
+
+      <field name="ONDE_ULTRASONIC_SETUP:RECEIVE_LAW" required="O" storage="Dataset"
+             type="H5T_STD_REF_OBJ"
+             dimensions="[N_Ascan&lt;m&gt;] or [N_DF&lt;m&gt;,N_Ascan&lt;m&gt;]">
+        <brief>Receive focal law references</brief>
+      </field>
+    </fields>
+
+    <notes>
+      <note title="Variable gates">
+        Variable gates are not handled in this version — emulate by zero-padding.
+      </note>
+      <note title="TCG and GAIN interaction">
+        The amplification from TCG must be cumulated with the global gain
+        defined by ONDE_ULTRASONIC_SETUP:GAIN.
+      </note>
+    </notes>
+  </class>
+
+</onde-schema>

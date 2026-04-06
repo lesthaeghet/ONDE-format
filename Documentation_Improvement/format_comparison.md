@@ -1,6 +1,6 @@
-# Format Comparison: Five Candidate Formats for ONDE Specification
+# Format Comparison: Seven Candidate Formats for ONDE Specification
 
-All five prototype formats have been written to `Documentation_Improvement/` using
+All seven prototype formats have been written to `Documentation_Improvement/` using
 the same two representative classes (ONDE_COMPONENT family and ONDE_ULTRASONIC_SETUP).
 
 **Design principle:** Each file contains only the minimum authoritative data needed —
@@ -17,25 +17,28 @@ format version) are omitted and derived automatically by tooling.
 | MyST Markdown | `MyST/` | `component.md`, `ultrasonic_setup.md` |
 | AsciiDoc | `AsciiDoc/` | `component.adoc`, `ultrasonic_setup.adoc` |
 | YAML+Markdown | `YAML/` | `component.yaml`, `ultrasonic_setup.yaml` |
+| XML | `XML/` | `component.xml`, `ultrasonic_setup.xml` |
+| JSON | `JSON/` | `component.json`, `ultrasonic_setup.json` |
 
 ---
 
 ## Feature Comparison
 
-| Criteria | Markdown | RST | MyST | AsciiDoc | YAML+MD |
-|---|---|---|---|---|---|
-| **GitHub rendering** | Excellent | Poor | Partial | Good | None |
-| **Class metadata** | YAML frontmatter | Field lists | YAML-like directive | Doc attributes | Native YAML |
-| **Field def table** | Pipe tables | list-table | list-table | AsciiDoc tables | YAML dict |
-| **Machine parseability** | Good | Hard | Good | Moderate | Trivial |
-| **Inline figures** | Native | Directive | Directive | Image macro | Markdown in YAML |
-| **Math/formulas** | Limited | Excellent | Excellent | Good (stem) | Limited |
-| **Cross-references** | Manual links | `:ref:` role | `{ref}` role | `<<anchor>>` | Manual |
-| **Admonitions** | Blockquotes | Native directives | `:::` directives | Single-word | Markdown in YAML |
-| **Doc generation** | MkDocs/Jekyll | Sphinx | Sphinx | Asciidoctor | Custom tool |
-| **Collaboration ease** | Very easy | Hard | Easy | Moderate | Moderate |
-| **Extensibility** | Limited | Excellent | Good | Moderate | N/A |
-| **Spec/standards use** | Rare | Moderate | New | Common | Moderate |
+| Criteria | Markdown | RST | MyST | AsciiDoc | YAML+MD | XML | JSON |
+|---|---|---|---|---|---|---|---|
+| **GitHub rendering** | Excellent | Poor | Partial | Good | None | None | None |
+| **Class metadata** | YAML frontmatter | Field lists | YAML-like directive | Doc attributes | Native YAML | XML attributes | Object keys |
+| **Field def table** | Pipe tables | list-table | list-table | AsciiDoc tables | YAML dict | `<field>` elements | Array of objects |
+| **Machine parseability** | Good | Hard | Good | Moderate | Trivial | Trivial | Trivial |
+| **Inline figures** | Native | Directive | Directive | Image macro | MD in YAML | MD in CDATA | MD in strings |
+| **Math/formulas** | Limited | Excellent | Excellent | Good (stem) | Limited | Limited | Limited |
+| **Cross-references** | Manual links | `:ref:` role | `{ref}` role | `<<anchor>>` | Manual | Manual | Manual |
+| **Admonitions** | Blockquotes | Native dirs | `:::` dirs | Single-word | MD in YAML | Custom elements | N/A |
+| **Doc generation** | MkDocs/Jekyll | Sphinx | Sphinx | Asciidoctor | Custom | XSLT / Custom | Custom |
+| **Collaboration ease** | Very easy | Hard | Easy | Moderate | Moderate | Hard | Moderate |
+| **Extensibility** | Limited | Excellent | Good | Moderate | N/A | XSD/Schematron | JSON Schema |
+| **Spec/standards use** | Rare | Moderate | New | Common | Moderate | Common | Common |
+| **Parser stdlib?** | No | No | No | No | No (PyYAML) | Yes (xml.etree) | Yes (json) |
 
 ---
 
@@ -106,6 +109,38 @@ format version) are omitted and derived automatically by tooling.
 - **Figures in YAML**: Markdown image links inside YAML strings feel unnatural and don't preview
 - **No direct rendering**: Requires a custom rendering tool to produce any human-readable output
 - **Collaboration friction**: Editing YAML is less intuitive than editing a document format for many contributors
+
+### XML Strengths
+- **Trivially machine-parseable**: `xml.etree.ElementTree` is in Python's stdlib — zero dependencies
+- **Self-describing schema**: Field metadata maps naturally to XML attributes; descriptions to child elements
+- **XSD validation**: Can define an XML Schema (XSD) to validate source files before processing
+- **Enum support**: Enum values as `<value>` child elements with descriptions — clean and structured
+- **Widely supported**: Every programming language has a mature XML parser
+- **Common for specifications**: Used by many standards bodies (W3C, OASIS, OMG) for format definitions
+
+### XML Weaknesses
+- **Not human-friendly**: XML is verbose and visually noisy (closing tags, entity escaping like `&lt;` for `<`)
+- **No GitHub rendering**: XML files show as raw markup on GitHub — no documentation preview
+- **Entity escaping burden**: Angle brackets in dimension expressions (`N_Ascan<m>`) must be escaped as `&lt;` / `&gt;`
+- **Painful for prose**: Multi-paragraph descriptions inside XML elements feel unnatural
+- **Merge conflicts**: XML's nesting makes diff/merge harder than flat text formats
+- **Requires transformation**: XSLT or custom tool needed to produce readable documentation
+
+### JSON Strengths
+- **Trivially machine-parseable**: `json.loads()` is in Python's stdlib — zero dependencies
+- **No escaping burden**: Angle brackets in dimension strings are plain text (unlike XML's `&lt;`)
+- **Ubiquitous**: Every programming language has native JSON support
+- **JSON Schema**: Can define a formal JSON Schema to validate source files with standard tooling
+- **Clean structure**: Fields as arrays of objects are intuitive and diff-friendly (one field per object)
+- **IDE support**: Excellent autocomplete and validation via JSON Schema in editors
+
+### JSON Weaknesses
+- **No comments**: JSON has no comment syntax — can't annotate source files inline
+- **No GitHub rendering**: Raw JSON on GitHub is readable but not documentation
+- **Trailing commas**: JSON forbids trailing commas — common source of syntax errors during editing
+- **Painful for prose**: Multi-line descriptions require `\n` escaping or single long strings
+- **No direct rendering**: Requires custom tool to produce human-readable documentation
+- **Less readable than YAML**: More syntactic noise (braces, quotes, commas on every line)
 
 ---
 

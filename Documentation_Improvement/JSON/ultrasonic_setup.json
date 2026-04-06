@@ -1,0 +1,161 @@
+{
+  "classes": [
+    {
+      "onde_class": "ONDE_ULTRASONIC_SETUP",
+      "inherits": [],
+
+      "description": "The ultrasonic setup block describes the electronic acquisition parameters for a dataset. It defines the digitization settings (sampling rate, gain, rectification), filtering, and links to the focal law definitions for multi-element setups.",
+
+      "fields": [
+        {
+          "name": "ONDE:TYPE",
+          "required": "M",
+          "storage": "Attribute",
+          "type": "H5T_STRING",
+          "dimensions": "[1]",
+          "default": "[\"ONDE_ULTRASONIC_SETUP\"]",
+          "brief": "Class type identifier"
+        },
+        {
+          "name": "ONDE:LABEL",
+          "required": "O",
+          "storage": "Attribute",
+          "type": "H5T_STRING",
+          "dimensions": "1",
+          "brief": "Human-readable label"
+        },
+        {
+          "name": "ONDE_ULTRASONIC_SETUP:RECTIFICATION",
+          "required": "M",
+          "storage": "Attribute",
+          "type": "H5T_INTEGER",
+          "brief": "Signal rectification mode",
+          "enum": {
+            "FULL_WAVE": "No rectification applied",
+            "RECTIFIED_POSITIVE": "Positive half-wave rectification",
+            "RECTIFIED_NEGATIVE": "Negative half-wave rectification",
+            "RECTIFIED_FULL": "Full-wave rectification"
+          }
+        },
+        {
+          "name": "ONDE_ULTRASONIC_SETUP:FILTER_TYPE",
+          "required": "O",
+          "storage": "Attribute",
+          "type": "H5T_INTEGER",
+          "brief": "Type of filtering applied",
+          "enum": {
+            "NO_FILTER": "No filtering applied",
+            "LOW_PASS": "Low-pass filter",
+            "HIGH_PASS": "High-pass filter",
+            "BAND_PASS": "Band-pass filter",
+            "OTHER": "Custom filter (see FILTER_PARAMETERS)"
+          }
+        },
+        {
+          "name": "ONDE_ULTRASONIC_SETUP:FILTER_PARAMETERS",
+          "required": "O",
+          "storage": "Attribute",
+          "type": "H5T_FLOAT",
+          "dimensions": "1 or [N_Ascan<m>] or [N_DF<m>,N_Ascan<m>]",
+          "units": "Hz",
+          "brief": "Filter frequency parameters"
+        },
+        {
+          "name": "ONDE_ULTRASONIC_SETUP:FILTER_DESCRIPTION",
+          "required": "O",
+          "storage": "Attribute",
+          "type": "H5T_STRING",
+          "dimensions": "1",
+          "brief": "Description of filtering"
+        },
+        {
+          "name": "ONDE_ULTRASONIC_SETUP:ASCAN_SAMPLE_RATE",
+          "required": "M",
+          "storage": "Attribute",
+          "type": "H5T_FLOAT",
+          "dimensions": "1",
+          "units": "Hz",
+          "brief": "A-scan sampling frequency"
+        },
+        {
+          "name": "ONDE_ULTRASONIC_SETUP:ASCAN_START",
+          "required": "M",
+          "storage": "Dataset",
+          "type": "H5T_FLOAT",
+          "dimensions": "1 or [N_Ascan<m>] or [N_Ascan<m>,N_DF<m>]",
+          "units": "s",
+          "brief": "Acquisition start time"
+        },
+        {
+          "name": "ONDE_ULTRASONIC_SETUP:SIGNAL",
+          "required": "O",
+          "storage": "Dataset",
+          "type": "H5T_FLOAT",
+          "dimensions": "[N_TSig<m>,2]",
+          "default": "impulse at t=0.0",
+          "brief": "Emission signal digitization"
+        },
+        {
+          "name": "ONDE_ULTRASONIC_SETUP:GAIN",
+          "required": "M",
+          "storage": "Dataset",
+          "type": "H5T_FLOAT",
+          "dimensions": "[N_Ascan<m>]",
+          "brief": "Total reception gain per A-scan"
+        },
+        {
+          "name": "ONDE_ULTRASONIC_SETUP:PRF",
+          "required": "O",
+          "storage": "Dataset",
+          "type": "H5T_FLOAT",
+          "dimensions": "[N_Ascan<m>] or [2]",
+          "units": "Hz",
+          "brief": "Pulse Repetition Frequency"
+        },
+        {
+          "name": "ONDE_ULTRASONIC_SETUP:TCG_CURVE",
+          "required": "O",
+          "storage": "Dataset",
+          "type": "H5T_FLOAT",
+          "dimensions": "[N_Ascan<m>,N_TCG<m>]",
+          "brief": "Time-corrected gain curve"
+        },
+        {
+          "name": "ONDE_ULTRASONIC_SETUP:PHASED_ARRAY_SETUP",
+          "required": "O",
+          "storage": "Attribute",
+          "type": "H5T_STD_REF_OBJ",
+          "dimensions": "1",
+          "brief": "Reference to phased array setup"
+        },
+        {
+          "name": "ONDE_ULTRASONIC_SETUP:TRANSMIT_LAW",
+          "required": "M",
+          "storage": "Dataset",
+          "type": "H5T_STD_REF_OBJ",
+          "dimensions": "[N_Ascan<m>] or [N_DF<m>,N_Ascan<m>]",
+          "brief": "Transmit focal law references"
+        },
+        {
+          "name": "ONDE_ULTRASONIC_SETUP:RECEIVE_LAW",
+          "required": "O",
+          "storage": "Dataset",
+          "type": "H5T_STD_REF_OBJ",
+          "dimensions": "[N_Ascan<m>] or [N_DF<m>,N_Ascan<m>]",
+          "brief": "Receive focal law references"
+        }
+      ],
+
+      "notes": [
+        {
+          "title": "Variable gates",
+          "content": "Variable gates are not handled in this version — emulate by zero-padding."
+        },
+        {
+          "title": "TCG and GAIN interaction",
+          "content": "The amplification from TCG must be cumulated with the global gain defined by ONDE_ULTRASONIC_SETUP:GAIN."
+        }
+      ]
+    }
+  ]
+}
