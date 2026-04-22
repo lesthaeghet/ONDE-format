@@ -28,8 +28,8 @@ format version) are omitted and derived automatically by tooling.
 |---|---|---|---|---|---|---|---|
 | **GitHub rendering** | Excellent | Poor | Partial | Good | None | None | None |
 | **Class metadata** | YAML frontmatter | Field lists | YAML-like directive | Doc attributes | Native YAML | XML attributes | Object keys |
-| **Field def table** | Pipe tables | list-table | list-table | AsciiDoc tables | YAML dict | `<field>` elements | Array of objects |
-| **Machine parseability** | Good | Hard | Good | Moderate | Trivial | Trivial | Trivial |
+| **Field metadata** | Bullet lists | Field lists (`:key: val`) | Definition lists | Definition lists | YAML dict | `<field>` elements | Array of objects |
+| **Machine parseability** | Good | Good | Good | Good | Trivial | Trivial | Trivial |
 | **Inline figures** | Native | Directive | Directive | Image macro | MD in YAML | MD in CDATA | MD in strings |
 | **Math/formulas** | Limited | Excellent | Excellent | Good (stem) | Limited | Limited | Limited |
 | **Cross-references** | Manual links | `:ref:` role | `{ref}` role | `<<anchor>>` | Manual | Manual | Manual |

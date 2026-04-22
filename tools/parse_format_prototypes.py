@@ -44,13 +44,12 @@ def req_str(val):
 # 1. MARKDOWN PARSER
 # ================================================================
 def parse_markdown(files):
-    """Parse Markdown files with YAML frontmatter and pipe tables."""
+    """Parse Markdown files with field properties as bullet points."""
     records = []
     for fpath in files:
         text = fpath.read_text(encoding="utf-8")
 
         # Find all class sections: look for "# ONDE_XXXX" at start of line
-        # (but not inside YAML comments like "# ONDE Class Definition")
         heading_pattern = re.compile(r'^# (ONDE_[A-Z0-9_]+)\s*$', re.MULTILINE)
         headings = list(heading_pattern.finditer(text))
 
@@ -60,42 +59,54 @@ def parse_markdown(files):
             end = headings[idx + 1].start() if idx + 1 < len(headings) else len(text)
             section = text[start:end]
 
-            # Find pipe table rows after "## Field Definitions"
-            fd_pos = section.find("## Field Definitions")
-            if fd_pos == -1:
-                continue
+            field_pattern = re.compile(r'^### `(.*?)`\s*$', re.MULTILINE)
+            fields = list(field_pattern.finditer(section))
 
-            fd_section = section[fd_pos:]
-            # Collect all pipe-table lines (|...|)
-            table_lines = []
-            in_table = False
-            for line in fd_section.split("\n"):
-                stripped = line.strip()
-                if stripped.startswith("|") and stripped.endswith("|"):
-                    in_table = True
-                    table_lines.append(stripped)
-                elif in_table:
-                    break  # table ended
+            for fidx, fmatch in enumerate(fields):
+                field_name = fmatch.group(1)
+                fstart = fmatch.end()
+                fend = fields[fidx + 1].start() if fidx + 1 < len(fields) else len(section)
 
-            # Skip header (row 0) and separator (row 1)
-            for row_line in table_lines[2:]:
-                cells = [c.strip().strip('`') for c in row_line.split("|")]
-                # split on | gives empty first and last elements
-                cells = [c for c in cells if c or c == ""]
-                cells = row_line.split("|")[1:-1]
-                cells = [c.strip().strip('`') for c in cells]
-                if len(cells) >= 8:
-                    records.append({
-                        "Class": class_name,
-                        "Field": cells[0],
-                        "Required": req_str(cells[1]),
-                        "Storage": cells[2],
-                        "Type": cells[3],
-                        "Dimensions": cells[4],
-                        "Units": cells[5],
-                        "Default": cells[6],
-                        "Description": cells[7],
-                    })
+                # Stop field at next H2 (e.g. ## Notes)
+                next_h2 = re.search(r'^## ', section[fstart:fend], re.MULTILINE)
+                if next_h2:
+                    fend = fstart + next_h2.start()
+
+                field_text = section[fstart:fend].strip()
+
+                rec = {
+                    "Class": class_name, "Field": field_name, "Required": "Optional",
+                    "Storage": "", "Type": "", "Dimensions": "", "Units": "",
+                    "Default": "", "Description": ""
+                }
+
+                desc_lines = []
+                in_metadata = True
+                for line in field_text.split('\n'):
+                    m = re.match(r'^- \*\*(.*?):\*\* (.*)', line.strip())
+                    if m and in_metadata:
+                        key, val = m.group(1).strip(), m.group(2).strip().strip('`')
+                        if key == 'Required': rec['Required'] = "Mandatory" if "Mandatory" in val else "Optional"
+                        elif key == 'Storage': rec['Storage'] = val
+                        elif key == 'Type': rec['Type'] = val
+                        elif key == 'Dimensions': rec['Dimensions'] = val
+                        elif key == 'Units': rec['Units'] = val
+                        elif key == 'Default': rec['Default'] = val
+                    elif line.strip() == "" and in_metadata:
+                        continue
+                    elif in_metadata and (line.strip().startswith('- ') or line.strip().startswith('Enum:')):
+                        pass
+                    else:
+                        in_metadata = False
+                        if line.strip(): desc_lines.append(line.strip())
+
+                # Description is first paragraph
+                desc = []
+                for line in desc_lines:
+                    if not line.strip() and desc: break
+                    if line.strip(): desc.append(line.strip())
+                rec["Description"] = " ".join(desc)
+                records.append(rec)
 
     return records
 
@@ -104,15 +115,12 @@ def parse_markdown(files):
 # 2. RST PARSER
 # ================================================================
 def parse_rst(files):
-    """Parse reStructuredText files with list-tables."""
+    """Parse reStructuredText files with field properties as field lists."""
     records = []
     for fpath in files:
         text = fpath.read_text(encoding="utf-8")
 
-        # Find class titles: line of === above and below the name
-        title_pattern = re.compile(
-            r'^=+\n(ONDE_[A-Z0-9_]+)\n=+', re.MULTILINE
-        )
+        title_pattern = re.compile(r'^=+\n(ONDE_[A-Z0-9_]+)\n=+', re.MULTILINE)
         titles = list(title_pattern.finditer(text))
 
         for idx, match in enumerate(titles):
@@ -121,46 +129,53 @@ def parse_rst(files):
             end = titles[idx + 1].start() if idx + 1 < len(titles) else len(text)
             section = text[start:end]
 
-            # Find list-table rows: "   * - " marks a new row
-            row_pattern = re.compile(r'^\s+\*\s-\s', re.MULTILINE)
-            row_starts = list(row_pattern.finditer(section))
+            field_pattern = re.compile(r'^``(.*?)``\n\^\^\^\^\^+', re.MULTILINE)
+            fields = list(field_pattern.finditer(section))
 
-            if not row_starts:
-                continue
+            for fidx, fmatch in enumerate(fields):
+                field_name = fmatch.group(1)
+                fstart = fmatch.end()
+                fend = fields[fidx + 1].start() if fidx + 1 < len(fields) else len(section)
 
-            rows = []
-            for ridx, rmatch in enumerate(row_starts):
-                rstart = rmatch.end()
-                rend = row_starts[ridx + 1].start() if ridx + 1 < len(row_starts) else len(section)
-                row_text = section[rstart:rend].strip()
+                # Stop field at next section (e.g. Notes\n-----)
+                next_sec = re.search(r'^\w+\n-+', section[fstart:fend], re.MULTILINE)
+                if next_sec:
+                    fend = fstart + next_sec.start()
 
-                # First cell is the rest of the "* - " line
-                lines = row_text.split("\n")
-                first_cell = lines[0].strip()
-                # Remaining cells: "     - value" or bare "     -" (empty cell)
-                rest = []
-                for line in lines[1:]:
-                    m = re.match(r'^\s+-\s*(.*)', line)
-                    if m:
-                        rest.append(m.group(1).strip())
-                cells = [first_cell] + rest
-                cells = [c.strip().strip('`').replace('``', '') for c in cells]
-                rows.append(cells)
+                field_text = section[fstart:fend].strip()
 
-            # Skip header row (row 0)
-            for row in rows[1:]:
-                if len(row) >= 8:
-                    records.append({
-                        "Class": class_name,
-                        "Field": row[0],
-                        "Required": req_str(row[1]),
-                        "Storage": row[2],
-                        "Type": row[3],
-                        "Dimensions": row[4],
-                        "Units": row[5],
-                        "Default": row[6],
-                        "Description": row[7],
-                    })
+                rec = {
+                    "Class": class_name, "Field": field_name, "Required": "Optional",
+                    "Storage": "", "Type": "", "Dimensions": "", "Units": "",
+                    "Default": "", "Description": ""
+                }
+
+                desc_lines = []
+                in_metadata = True
+                for line in field_text.split('\n'):
+                    m = re.match(r'^:(.*?):\s*(.*)', line.strip())
+                    if m and in_metadata:
+                        key, val = m.group(1).strip(), m.group(2).strip().strip('`')
+                        if key == 'Required': rec['Required'] = "Mandatory" if "Mandatory" in val else "Optional"
+                        elif key == 'Storage': rec['Storage'] = val
+                        elif key == 'Type': rec['Type'] = val
+                        elif key == 'Dimensions': rec['Dimensions'] = val
+                        elif key == 'Units': rec['Units'] = val
+                        elif key == 'Default': rec['Default'] = val
+                    elif not line.strip() and in_metadata:
+                        continue
+                    elif in_metadata and line.strip().startswith('- '):
+                        pass
+                    else:
+                        in_metadata = False
+                        if line.strip(): desc_lines.append(line.strip())
+
+                desc = []
+                for line in desc_lines:
+                    if not line.strip() and desc: break
+                    if line.strip(): desc.append(line.strip())
+                rec["Description"] = " ".join(desc)
+                records.append(rec)
 
     return records
 
@@ -169,12 +184,11 @@ def parse_rst(files):
 # 3. MYST PARSER
 # ================================================================
 def parse_myst(files):
-    """Parse MyST Markdown files with ::: fenced list-tables."""
+    """Parse MyST Markdown files with field properties as definition lists."""
     records = []
     for fpath in files:
         text = fpath.read_text(encoding="utf-8")
 
-        # Find class sections by H1 headings
         heading_pattern = re.compile(r'^# (ONDE_[A-Z0-9_]+)\s*$', re.MULTILINE)
         headings = list(heading_pattern.finditer(text))
 
@@ -184,54 +198,61 @@ def parse_myst(files):
             end = headings[idx + 1].start() if idx + 1 < len(headings) else len(text)
             section = text[start:end]
 
-            # Find the list-table fence block: :::{list-table}...:::
-            table_match = re.search(
-                r':::\{list-table\}.*?\n(.*?)\n:::',
-                section, re.DOTALL
-            )
-            if not table_match:
-                continue
+            field_pattern = re.compile(r'^### `(.*?)`\s*$', re.MULTILINE)
+            fields = list(field_pattern.finditer(section))
 
-            table_text = table_match.group(1)
+            for fidx, fmatch in enumerate(fields):
+                field_name = fmatch.group(1)
+                fstart = fmatch.end()
+                fend = fields[fidx + 1].start() if fidx + 1 < len(fields) else len(section)
 
-            # Rows start with "* - " (no leading indent in MyST)
-            row_pattern = re.compile(r'^\*\s-\s', re.MULTILINE)
-            row_starts = list(row_pattern.finditer(table_text))
+                next_h2 = re.search(r'^## ', section[fstart:fend], re.MULTILINE)
+                if next_h2:
+                    fend = fstart + next_h2.start()
 
-            if not row_starts:
-                continue
+                field_text = section[fstart:fend].strip()
 
-            rows = []
-            for ridx, rmatch in enumerate(row_starts):
-                rstart = rmatch.end()
-                rend = row_starts[ridx + 1].start() if ridx + 1 < len(row_starts) else len(table_text)
-                row_text = table_text[rstart:rend].strip()
+                rec = {
+                    "Class": class_name, "Field": field_name, "Required": "Optional",
+                    "Storage": "", "Type": "", "Dimensions": "", "Units": "",
+                    "Default": "", "Description": ""
+                }
 
-                lines = row_text.split("\n")
-                first_cell = lines[0].strip()
-                rest = []
-                for line in lines[1:]:
-                    m = re.match(r'^\s+-\s*(.*)', line)
-                    if m:
-                        rest.append(m.group(1).strip())
-                cells = [first_cell] + rest
-                cells = [c.strip().strip('`') for c in cells]
-                rows.append(cells)
+                desc_lines = []
+                in_metadata = True
+                lines = field_text.split('\n')
+                i = 0
+                while i < len(lines):
+                    line = lines[i].strip()
+                    if in_metadata and line in ["Required", "Storage", "Type", "Dimensions", "Units", "Default", "Enum"]:
+                        if i + 1 < len(lines) and lines[i+1].strip().startswith(':'):
+                            val = lines[i+1].strip()[1:].strip().strip('`')
+                            key = line
+                            if key == 'Required': rec['Required'] = "Mandatory" if "Mandatory" in val else "Optional"
+                            elif key == 'Storage': rec['Storage'] = val
+                            elif key == 'Type': rec['Type'] = val
+                            elif key == 'Dimensions': rec['Dimensions'] = val
+                            elif key == 'Units': rec['Units'] = val
+                            elif key == 'Default': rec['Default'] = val
+                            i += 2
+                            continue
+                    if not line and in_metadata:
+                        i += 1
+                        continue
+                    if in_metadata and line.startswith('- '):
+                        i += 1
+                        continue
+                    
+                    in_metadata = False
+                    if line: desc_lines.append(line)
+                    i += 1
 
-            # Skip header row
-            for row in rows[1:]:
-                if len(row) >= 8:
-                    records.append({
-                        "Class": class_name,
-                        "Field": row[0],
-                        "Required": req_str(row[1]),
-                        "Storage": row[2],
-                        "Type": row[3],
-                        "Dimensions": row[4],
-                        "Units": row[5],
-                        "Default": row[6],
-                        "Description": row[7],
-                    })
+                desc = []
+                for line in desc_lines:
+                    if not line and desc: break
+                    if line: desc.append(line)
+                rec["Description"] = " ".join(desc)
+                records.append(rec)
 
     return records
 
@@ -240,12 +261,11 @@ def parse_myst(files):
 # 4. ASCIIDOC PARSER
 # ================================================================
 def parse_asciidoc(files):
-    """Parse AsciiDoc files with multi-line table cells."""
+    """Parse AsciiDoc files with field properties as definition lists."""
     records = []
     for fpath in files:
         text = fpath.read_text(encoding="utf-8")
 
-        # Find class sections by "= ONDE_XXX" headings
         heading_pattern = re.compile(r'^= (ONDE_[A-Z0-9_]+)\s*$', re.MULTILINE)
         headings = list(heading_pattern.finditer(text))
 
@@ -255,59 +275,52 @@ def parse_asciidoc(files):
             end = headings[idx + 1].start() if idx + 1 < len(headings) else len(text)
             section = text[start:end]
 
-            # Find table blocks between |=== markers
-            table_blocks = re.findall(r'\|===\n(.*?)\|===', section, re.DOTALL)
+            field_pattern = re.compile(r'^=== `(.*?)`\s*$', re.MULTILINE)
+            fields = list(field_pattern.finditer(section))
 
-            for table_text in table_blocks:
-                # In AsciiDoc, each cell is "|value" on its own line.
-                # Header row has all cells on ONE line: "|F1 |F2 |F3 ..."
-                # Data cells are one per line: "|value\n"
-                lines = table_text.strip().split("\n")
+            for fidx, fmatch in enumerate(fields):
+                field_name = fmatch.group(1)
+                fstart = fmatch.end()
+                fend = fields[fidx + 1].start() if fidx + 1 < len(fields) else len(section)
 
-                # First non-empty line is the header (all on one line)
-                header_line = ""
-                data_start = 0
-                for li, line in enumerate(lines):
-                    if line.strip().startswith("|"):
-                        header_line = line
-                        data_start = li + 1
-                        break
+                next_h2 = re.search(r'^== ', section[fstart:fend], re.MULTILINE)
+                if next_h2:
+                    fend = fstart + next_h2.start()
 
-                header_cells = [c.strip().strip('`') for c in header_line.split("|")[1:] if True]
-                num_cols = len([c for c in header_cells if c.strip() or c == ""])
-                # Count actual | delimiters
-                num_cols = header_line.count("|")
+                field_text = section[fstart:fend].strip()
 
-                if num_cols < 8:
-                    continue  # Skip non-field tables (e.g., enum tables)
+                rec = {
+                    "Class": class_name, "Field": field_name, "Required": "Optional",
+                    "Storage": "", "Type": "", "Dimensions": "", "Units": "",
+                    "Default": "", "Description": ""
+                }
 
-                # Collect data cells: each "|value" line is one cell
-                # Empty lines separate rows but cells can also just flow
-                data_cells = []
-                for line in lines[data_start:]:
-                    stripped = line.strip()
-                    if stripped == "":
-                        continue  # blank line between rows
-                    if stripped.startswith("|"):
-                        cell_val = stripped[1:].strip().strip('`')
-                        data_cells.append(cell_val)
+                desc_lines = []
+                in_metadata = True
+                for line in field_text.split('\n'):
+                    m = re.match(r'^(.*?)::\s*(.*)', line.strip())
+                    if m and in_metadata:
+                        key, val = m.group(1).strip(), m.group(2).strip().strip('`')
+                        if key == 'Required': rec['Required'] = "Mandatory" if "Mandatory" in val else "Optional"
+                        elif key == 'Storage': rec['Storage'] = val
+                        elif key == 'Type': rec['Type'] = val
+                        elif key == 'Dimensions': rec['Dimensions'] = val
+                        elif key == 'Units': rec['Units'] = val
+                        elif key == 'Default': rec['Default'] = val
+                    elif not line.strip() and in_metadata:
+                        continue
+                    elif in_metadata and (line.strip().startswith('* ') or line.strip().startswith('Enum::')):
+                        pass
+                    else:
+                        in_metadata = False
+                        if line.strip(): desc_lines.append(line.strip())
 
-                # Group into rows of num_cols cells
-                for j in range(0, len(data_cells), num_cols):
-                    row = data_cells[j:j + num_cols]
-                    if len(row) >= 8:
-                        records.append({
-                            "Class": class_name,
-                            "Field": row[0],
-                            "Required": req_str(row[1]),
-                            "Storage": row[2],
-                            "Type": row[3],
-                            "Dimensions": row[4],
-                            "Units": row[5],
-                            "Default": row[6],
-                            "Description": row[7],
-                        })
-                break  # Only first 8+ column table per section
+                desc = []
+                for line in desc_lines:
+                    if not line.strip() and desc: break
+                    if line.strip(): desc.append(line.strip())
+                rec["Description"] = " ".join(desc)
+                records.append(rec)
 
     return records
 

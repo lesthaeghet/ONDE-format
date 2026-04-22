@@ -1,29 +1,29 @@
 Class;Field;Required;Storage;Type;Dimensions;Units;Default;Description
-ONDE_COMPONENT;ONDE:TYPE;Mandatory;Attribute;H5T_STRING;;;;Class type identifier
-ONDE_COMPONENT;ONDE:LABEL;Optional;Attribute;H5T_STRING;;;;Human-readable label
-ONDE_COMPONENT;ONDE_COMPONENT:VELOCITIES;Mandatory;Attribute;H5T_FLOAT;[2];m/s;;Longitudinal and shear wave velocities
-ONDE_COMPONENT;ONDE_COMPONENT:DENSITY;Optional;Attribute;H5T_FLOAT;1;kg/m³;;Material density
-ONDE_COMPONENT;ONDE_COMPONENT:VISUALIZATION_CAD;Optional;Attribute;H5T_STRING;1;;;DXF or STL file for visualization
-ONDE_COMPONENT;ONDE_COMPONENT:VISUALIZATION_CAD_FRAME;Optional;Attribute;H5T_FLOAT;[7];;identity;Frame defining visualization CAD position
-ONDE_COMPONENT;ONDE_COMPONENT:COMPONENT_FRAME;Optional;Attribute;H5T_FLOAT;[7];;identity;Specimen frame in the reference frame
-ONDE_COMPONENT;ONDE_COMPONENT:COMMENT;Optional;Attribute;H5T_STRING;1;;;Free-form comment
-ONDE_COMPONENT;ONDE_COMPONENT:IMAGE;Optional;Attribute;H5T_FLOAT;[3];;;Image reference
-ONDE_PLANE;ONDE:TYPE;Mandatory;Attribute;H5T_STRING;[2];;"[""ONDE_COMPONENT"",""ONDE_PLANE""]";Type chain including parent
-ONDE_PLANE;ONDE_PLANE:PLATE_DIMENSIONS;Mandatory;Attribute;H5T_FLOAT;[3];m;;Length, width, thickness
-ONDE_CYLINDER;ONDE:TYPE;Mandatory;Attribute;H5T_STRING;[2];;"[""ONDE_COMPONENT"",""ONDE_CYLINDER""]";Type chain including parent
-ONDE_CYLINDER;ONDE_CYLINDER:DIMENSIONS;Mandatory;Attribute;H5T_FLOAT;[3];m;;Outer diameter, thickness, length
-ONDE_ULTRASONIC_SETUP;ONDE:TYPE;Mandatory;Attribute;H5T_STRING;[1];;"[""ONDE_ULTRASONIC_SETUP""]";Class type identifier
-ONDE_ULTRASONIC_SETUP;ONDE:LABEL;Optional;Attribute;H5T_STRING;1;;;Human-readable label
-ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:RECTIFICATION;Mandatory;Attribute;H5T_INTEGER;;;;Signal rectification mode
-ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:FILTER_TYPE;Optional;Attribute;H5T_INTEGER;;;;Type of filtering applied
-ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:FILTER_PARAMETERS;Optional;Attribute;H5T_FLOAT;1` or `[N_Ascan<m>]` or `[N_DF<m>,N_Ascan<m>];Hz;;Filter frequency parameters
-ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:FILTER_DESCRIPTION;Optional;Attribute;H5T_STRING;1;;;Description of filtering
-ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:ASCAN_SAMPLE_RATE;Mandatory;Attribute;H5T_FLOAT;1;Hz;;A-scan sampling frequency
-ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:ASCAN_START;Mandatory;Dataset;H5T_FLOAT;1` or `[N_Ascan<m>]` or `[N_Ascan<m>,N_DF<m>];s;;Acquisition start time
-ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:SIGNAL;Optional;Dataset;H5T_FLOAT;[N_TSig<m>,2];;impulse at t=0.0;Emission signal digitization
-ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:GAIN;Mandatory;Dataset;H5T_FLOAT;[N_Ascan<m>];;;Total reception gain per A-scan
-ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:PRF;Optional;Dataset;H5T_FLOAT;[N_Ascan<m>]` or `[2];Hz;;Pulse Repetition Frequency
-ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:TCG_CURVE;Optional;Dataset;H5T_FLOAT;[N_Ascan<m>,N_TCG<m>];;;Time-corrected gain curve
-ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:PHASED_ARRAY_SETUP;Optional;Attribute;H5T_STD_REF_OBJ;1;;;Reference to phased array setup
-ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:TRANSMIT_LAW;Mandatory;Dataset;H5T_STD_REF_OBJ;[N_Ascan<m>]` or `[N_DF<m>,N_Ascan<m>];;;Transmit focal law references
-ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:RECEIVE_LAW;Optional;Dataset;H5T_STD_REF_OBJ;[N_Ascan<m>]` or `[N_DF<m>,N_Ascan<m>];;;Receive focal law references
+ONDE_COMPONENT;ONDE:TYPE;Mandatory;Attribute;H5T_STRING;;;;Class type identifier.
+ONDE_COMPONENT;ONDE:LABEL;Optional;Attribute;H5T_STRING;;;;Human-readable label.
+ONDE_COMPONENT;ONDE_COMPONENT:VELOCITIES;Mandatory;Attribute;H5T_FLOAT;[2];m/s;;Longitudinal and shear wave velocities. The two values indicate the inspected component longitudinal and shear wave velocity respectively. If a velocity is unavailable, replace with NaN. :::{warning} This version of the format handles only isotropic materials. :::
+ONDE_COMPONENT;ONDE_COMPONENT:DENSITY;Optional;Attribute;H5T_FLOAT;1;kg/m³;;Material density.
+ONDE_COMPONENT;ONDE_COMPONENT:VISUALIZATION_CAD;Optional;Attribute;H5T_STRING;1;;;Contains a DXF or STL file for the component visualization. When using a DXF file, the profile will be extruded linearly or cylindrically according to the component type.
+ONDE_COMPONENT;ONDE_COMPONENT:VISUALIZATION_CAD_FRAME;Optional;Attribute;H5T_FLOAT;[7];;identity;Definition of the frame defining the visualization CAD with offset and quaternions in the specimen frame. Identity is used if absent.
+ONDE_COMPONENT;ONDE_COMPONENT:COMPONENT_FRAME;Optional;Attribute;H5T_FLOAT;[7];;identity;Definition of the specimen frame in the reference frame. If not provided, the default value is identity with the reference frame.
+ONDE_COMPONENT;ONDE_COMPONENT:COMMENT;Optional;Attribute;H5T_STRING;1;;;Free-form comment.
+ONDE_COMPONENT;ONDE_COMPONENT:IMAGE;Optional;Attribute;H5T_FLOAT;[3];;;Image reference.
+ONDE_PLANE;ONDE:TYPE;Mandatory;Attribute;H5T_STRING;[2];;"[""ONDE_COMPONENT"",""ONDE_PLANE""]";Type chain including parent.
+ONDE_PLANE;ONDE_PLANE:PLATE_DIMENSIONS;Mandatory;Attribute;H5T_FLOAT;[3];m;;Length, width, thickness. --- (ONDE_CYLINDER)=
+ONDE_CYLINDER;ONDE:TYPE;Mandatory;Attribute;H5T_STRING;[2];;"[""ONDE_COMPONENT"",""ONDE_CYLINDER""]";Type chain including parent.
+ONDE_CYLINDER;ONDE_CYLINDER:DIMENSIONS;Mandatory;Attribute;H5T_FLOAT;[3];m;;Outer diameter, thickness, length.
+ONDE_ULTRASONIC_SETUP;ONDE:TYPE;Mandatory;Attribute;H5T_STRING;[1];;"[""ONDE_ULTRASONIC_SETUP""]";Class type identifier.
+ONDE_ULTRASONIC_SETUP;ONDE:LABEL;Optional;Attribute;H5T_STRING;1;;;Human-readable label.
+ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:RECTIFICATION;Mandatory;Attribute;H5T_INTEGER;;;;Signal rectification mode.
+ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:FILTER_TYPE;Optional;Attribute;H5T_INTEGER;;;;Type of filtering applied.
+ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:FILTER_PARAMETERS;Optional;Attribute;H5T_FLOAT;1` or `[N_Ascan<m>]` or `[N_DF<m>,N_Ascan<m>];Hz;;Filter frequency parameters. The values depend on the filter type: - For `HIGH_PASS` or `LOW_PASS`: a single value giving the −3 dB cut-off frequency - For `BAND_PASS`: two values for the lower and upper −3 dB cut-off frequencies - For `OTHER`: an `[3,N_DF<m>]` matrix with frequency, real, and imaginary parts
+ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:FILTER_DESCRIPTION;Optional;Attribute;H5T_STRING;1;;;Description of filtering.
+ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:ASCAN_SAMPLE_RATE;Mandatory;Attribute;H5T_FLOAT;1;Hz;;A-scan sampling frequency.
+ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:ASCAN_START;Mandatory;Dataset;H5T_FLOAT;1` or `[N_Ascan<m>]` or `[N_Ascan<m>,N_DF<m>];s;;Acquisition start time. If dimension is 1, the same start time is used for all A-Scans.
+ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:SIGNAL;Optional;Dataset;H5T_FLOAT;[N_TSig<m>,2];;impulse at t=0.0;Digitization of the emission signal. 2D array with one row for time and one for amplitude. If missing, impulse emission at time 0.0 is assumed.
+ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:GAIN;Mandatory;Dataset;H5T_FLOAT;[N_Ascan<m>];;;Total reception gain per A-scan. Indicates the total gain during reception as a multiplying factor that was applied at acquisition.
+ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:PRF;Optional;Dataset;H5T_FLOAT;[N_Ascan<m>]` or `[2];Hz;;Pulse Repetition Frequency.
+ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:TCG_CURVE;Optional;Dataset;H5T_FLOAT;[N_Ascan<m>,N_TCG<m>];;;Time-corrected gain curve. The amplitude correction is given for each time sample as a multiplying factor. :::{important} The amplification from TCG must be cumulated with the global gain defined by `ONDE_ULTRASONIC_SETUP:GAIN`. :::
+ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:PHASED_ARRAY_SETUP;Optional;Attribute;H5T_STD_REF_OBJ;1;;;Reference to phased array setup.
+ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:TRANSMIT_LAW;Mandatory;Dataset;H5T_STD_REF_OBJ;[N_Ascan<m>]` or `[N_DF<m>,N_Ascan<m>];;;Transmit focal law references. Each A-scan must be associated with a transmit focal law. Contains HDF5 references to groups of type ONDE_UT_LAW. :::{note} `TRANSMIT_LAW` is mandatory for phased array setups. :::
+ONDE_ULTRASONIC_SETUP;ONDE_ULTRASONIC_SETUP:RECEIVE_LAW;Optional;Dataset;H5T_STD_REF_OBJ;[N_Ascan<m>]` or `[N_DF<m>,N_Ascan<m>];;;Receive focal law references. Optional but recommended. Same cardinality rules as `TRANSMIT_LAW`.

@@ -15,108 +15,167 @@ The geometric shape of the inspected component is defined by the subclass of
 
 The MFMC equivalent is the SPECIMEN block (MFMC 2.0.0b).
 
-## Field Definitions
+## Fields
 
-:::{list-table} ONDE_COMPONENT Fields
-:header-rows: 1
+### `ONDE:TYPE`
 
-* - Field
-  - Required
-  - Storage
-  - Type
-  - Dimensions
-  - Units
-  - Default
-  - Brief Description
-* - `ONDE:TYPE`
-  - M
-  - Attribute
-  - `H5T_STRING`
-  -
-  -
-  -
-  - Class type identifier
-* - `ONDE:LABEL`
-  - O
-  - Attribute
-  - `H5T_STRING`
-  -
-  -
-  -
-  - Human-readable label
-* - `ONDE_COMPONENT:VELOCITIES`
-  - M
-  - Attribute
-  - `H5T_FLOAT`
-  - `[2]`
-  - m/s
-  -
-  - Longitudinal and shear wave velocities
-* - `ONDE_COMPONENT:DENSITY`
-  - O
-  - Attribute
-  - `H5T_FLOAT`
-  - `1`
-  - kg/m³
-  -
-  - Material density
-* - `ONDE_COMPONENT:VISUALIZATION_CAD`
-  - O
-  - Attribute
-  - `H5T_STRING`
-  - `1`
-  -
-  -
-  - DXF or STL file for visualization
-* - `ONDE_COMPONENT:VISUALIZATION_CAD_FRAME`
-  - O
-  - Attribute
-  - `H5T_FLOAT`
-  - `[7]`
-  -
-  - identity
-  - Frame defining visualization CAD position
-* - `ONDE_COMPONENT:COMPONENT_FRAME`
-  - O
-  - Attribute
-  - `H5T_FLOAT`
-  - `[7]`
-  -
-  - identity
-  - Specimen frame in the reference frame
-* - `ONDE_COMPONENT:COMMENT`
-  - O
-  - Attribute
-  - `H5T_STRING`
-  - `1`
-  -
-  -
-  - Free-form comment
-* - `ONDE_COMPONENT:IMAGE`
-  - O
-  - Attribute
-  - `H5T_FLOAT`
-  - `[3]`
-  -
-  -
-  - Image reference
-:::
+Required
+: Mandatory
 
-## Detailed Field Documentation
+Storage
+: Attribute
 
-### ONDE_COMPONENT:VELOCITIES
+Type
+: `H5T_STRING`
 
-The two values indicate the inspected component longitudinal and shear wave
-velocity respectively. If a velocity is unavailable, replace with NaN.
+Class type identifier.
+
+### `ONDE:LABEL`
+
+Required
+: Optional
+
+Storage
+: Attribute
+
+Type
+: `H5T_STRING`
+
+Human-readable label.
+
+### `ONDE_COMPONENT:VELOCITIES`
+
+Required
+: Mandatory
+
+Storage
+: Attribute
+
+Type
+: `H5T_FLOAT`
+
+Dimensions
+: `[2]`
+
+Units
+: m/s
+
+Longitudinal and shear wave velocities. The two values indicate the inspected
+component longitudinal and shear wave velocity respectively. If a velocity is
+unavailable, replace with NaN.
 
 :::{warning}
 This version of the format handles only isotropic materials.
 :::
 
-### ONDE_COMPONENT:COMPONENT_FRAME
+### `ONDE_COMPONENT:DENSITY`
+
+Required
+: Optional
+
+Storage
+: Attribute
+
+Type
+: `H5T_FLOAT`
+
+Dimensions
+: `1`
+
+Units
+: kg/m³
+
+Material density.
+
+### `ONDE_COMPONENT:VISUALIZATION_CAD`
+
+Required
+: Optional
+
+Storage
+: Attribute
+
+Type
+: `H5T_STRING`
+
+Dimensions
+: `1`
+
+Contains a DXF or STL file for the component visualization. When using a DXF
+file, the profile will be extruded linearly or cylindrically according to the
+component type.
+
+### `ONDE_COMPONENT:VISUALIZATION_CAD_FRAME`
+
+Required
+: Optional
+
+Storage
+: Attribute
+
+Type
+: `H5T_FLOAT`
+
+Dimensions
+: `[7]`
+
+Default
+: identity
+
+Definition of the frame defining the visualization CAD with offset and
+quaternions in the specimen frame. Identity is used if absent.
+
+### `ONDE_COMPONENT:COMPONENT_FRAME`
+
+Required
+: Optional
+
+Storage
+: Attribute
+
+Type
+: `H5T_FLOAT`
+
+Dimensions
+: `[7]`
+
+Default
+: identity
 
 Definition of the specimen frame in the reference frame. If not provided, the
 default value is identity with the reference frame.
+
+### `ONDE_COMPONENT:COMMENT`
+
+Required
+: Optional
+
+Storage
+: Attribute
+
+Type
+: `H5T_STRING`
+
+Dimensions
+: `1`
+
+Free-form comment.
+
+### `ONDE_COMPONENT:IMAGE`
+
+Required
+: Optional
+
+Storage
+: Attribute
+
+Type
+: `H5T_FLOAT`
+
+Dimensions
+: `[3]`
+
+Image reference.
 
 ## Notes
 
@@ -153,36 +212,45 @@ inherits: [ONDE_COMPONENT]
 
 A planar component. Inherits all fields from {ref}`ONDE_COMPONENT`.
 
-## Field Definitions
+## Fields
 
-:::{list-table} ONDE_PLANE Fields
-:header-rows: 1
+### `ONDE:TYPE`
 
-* - Field
-  - Required
-  - Storage
-  - Type
-  - Dimensions
-  - Units
-  - Default
-  - Brief Description
-* - `ONDE:TYPE`
-  - M
-  - Attribute
-  - `H5T_STRING`
-  - `[2]`
-  -
-  - `["ONDE_COMPONENT","ONDE_PLANE"]`
-  - Type chain including parent
-* - `ONDE_PLANE:PLATE_DIMENSIONS`
-  - M
-  - Attribute
-  - `H5T_FLOAT`
-  - `[3]`
-  - m
-  -
-  - Length, width, thickness
-:::
+Required
+: Mandatory
+
+Storage
+: Attribute
+
+Type
+: `H5T_STRING`
+
+Dimensions
+: `[2]`
+
+Default
+: `["ONDE_COMPONENT","ONDE_PLANE"]`
+
+Type chain including parent.
+
+### `ONDE_PLANE:PLATE_DIMENSIONS`
+
+Required
+: Mandatory
+
+Storage
+: Attribute
+
+Type
+: `H5T_FLOAT`
+
+Dimensions
+: `[3]`
+
+Units
+: m
+
+Length, width, thickness.
 
 ---
 
@@ -196,33 +264,42 @@ inherits: [ONDE_COMPONENT]
 
 A cylindrical component. Inherits all fields from {ref}`ONDE_COMPONENT`.
 
-## Field Definitions
+## Fields
 
-:::{list-table} ONDE_CYLINDER Fields
-:header-rows: 1
+### `ONDE:TYPE`
 
-* - Field
-  - Required
-  - Storage
-  - Type
-  - Dimensions
-  - Units
-  - Default
-  - Brief Description
-* - `ONDE:TYPE`
-  - M
-  - Attribute
-  - `H5T_STRING`
-  - `[2]`
-  -
-  - `["ONDE_COMPONENT","ONDE_CYLINDER"]`
-  - Type chain including parent
-* - `ONDE_CYLINDER:DIMENSIONS`
-  - M
-  - Attribute
-  - `H5T_FLOAT`
-  - `[3]`
-  - m
-  -
-  - Outer diameter, thickness, length
-:::
+Required
+: Mandatory
+
+Storage
+: Attribute
+
+Type
+: `H5T_STRING`
+
+Dimensions
+: `[2]`
+
+Default
+: `["ONDE_COMPONENT","ONDE_CYLINDER"]`
+
+Type chain including parent.
+
+### `ONDE_CYLINDER:DIMENSIONS`
+
+Required
+: Mandatory
+
+Storage
+: Attribute
+
+Type
+: `H5T_FLOAT`
+
+Dimensions
+: `[3]`
+
+Units
+: m
+
+Outer diameter, thickness, length.
