@@ -100,12 +100,16 @@ def parse_markdown(files):
                         in_metadata = False
                         if line.strip(): desc_lines.append(line.strip())
 
-                # Description is first paragraph
+                # Description is first sentence of first paragraph
                 desc = []
                 for line in desc_lines:
                     if not line.strip() and desc: break
                     if line.strip(): desc.append(line.strip())
-                rec["Description"] = " ".join(desc)
+                
+                full_desc = " ".join(desc)
+                brief = full_desc.split('. ')[0].strip()
+                if brief.endswith('.'): brief = brief[:-1]
+                rec["Description"] = brief
                 records.append(rec)
 
     return records
@@ -174,7 +178,11 @@ def parse_rst(files):
                 for line in desc_lines:
                     if not line.strip() and desc: break
                     if line.strip(): desc.append(line.strip())
-                rec["Description"] = " ".join(desc)
+                
+                full_desc = " ".join(desc)
+                brief = full_desc.split('. ')[0].strip()
+                if brief.endswith('.'): brief = brief[:-1]
+                rec["Description"] = brief
                 records.append(rec)
 
     return records
@@ -251,7 +259,11 @@ def parse_myst(files):
                 for line in desc_lines:
                     if not line and desc: break
                     if line: desc.append(line)
-                rec["Description"] = " ".join(desc)
+                
+                full_desc = " ".join(desc)
+                brief = full_desc.split('. ')[0].strip()
+                if brief.endswith('.'): brief = brief[:-1]
+                rec["Description"] = brief
                 records.append(rec)
 
     return records
@@ -319,7 +331,11 @@ def parse_asciidoc(files):
                 for line in desc_lines:
                     if not line.strip() and desc: break
                     if line.strip(): desc.append(line.strip())
-                rec["Description"] = " ".join(desc)
+                
+                full_desc = " ".join(desc)
+                brief = full_desc.split('. ')[0].strip()
+                if brief.endswith('.'): brief = brief[:-1]
+                rec["Description"] = brief
                 records.append(rec)
 
     return records
