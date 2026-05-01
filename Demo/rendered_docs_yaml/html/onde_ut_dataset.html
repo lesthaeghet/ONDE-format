@@ -1,0 +1,790 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ONDE_UT_DATASET &mdash; ONDE Format Specification  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = `pre.mermaid {
+    /* Same as .mermaid-container > pre */
+    display: block;
+    width: 100%;
+}
+
+pre.mermaid > svg {
+    /* Same as .mermaid-container > pre > svg */
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}`;
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = `.mermaid-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.mermaid-container > pre {
+    display: block;
+    width: 100%;
+}
+
+.mermaid-container > pre > svg {
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}
+
+.mermaid-fullscreen-btn {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    color: #333;
+}
+
+.mermaid-fullscreen-btn:hover {
+    opacity: 100% !important;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-btn.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-btn.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 95vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    padding: 20px;
+    overflow: auto;
+}
+
+.mermaid-fullscreen-modal.dark-theme {
+    background: rgba(0, 0, 0, 0.98);
+}
+
+.mermaid-fullscreen-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen {
+    position: relative;
+    width: 95vw;
+    height: 90vh;
+    max-width: 95vw;
+    max-height: 90vh;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen.dark-theme {
+    background: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.mermaid-container-fullscreen pre.mermaid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen .mermaid svg {
+    height: 100% !important;
+    width: 100% !important;
+    cursor: grab;
+}
+
+.mermaid-fullscreen-close {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+}
+
+.mermaid-fullscreen-close:hover {
+    background: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-close.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-close.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal .mermaid-fullscreen-btn {
+    display: none !important;
+}`;
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        all_mermaids.forEach((el) => {
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+        await mermaid.run();
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    const mermaids_processed = document.querySelectorAll(".mermaid[data-processed='true']");
+
+    if ("False" === "True") {
+        const mermaids_to_add_zoom = -1 === -1 ? all_mermaids.length : -1;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("");
+            if(all_mermaids.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            } else if(svgs.size() !== mermaids_to_add_zoom) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            } else {
+                svgs.each(function() {
+                    var svg = d3.select(this);
+                    svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+                    var inner = svg.select("g");
+                    var zoom = d3.zoom().on("zoom", function(event) {
+                        inner.attr("transform", event.transform);
+                    });
+                    svg.call(zoom);
+                });
+            }
+        }
+    } else if(all_mermaids.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if ("True" !== "True") return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.style.opacity = '50%';
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scroll, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.sdisplay = 'block';
+
+                if ("False" === "True") {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+const load = async () => {
+    initStyles();
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...JSON.parse(
+                    `{"startOnLoad": false, "securityLevel": "loose"}`
+                ),
+                ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...JSON.parse(
+        `{"startOnLoad": false, "securityLevel": "loose"}`
+    ),
+    ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ONDE_UT_ELEMENTS" href="onde_ut_elements.html" />
+    <link rel="prev" title="ONDE_UT_CSCAN_DATASET" href="onde_ut_cscan_dataset.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ONDE Format Specification
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Classes</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Open NDE File Format specification - Version 0.4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html#generalities">Generalities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="root.html">ONDE Format Root Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_2dcad.html">ONDE_2DCAD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_3dcad.html">ONDE_3DCAD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_acquisition_grid.html">ONDE_ACQUISITION_GRID</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_acquisition_trajectory.html">ONDE_ACQUISITION_TRAJECTORY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_component.html">ONDE_COMPONENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_cylinder.html">ONDE_CYLINDER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_dual_wedge.html">ONDE_DUAL_WEDGE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_geometric_setup.html">ONDE_GEOMETRIC_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_immersion.html">ONDE_IMMERSION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_linear_ut_probe.html">ONDE_LINEAR_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_matrix_ut_probe.html">ONDE_MATRIX_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_mono_ut_probe.html">ONDE_MONO_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_angle.html">ONDE_PHASED_ARRAY_ANGLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_compound.html">ONDE_PHASED_ARRAY_COMPOUND</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_escan.html">ONDE_PHASED_ARRAY_ESCAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_fmc.html">ONDE_PHASED_ARRAY_FMC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_pwi.html">ONDE_PHASED_ARRAY_PWI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_setup.html">ONDE_PHASED_ARRAY_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_sscan.html">ONDE_PHASED_ARRAY_SSCAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_plane.html">ONDE_PLANE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_setup.html">ONDE_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_single_wedge.html">ONDE_SINGLE_WEDGE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_spatial_trajectory.html">ONDE_SPATIAL_TRAJECTORY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_time_trajectory.html">ONDE_TIME_TRAJECTORY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ultrasonic_setup.html">ONDE_ULTRASONIC_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_ascan_dataset.html">ONDE_UT_ASCAN_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_coupling.html">ONDE_UT_COUPLING</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_cscan_dataset.html">ONDE_UT_CSCAN_DATASET</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ONDE_UT_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#data-structure">Data structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#description-of-the-format">Description of the format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#explanatory-notes">Explanatory notes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#version">Version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generic-remarks-on-datasets">Generic remarks on datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notes-on-groups">Notes on groups</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#appendix-a-conversion-from-quaternions-to-matrices">Appendix A – conversion from quaternions to matrices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fields-summary">Fields Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#field-details">Field Details</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#type"><code class="docutils literal notranslate"><span class="pre">TYPE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#label"><code class="docutils literal notranslate"><span class="pre">LABEL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setup"><code class="docutils literal notranslate"><span class="pre">SETUP</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#operator"><code class="docutils literal notranslate"><span class="pre">OPERATOR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#date-and-time"><code class="docutils literal notranslate"><span class="pre">DATE_AND_TIME</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_elements.html">ONDE_UT_ELEMENTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_gate.html">ONDE_UT_GATE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_law.html">ONDE_UT_LAW</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_probe.html">ONDE_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_tscan_dataset.html">ONDE_UT_TSCAN_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_wedge.html">ONDE_WEDGE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_weld.html">ONDE_WELD</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ONDE Format Specification</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ONDE_UT_DATASET</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/onde_ut_dataset.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="onde-ut-dataset">
+<h1>ONDE_UT_DATASET<a class="headerlink" href="#onde-ut-dataset" title="Link to this heading"></a></h1>
+<pre  class="mermaid">
+        classDiagram
+  ONDE_UT_DATASET &lt;|-- ONDE_UT_ASCAN_DATASET
+  ONDE_UT_DATASET &lt;|-- ONDE_UT_CSCAN_DATASET
+  ONDE_UT_DATASET &lt;|-- ONDE_UT_TSCAN_DATASET
+  ONDE_UT_DATASET o-- ONDE_SETUP : ONDE_UT_DATASET:SETUP
+  click ONDE_UT_CSCAN_DATASET href &quot;onde_ut_cscan_dataset.html&quot;
+  click ONDE_UT_DATASET href &quot;onde_ut_dataset.html&quot;
+  click ONDE_SETUP href &quot;onde_setup.html&quot;
+  click ONDE_UT_TSCAN_DATASET href &quot;onde_ut_tscan_dataset.html&quot;
+  click ONDE_UT_ASCAN_DATASET href &quot;onde_ut_ascan_dataset.html&quot;
+    </pre></section>
+<section id="data-structure">
+<h1>Data structure<a class="headerlink" href="#data-structure" title="Link to this heading"></a></h1>
+<section id="description-of-the-format">
+<h2>Description of the format<a class="headerlink" href="#description-of-the-format" title="Link to this heading"></a></h2>
+<p>/* TODO : update with the modifications introduced with subclassing and accessory classes */</p>
+<p>The specification of the format is provided in a <a class="reference internal" href="#/ONDE_fields/ONDE_fields.csv"><span class="xref myst">dedicated csv file</span></a> organized in the following manner :</p>
+<ul class="simple">
+<li><p>The first column gives the field label and its location in the structure. The following convention applies : the name
+in bracket points to a group corresponding to a block of the data model. For example, {ascan_dataset} indicates an
+HDF5 group corresponding to an Ascan dataset.</p></li>
+<li><p>The second column contains comments explaining the constraints imposed on the datafield</p></li>
+<li><p>The third column gives a Mandatory/Optional status</p></li>
+<li><p>The fourth column gives the HDF5 implementation : D stands for dataset while A points to an information stored as an
+attribute.</p></li>
+<li><p>The fifth column gives the HDF5 type</p></li>
+<li><p>The sixth column gives the number of dimensions</p></li>
+<li><p>The seventh column provides information on the size or the content of the datafield. For a string with a value that is
+imposed, it will provide this value.<br />
+For other datafields, it will be the size of the data. The size is provided in brackets with dimensions separated by
+commas. The dimension of a scalar data will therefore be described by <a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. Dimensions are provided in Fortran
+convention (column-major order).</p></li>
+</ul>
+</section>
+<section id="explanatory-notes">
+<h2>Explanatory notes<a class="headerlink" href="#explanatory-notes" title="Link to this heading"></a></h2>
+<section id="version">
+<h3>Version<a class="headerlink" href="#version" title="Link to this heading"></a></h3>
+<p>The file is identified as a UT ONDE file because of the TYPE datafield which is given at the root of the structure. The
+version of the file points to the version of the present specification.</p>
+</section>
+<section id="generic-remarks-on-datasets">
+<h3>Generic remarks on datasets<a class="headerlink" href="#generic-remarks-on-datasets" title="Link to this heading"></a></h3>
+<p>The DATE_AND_TIME and OPERATOR fields allow to give indication on the context of the acquisition. For DATE_AND_TIME the
+ISO 8601 extended format: ‘yyyy-mm-dd HH:MM:SS’ (e.g. ‘2019-01-16 17:05:06’) must be used.</p>
+</section>
+<section id="notes-on-groups">
+<h3>Notes on groups<a class="headerlink" href="#notes-on-groups" title="Link to this heading"></a></h3>
+<p>The following links provide explanatory notes for the ONDE groups that are described in the <a class="reference internal" href="#/ONDE_fields/ONDE_fields.csv"><span class="xref myst">cvs reference</span></a>.</p>
+<p><a class="reference internal" href="#/UT_specification/ascan_datasets.md"><span class="xref myst">Ascan datasets</span></a></p>
+<p><a class="reference internal" href="#/UT_specification/tscan_datasets.md"><span class="xref myst">Tscan datasets</span></a></p>
+<p><a class="reference internal" href="#/UT_specification/ut_cscan_datasets.md"><span class="xref myst">Cscan datasets</span></a></p>
+<p><a class="reference internal" href="#/UT_specification/setup.md"><span class="xref myst">Setup</span></a></p>
+<p><a class="reference internal" href="#/UT_specification/ut_geometric_setup.md"><span class="xref myst">Geometric setup</span></a></p>
+<p><a class="reference internal" href="#/UT_specification/component.md"><span class="xref myst">Components</span></a></p>
+<p><a class="reference internal" href="#/UT_specification/UT_probes.md"><span class="xref myst">Probes</span></a></p>
+<p><a class="reference internal" href="#/UT_specification/trajectory.md"><span class="xref myst">Trajectory</span></a></p>
+<p><a class="reference internal" href="#/UT_specification/UT_ultrasonic_setup.md"><span class="xref myst">Ultrasonic setup</span></a></p>
+<p><a class="reference internal" href="#/UT_specification/UT_law.md"><span class="xref myst">Electronic Law</span></a></p>
+<p><a class="reference internal" href="#/UT_specification/UT_phased_array_setup.md"><span class="xref myst">Phased array setup</span></a></p>
+</section>
+</section>
+</section>
+<section id="appendix-a-conversion-from-quaternions-to-matrices">
+<h1>Appendix A – conversion from quaternions to matrices<a class="headerlink" href="#appendix-a-conversion-from-quaternions-to-matrices" title="Link to this heading"></a></h1>
+<p>when dealing with 3D orientations, to define the quaternion corresponding to the orientation of one reference frame
+relative to another, we need the following formula to calculate the components of a quaternion, q, from the elements of
+a rotation matrix, R:</p>
+<p>$q_{1} = \ \frac{1}{2}\sqrt{1 + r_{1,1} + r_{2,2} + r_{3,3}}$</p>
+<p>$q_{2} = \ \frac{1}{2}sign(r_{3,2} - r_{2,3)}$$\sqrt{1 + r_{1,1} - r_{2,2} - r_{3,3}}$</p>
+<p>$q_{3} = \ \frac{1}{2}sign(r_{1,3} - r_{3,1)}$$\sqrt{1 - r_{1,1} + r_{2,2} - r_{3,3}}$</p>
+<p>$q_{4} = \ \frac{1}{2}sign(r_{2,1} - r_{1,2)}$$\sqrt{1 - r_{1,1} - r_{2,2} + r_{3,3}}$</p>
+<p>Where</p>
+<p>$$R\ = \ \begin{pmatrix}
+r_{1,1} &amp; r_{1,2} &amp; r_{1,3} \
+r_{2,1} &amp; r_{2,2} &amp; r_{2,3} \
+r_{3,1} &amp; r_{3,2} &amp; r_{3,3}
+\end{pmatrix}$$</p>
+<p>If q is the unit quaternion corresponding to the rotation matrix R, then -q is the other quaternion corresponding to the
+same orientation.</p>
+<p>Similarly, if you have a unit quaternion q and want to convert it to a rotation matrix R, the formula is:</p>
+<p>$$R\ = \ \begin{pmatrix}
+2q_{1}^{2} + 2q_{2}^{2} - 1 &amp; 2q_{2}q_{3} - 2q_{1}q_{4} &amp; 2q_{2}q_{4} + 2q_{1}q_{3} \
+2q_{2}q_{3} + 2q_{1}q_{4} &amp; 2q_{1}^{2} + 2q_{3}^{2} - 1 &amp; 2q_{3}q_{4} - 2q_{1}q_{2} \
+2q_{2}q_{4} - 2q_{1}q_{3} &amp; 2q_{3}q_{4} + 2q_{1}q_{2} &amp; 2q_{1}^{2} + 2q_{4}^{2} - 1
+\end{pmatrix}$$</p>
+<p><em>Source:<a class="reference external" href="https://amzn.to/2RY2lwI">Quaternions and Rotation Sequences: A Primer with Applications to Orbits, Aerospace and Virtual Reality</a>
+by J. B. Kuipers (Chapter 5, Section 5.14 “Quaternions to Matrices”, pg. 125)</em></p>
+<section id="fields-summary">
+<h2>Fields Summary<a class="headerlink" href="#fields-summary" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Req</p></th>
+<th class="head"><p>Storage</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Dims</p></th>
+<th class="head"><p>Allowed</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#onde-ut-dataset-type"><strong><code class="docutils literal notranslate"><span class="pre">TYPE</span></code></strong></a><br><sub><code class="docutils literal notranslate"><span class="pre">ONDE:TYPE</span></code></sub></p></td>
+<td><p>Mandatory</p></td>
+<td><p>attribute</p></td>
+<td><p>H5T_STRING</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[1]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[&quot;ONDE_UT_DATASET&quot;]</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#onde-ut-dataset-label"><strong><code class="docutils literal notranslate"><span class="pre">LABEL</span></code></strong></a><br><sub><code class="docutils literal notranslate"><span class="pre">ONDE:LABEL</span></code></sub></p></td>
+<td><p>Optional</p></td>
+<td><p>attribute</p></td>
+<td><p>H5T_STRING</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>``</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#onde-ut-dataset-setup"><strong><code class="docutils literal notranslate"><span class="pre">SETUP</span></code></strong></a><br><sub><code class="docutils literal notranslate"><span class="pre">ONDE_UT_DATASET:SETUP</span></code></sub></p></td>
+<td><p>Mandatory</p></td>
+<td><p>attribute</p></td>
+<td><p>H5T_STD_REF_OBJ&lt;<a class="reference internal" href="onde_setup.html"><span class="std std-doc">ONDE_SETUP</span></a>&gt;</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>``</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#onde-ut-dataset-operator"><strong><code class="docutils literal notranslate"><span class="pre">OPERATOR</span></code></strong></a><br><sub><code class="docutils literal notranslate"><span class="pre">ONDE_UT_DATASET:OPERATOR</span></code></sub></p></td>
+<td><p>Optional</p></td>
+<td><p>attribute</p></td>
+<td><p>H5T_STRING</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>``</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#onde-ut-dataset-date-and-time"><strong><code class="docutils literal notranslate"><span class="pre">DATE_AND_TIME</span></code></strong></a><br><sub><code class="docutils literal notranslate"><span class="pre">ONDE_UT_DATASET:DATE_AND_TIME</span></code></sub></p></td>
+<td><p>Optional</p></td>
+<td><p>attribute</p></td>
+<td><p>H5T_STRING</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>``</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="field-details">
+<h2>Field Details<a class="headerlink" href="#field-details" title="Link to this heading"></a></h2>
+<section id="type">
+<span id="onde-ut-dataset-type"></span><h3><code class="docutils literal notranslate"><span class="pre">TYPE</span></code><a class="headerlink" href="#type" title="Link to this heading"></a></h3>
+<p><em>No detailed description provided.</em></p>
+</section>
+<section id="label">
+<span id="onde-ut-dataset-label"></span><h3><code class="docutils literal notranslate"><span class="pre">LABEL</span></code><a class="headerlink" href="#label" title="Link to this heading"></a></h3>
+<p><em>No detailed description provided.</em></p>
+</section>
+<section id="setup">
+<span id="onde-ut-dataset-setup"></span><h3><code class="docutils literal notranslate"><span class="pre">SETUP</span></code><a class="headerlink" href="#setup" title="Link to this heading"></a></h3>
+<p><em>No detailed description provided.</em></p>
+</section>
+<section id="operator">
+<span id="onde-ut-dataset-operator"></span><h3><code class="docutils literal notranslate"><span class="pre">OPERATOR</span></code><a class="headerlink" href="#operator" title="Link to this heading"></a></h3>
+<p><em>No detailed description provided.</em></p>
+</section>
+<section id="date-and-time">
+<span id="onde-ut-dataset-date-and-time"></span><h3><code class="docutils literal notranslate"><span class="pre">DATE_AND_TIME</span></code><a class="headerlink" href="#date-and-time" title="Link to this heading"></a></h3>
+<p><em>No detailed description provided.</em></p>
+</section>
+</section>
+</section>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>P. Wilcox, MFMC Specification document 2.0.0b.</p>
+</aside>
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<p>M. Dennis, ECUF Common Ultrasonic Datafile Format, 2018 EPRI Technical Report</p>
+</aside>
+<aside class="footnote brackets" id="id4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<p>S. Holland, Data Models for NDE 4.0 and NDE Digital Twin, Chapter for NDE 4.0 textbook
+|</p>
+</aside>
+</aside>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="onde_ut_cscan_dataset.html" class="btn btn-neutral float-left" title="ONDE_UT_CSCAN_DATASET" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="onde_ut_elements.html" class="btn btn-neutral float-right" title="ONDE_UT_ELEMENTS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, COFREND and EPRI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

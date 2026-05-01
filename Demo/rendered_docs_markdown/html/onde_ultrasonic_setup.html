@@ -1,0 +1,392 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ONDE_ULTRASONIC_SETUP &mdash; ONDE Format Specification  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ONDE_UT_ASCAN_DATASET" href="onde_ut_ascan_dataset.html" />
+    <link rel="prev" title="ONDE_TIME_TRAJECTORY" href="onde_time_trajectory.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ONDE Format Specification
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Classes</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="root.html">ONDE Format Root Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_2dcad.html">ONDE_2DCAD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_3dcad.html">ONDE_3DCAD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_acquisition_grid.html">ONDE_ACQUISITION_GRID</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_acquisition_trajectory.html">ONDE_ACQUISITION_TRAJECTORY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_component.html">ONDE_COMPONENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_cylinder.html">ONDE_CYLINDER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_dual_wedge.html">ONDE_DUAL_WEDGE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_geometric_setup.html">ONDE_GEOMETRIC_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_immersion.html">ONDE_IMMERSION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_linear_ut_probe.html">ONDE_LINEAR_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_matrix_ut_probe.html">ONDE_MATRIX_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_mono_ut_probe.html">ONDE_MONO_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_angle.html">ONDE_PHASED_ARRAY_ANGLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_compound.html">ONDE_PHASED_ARRAY_COMPOUND</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_escan.html">ONDE_PHASED_ARRAY_ESCAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_fmc.html">ONDE_PHASED_ARRAY_FMC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_pwi.html">ONDE_PHASED_ARRAY_PWI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_setup.html">ONDE_PHASED_ARRAY_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_sscan.html">ONDE_PHASED_ARRAY_SSCAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_plane.html">ONDE_PLANE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_setup.html">ONDE_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_single_wedge.html">ONDE_SINGLE_WEDGE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_spatial_trajectory.html">ONDE_SPATIAL_TRAJECTORY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_time_trajectory.html">ONDE_TIME_TRAJECTORY</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ONDE_ULTRASONIC_SETUP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ultrasonic-setup">Ultrasonic setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fields">Fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#type"><code class="docutils literal notranslate"><span class="pre">TYPE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#label"><code class="docutils literal notranslate"><span class="pre">LABEL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rectification"><code class="docutils literal notranslate"><span class="pre">RECTIFICATION</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filter-type"><code class="docutils literal notranslate"><span class="pre">FILTER_TYPE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filter-parameters"><code class="docutils literal notranslate"><span class="pre">FILTER_PARAMETERS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filter-description"><code class="docutils literal notranslate"><span class="pre">FILTER_DESCRIPTION</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ascan-sample-rate"><code class="docutils literal notranslate"><span class="pre">ASCAN_SAMPLE_RATE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ascan-start"><code class="docutils literal notranslate"><span class="pre">ASCAN_START</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#signal"><code class="docutils literal notranslate"><span class="pre">SIGNAL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gain"><code class="docutils literal notranslate"><span class="pre">GAIN</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prf"><code class="docutils literal notranslate"><span class="pre">PRF</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tcg-curve"><code class="docutils literal notranslate"><span class="pre">TCG_CURVE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#phased-array-setup"><code class="docutils literal notranslate"><span class="pre">PHASED_ARRAY_SETUP</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transmit-law"><code class="docutils literal notranslate"><span class="pre">TRANSMIT_LAW</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#receive-law"><code class="docutils literal notranslate"><span class="pre">RECEIVE_LAW</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_ascan_dataset.html">ONDE_UT_ASCAN_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_coupling.html">ONDE_UT_COUPLING</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_cscan_dataset.html">ONDE_UT_CSCAN_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html">ONDE_UT_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html#open-nde-file-format-specification-version-0-4">Open NDE File Format specification - Version 0.4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html#generalities">Generalities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html#data-structure">Data structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html#appendix-a-conversion-from-quaternions-to-matrices">Appendix A – conversion from quaternions to matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_elements.html">ONDE_UT_ELEMENTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_gate.html">ONDE_UT_GATE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_law.html">ONDE_UT_LAW</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_probe.html">ONDE_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_tscan_dataset.html">ONDE_UT_TSCAN_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_wedge.html">ONDE_WEDGE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_weld.html">ONDE_WELD</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ONDE Format Specification</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ONDE_ULTRASONIC_SETUP</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/onde_ultrasonic_setup.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="onde-ultrasonic-setup">
+<h1>ONDE_ULTRASONIC_SETUP<a class="headerlink" href="#onde-ultrasonic-setup" title="Link to this heading"></a></h1>
+<section id="ultrasonic-setup">
+<h2>Ultrasonic setup<a class="headerlink" href="#ultrasonic-setup" title="Link to this heading"></a></h2>
+<p><strong>Acquisition gate</strong></p>
+<p>The acquisition gate is implicitly defined by:</p>
+<ul class="simple">
+<li><p>the value of Ascan_Astart</p></li>
+<li><p>the sampling frequency</p></li>
+<li><p>the dimension of data N_Time&lt;m&gt;</p></li>
+</ul>
+<p>t0 : ASCAN_ASTART</p>
+<p>tend : ASCAN_ASTART + (N_Time&lt;m&gt; - 1)/ASCAN_SAMPLE_RATE</p>
+<p><strong>Gain</strong></p>
+<p>GAIN indicates the total gain for each A-scan during reception. It is a multiplying factor that was applied at
+acquisition.</p>
+<p><strong>TCG curves</strong>. The curve is specified in the TCG_CURVE field. It is provided for the entire acquisition gate. The
+amplification must be cumulated to the global one defined by the GAIN attribute.</p>
+<p><strong>Laws</strong></p>
+<p>Each A-scan in a dataframe must be associated with both a transmit and a receive focal law through the RECEIVE_LAW and
+TRANSMIT_LAW datafields. These contain HDF5 references to the groups which provide the detailed description of each
+focal laws (the same structure is used for both transmit and receive focal laws). PRF indicates the pulse repetition
+frequency for each Tx/Rx combination</p>
+<p><strong>Dynamic laws</strong></p>
+<p>In order to allow advanced setups with different laws defined for each acquisition position, the cardinality of the
+transmission and reception can be either a 1D-array (same laws applied for each dataframe) or 2D (differentiated laws).</p>
+<p><strong>Filter Parameters</strong></p>
+<p>The filtering parameters take different values following the filter type.</p>
+<ul class="simple">
+<li><p>For FILTER_TYPE HIGH_PASS or LOW_PASS this is a single value giving the -3 dB cut-off frequency</p></li>
+<li><p>For FILTER_TYPE BAND_PASS this should contain two values for the lower and upper -3 dB cut-off frequencies</p></li>
+<li><p>For FILTER_TYPE OTHER, this should be an [3,N_DF&lt;m&gt;] matrix where the first row is frequency and the second and
+third rows provide the real and imaginary parts of the filter’s transfer function at that frequency.</p></li>
+</ul>
+<p><strong>Combination between offsets and trajectories</strong></p>
+<p>The offsets and directions provided in the dataset blocks can be combined to the data of the trajectory block in order
+to share common trajectories between different probes (as is common in TOFD controls for example). In this case, the
+trajectories links point to the same trajectory objects and the offsets/rotation between the trajectory and the probe
+PCF describe the relative positions of the different probes with respect to the trajectory frame. A typical example is
+illustrated in Figure 23, with a trajectory frame given at the Probe Center Separation and offsets used to define the
+PCF locations. If the offset is not provided, the PCF and trajectory frame are assumed to be the same.</p>
+<p><img alt="Example of offset and trajectory combination in the case of a TOFD inspection" src="../images/media/figure23.png" /></p>
+<p><em>Figure 23: Example of offset and trajectory combination in the case of a TOFD inspection</em></p>
+<p><strong>Variable gates</strong></p>
+<p>Variable gates are not handled in this version – it can be emulated by zero—padding the data block</p>
+</section>
+<section id="fields">
+<h2>Fields<a class="headerlink" href="#fields" title="Link to this heading"></a></h2>
+<section id="type">
+<h3><code class="docutils literal notranslate"><span class="pre">TYPE</span></code><a class="headerlink" href="#type" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE:TYPE</span></code></p></li>
+<li><p><strong>Requirement:</strong> Mandatory</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_STRING</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">[1]</span></code></p></li>
+<li><p><strong>Allowed Values:</strong> <code class="docutils literal notranslate"><span class="pre">[&quot;ONDE_ULTRASONIC_SETUP&quot;]</span></code></p></li>
+</ul>
+</section>
+<section id="label">
+<h3><code class="docutils literal notranslate"><span class="pre">LABEL</span></code><a class="headerlink" href="#label" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE:LABEL</span></code></p></li>
+<li><p><strong>Requirement:</strong> Optional</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_STRING</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">1</span></code></p></li>
+</ul>
+</section>
+<section id="rectification">
+<h3><code class="docutils literal notranslate"><span class="pre">RECTIFICATION</span></code><a class="headerlink" href="#rectification" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_ULTRASONIC_SETUP:RECTIFICATION</span></code></p></li>
+<li><p><strong>Requirement:</strong> Mandatory</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_INTEGER</span></code></p></li>
+<li><p><strong>Allowed Values:</strong> <code class="docutils literal notranslate"><span class="pre">&quot;FULL_WAVE&quot;,&quot;RECTIFIED_POSITIVE&quot;,&quot;RECTIFIED_NEGATIVE&quot;,&quot;RECTIFIED_FULL&quot;</span></code></p>
+<p>Defines if the data are FULL_WAVE or RECTIFIED_POSITIVE, RECTIFIED_NEGATIVE, RECTIFIED_FULL</p>
+</li>
+</ul>
+</section>
+<section id="filter-type">
+<h3><code class="docutils literal notranslate"><span class="pre">FILTER_TYPE</span></code><a class="headerlink" href="#filter-type" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_ULTRASONIC_SETUP:FILTER_TYPE</span></code></p></li>
+<li><p><strong>Requirement:</strong> Optional</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_INTEGER</span></code></p></li>
+<li><p><strong>Allowed Values:</strong> <code class="docutils literal notranslate"><span class="pre">&quot;NO_FILTER&quot;,&quot;LOW_PASS&quot;,&quot;HIGH_PASS&quot;,&quot;BAND_PASS&quot;,&quot;OTHER&quot;</span></code></p>
+<p>Defines the type of filtering applied to the signals : NO_FILTER, LOW_PASS, HIGH_PASS, BAND_PASS, OTHER</p>
+</li>
+</ul>
+</section>
+<section id="filter-parameters">
+<h3><code class="docutils literal notranslate"><span class="pre">FILTER_PARAMETERS</span></code><a class="headerlink" href="#filter-parameters" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_ULTRASONIC_SETUP:FILTER_PARAMETERS</span></code></p></li>
+<li><p><strong>Requirement:</strong> Optional</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_FLOAT</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">or</span> <span class="pre">[N_Ascan&lt;m&gt;]</span> <span class="pre">or</span> <span class="pre">[</span> <span class="pre">N_DF&lt;m&gt;,N_Ascan&lt;m&gt;]</span></code></p>
+<p>Optional datafield providing analogue filter parameters  see notes for detailed explanation</p>
+</li>
+</ul>
+</section>
+<section id="filter-description">
+<h3><code class="docutils literal notranslate"><span class="pre">FILTER_DESCRIPTION</span></code><a class="headerlink" href="#filter-description" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_ULTRASONIC_SETUP:FILTER_DESCRIPTION</span></code></p></li>
+<li><p><strong>Requirement:</strong> Optional</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_STRING</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
+<p>Description of the filtering applied</p>
+</li>
+</ul>
+</section>
+<section id="ascan-sample-rate">
+<h3><code class="docutils literal notranslate"><span class="pre">ASCAN_SAMPLE_RATE</span></code><a class="headerlink" href="#ascan-sample-rate" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_ULTRASONIC_SETUP:ASCAN_SAMPLE_RATE</span></code></p></li>
+<li><p><strong>Requirement:</strong> Mandatory</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_FLOAT</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
+<p>This indicates the sampling frequency of A-scan data points. It is assumed that a uniform sampling rate is used throughout A-scan data collection.</p>
+</li>
+</ul>
+</section>
+<section id="ascan-start">
+<h3><code class="docutils literal notranslate"><span class="pre">ASCAN_START</span></code><a class="headerlink" href="#ascan-start" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_ULTRASONIC_SETUP:ASCAN_START</span></code></p></li>
+<li><p><strong>Requirement:</strong> Mandatory</p></li>
+<li><p><strong>Storage:</strong> dataset</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_FLOAT</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">or</span> <span class="pre">[N_Ascan&lt;m&gt;]</span> <span class="pre">or</span> <span class="pre">[</span> <span class="pre">N_Ascan&lt;m&gt;,N_DF&lt;m&gt;]</span></code></p>
+<p>This indicates the starting time for data acquisition. If dimension is 1, the same start time is used for all A-Scans, else a different start time is specified for each A-Scan.</p>
+</li>
+</ul>
+</section>
+<section id="signal">
+<h3><code class="docutils literal notranslate"><span class="pre">SIGNAL</span></code><a class="headerlink" href="#signal" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_ULTRASONIC_SETUP:SIGNAL</span></code></p></li>
+<li><p><strong>Requirement:</strong> Optional</p></li>
+<li><p><strong>Storage:</strong> dataset</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_FLOAT</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">[N_TSig&lt;m&gt;,2]</span></code></p>
+<p>Digitization of the emission signal (can be used to store arbitrary  signals). If missing impulse emission at time 0.0 is assumed. 2D Array with one row for time and one for amplitude.</p>
+</li>
+</ul>
+</section>
+<section id="gain">
+<h3><code class="docutils literal notranslate"><span class="pre">GAIN</span></code><a class="headerlink" href="#gain" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_ULTRASONIC_SETUP:GAIN</span></code></p></li>
+<li><p><strong>Requirement:</strong> Mandatory</p></li>
+<li><p><strong>Storage:</strong> dataset</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_FLOAT</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">N_Ascan&lt;m&gt;</span> <span class="pre">]</span></code></p>
+<p>This indicates the total gain for each A-scan during reception. Multiplying factor that was applied at acquisition.</p>
+</li>
+</ul>
+</section>
+<section id="prf">
+<h3><code class="docutils literal notranslate"><span class="pre">PRF</span></code><a class="headerlink" href="#prf" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_ULTRASONIC_SETUP:PRF</span></code></p></li>
+<li><p><strong>Requirement:</strong> Optional</p></li>
+<li><p><strong>Storage:</strong> dataset</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_FLOAT</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">[N_Ascan&lt;m&gt;]</span> <span class="pre">or</span> <span class="pre">[2]</span></code></p>
+<p>Pulse Repetition Frequency</p>
+</li>
+</ul>
+</section>
+<section id="tcg-curve">
+<h3><code class="docutils literal notranslate"><span class="pre">TCG_CURVE</span></code><a class="headerlink" href="#tcg-curve" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_ULTRASONIC_SETUP:TCG_CURVE</span></code></p></li>
+<li><p><strong>Requirement:</strong> Optional</p></li>
+<li><p><strong>Storage:</strong> dataset</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_FLOAT</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">[N_Ascan&lt;m&gt;,N_TCG&lt;m&gt;</span> <span class="pre">]</span></code></p>
+<p>TCG curve applied to the received signals. The amplitude correction is given for each time sample as a multiplying factor.</p>
+</li>
+</ul>
+</section>
+<section id="phased-array-setup">
+<h3><code class="docutils literal notranslate"><span class="pre">PHASED_ARRAY_SETUP</span></code><a class="headerlink" href="#phased-array-setup" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_ULTRASONIC_SETUP:PHASED_ARRAY_SETUP</span></code></p></li>
+<li><p><strong>Requirement:</strong> Optional</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_STD_REF_OBJ</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">1</span></code></p></li>
+</ul>
+</section>
+<section id="transmit-law">
+<h3><code class="docutils literal notranslate"><span class="pre">TRANSMIT_LAW</span></code><a class="headerlink" href="#transmit-law" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_ULTRASONIC_SETUP:TRANSMIT_LAW</span></code></p></li>
+<li><p><strong>Requirement:</strong> Mandatory</p></li>
+<li><p><strong>Storage:</strong> dataset</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_STD_REF_OBJ</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">[N_Ascan&lt;m&gt;]</span> <span class="pre">or</span> <span class="pre">[N_DF&lt;m&gt;,N_Ascan&lt;m&gt;]</span></code></p>
+<p>Each A-scan in a dataframe must be associated with both a transmit and a receive focal law through the datafields. These contain HDF5 references  to the groups which provide the detailed description of each focal laws (the same structure is used for both transmit and receive focal laws). Mandatory for phased array setups.</p>
+</li>
+</ul>
+</section>
+<section id="receive-law">
+<h3><code class="docutils literal notranslate"><span class="pre">RECEIVE_LAW</span></code><a class="headerlink" href="#receive-law" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_ULTRASONIC_SETUP:RECEIVE_LAW</span></code></p></li>
+<li><p><strong>Requirement:</strong> Optional</p></li>
+<li><p><strong>Storage:</strong> dataset</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_STD_REF_OBJ</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">[N_Ascan&lt;m&gt;]</span> <span class="pre">or</span> <span class="pre">[N_DF&lt;m&gt;,N_Ascan&lt;m&gt;]</span></code></p>
+<p>Each A-scan in a dataframe must be associated with both a transmit and a receive focal law through the datafields. These contain HDF5 references  to the groups which provide the detailed description of each focal laws (the same structure is used for both transmit and receive focal laws).Mandatory for phased array setups.</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="onde_time_trajectory.html" class="btn btn-neutral float-left" title="ONDE_TIME_TRAJECTORY" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="onde_ut_ascan_dataset.html" class="btn btn-neutral float-right" title="ONDE_UT_ASCAN_DATASET" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, COFREND and EPRI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

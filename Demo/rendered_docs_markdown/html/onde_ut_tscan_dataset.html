@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ONDE_UT_TSCAN_DATASET &mdash; ONDE Format Specification  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ONDE_WEDGE" href="onde_wedge.html" />
+    <link rel="prev" title="ONDE_UT_PROBE" href="onde_ut_probe.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ONDE Format Specification
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Classes</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="root.html">ONDE Format Root Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_2dcad.html">ONDE_2DCAD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_3dcad.html">ONDE_3DCAD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_acquisition_grid.html">ONDE_ACQUISITION_GRID</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_acquisition_trajectory.html">ONDE_ACQUISITION_TRAJECTORY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_component.html">ONDE_COMPONENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_cylinder.html">ONDE_CYLINDER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_dual_wedge.html">ONDE_DUAL_WEDGE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_geometric_setup.html">ONDE_GEOMETRIC_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_immersion.html">ONDE_IMMERSION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_linear_ut_probe.html">ONDE_LINEAR_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_matrix_ut_probe.html">ONDE_MATRIX_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_mono_ut_probe.html">ONDE_MONO_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_angle.html">ONDE_PHASED_ARRAY_ANGLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_compound.html">ONDE_PHASED_ARRAY_COMPOUND</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_escan.html">ONDE_PHASED_ARRAY_ESCAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_fmc.html">ONDE_PHASED_ARRAY_FMC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_pwi.html">ONDE_PHASED_ARRAY_PWI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_setup.html">ONDE_PHASED_ARRAY_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_sscan.html">ONDE_PHASED_ARRAY_SSCAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_plane.html">ONDE_PLANE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_setup.html">ONDE_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_single_wedge.html">ONDE_SINGLE_WEDGE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_spatial_trajectory.html">ONDE_SPATIAL_TRAJECTORY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_time_trajectory.html">ONDE_TIME_TRAJECTORY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ultrasonic_setup.html">ONDE_ULTRASONIC_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_ascan_dataset.html">ONDE_UT_ASCAN_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_coupling.html">ONDE_UT_COUPLING</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_cscan_dataset.html">ONDE_UT_CSCAN_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html">ONDE_UT_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html#open-nde-file-format-specification-version-0-4">Open NDE File Format specification - Version 0.4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html#generalities">Generalities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html#data-structure">Data structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html#appendix-a-conversion-from-quaternions-to-matrices">Appendix A – conversion from quaternions to matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_elements.html">ONDE_UT_ELEMENTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_gate.html">ONDE_UT_GATE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_law.html">ONDE_UT_LAW</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_probe.html">ONDE_UT_PROBE</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ONDE_UT_TSCAN_DATASET</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tscan-datasets">Tscan datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fields">Fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#type"><code class="docutils literal notranslate"><span class="pre">TYPE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data"><code class="docutils literal notranslate"><span class="pre">DATA</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reference-trajectory"><code class="docutils literal notranslate"><span class="pre">REFERENCE_TRAJECTORY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zone-frame"><code class="docutils literal notranslate"><span class="pre">ZONE_FRAME</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zone-dimension"><code class="docutils literal notranslate"><span class="pre">ZONE_DIMENSION</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zone-size"><code class="docutils literal notranslate"><span class="pre">ZONE_SIZE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reconstruction-mode"><code class="docutils literal notranslate"><span class="pre">RECONSTRUCTION_MODE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#elementary-channels-dataset"><code class="docutils literal notranslate"><span class="pre">ELEMENTARY_CHANNELS_DATASET</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="onde_wedge.html">ONDE_WEDGE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_weld.html">ONDE_WELD</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ONDE Format Specification</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ONDE_UT_TSCAN_DATASET</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/onde_ut_tscan_dataset.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="onde-ut-tscan-dataset">
+<h1>ONDE_UT_TSCAN_DATASET<a class="headerlink" href="#onde-ut-tscan-dataset" title="Link to this heading"></a></h1>
+<p><strong>Inherits from:</strong> ONDE_UT_DATASET</p>
+<section id="tscan-datasets">
+<h2>Tscan datasets<a class="headerlink" href="#tscan-datasets" title="Link to this heading"></a></h2>
+<p><strong>General</strong></p>
+<p>Even though the name (Tscans coming from TFM Scans) implicitly refers to the TFM reconstruction images, the block can
+apply to any reconstruction method producing data on a rectangular/parallelepiped grid that moves with the sensor (be it
+obtained by TFM, Adaptive TFM, PWI, Adaptive PWI, frequency reconstruction, or any variant of these methods)</p>
+<p><strong>3D Zones</strong></p>
+<p>The format allows for the description of 3D zones. Taking into account the dimension related to positions, this implies
+that the dimension of the data array depends on the zone dimension (3D array for 2D zones 4D array for 3D zones),</p>
+<p><strong>Zone dimension and position</strong></p>
+<p>The zone physical dimension is given by the ZONE_DIMENSION field, (DX,DY,DZ) being the physical dimensions of the zone,
+a zero or a NaN for one of the dimension implies a 2D zone.</p>
+<p>ZONE_SIZE is a triplet which gives the number of pixels of the zone for each dimension (NX,NY,NZ).</p>
+<p>The zone position is given by ZONE_FRAME and is expressed relatively to the trajectory frame pointed to by
+REFERENCE_TRAJECTORY.</p>
+<p><img alt="Example of TFM zone positioning" src="../images/media/figure5.png" /></p>
+<p><em>Figure 5: Example of TFM zone positioning</em></p>
+<p>In the example displayed in Figure 5, the trajectory frame is located at the index point and the zone is positioned
+accordingly.</p>
+<p><strong>Pixel ordering</strong></p>
+<p>The pixels are stored in the (X,Y,Z) order (X being the outer loop, Z the inner loop in the array)</p>
+</section>
+<section id="fields">
+<h2>Fields<a class="headerlink" href="#fields" title="Link to this heading"></a></h2>
+<section id="type">
+<h3><code class="docutils literal notranslate"><span class="pre">TYPE</span></code><a class="headerlink" href="#type" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE:TYPE</span></code></p></li>
+<li><p><strong>Requirement:</strong> Mandatory</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_STRING</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">[2]</span></code></p></li>
+<li><p><strong>Allowed Values:</strong> <code class="docutils literal notranslate"><span class="pre">[&quot;ONDE_UT_DATASET&quot;,&quot;ONDE_UT_TSCAN_DATASET&quot;]</span></code></p></li>
+</ul>
+</section>
+<section id="data">
+<h3><code class="docutils literal notranslate"><span class="pre">DATA</span></code><a class="headerlink" href="#data" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_UT_TSCAN_DATASET:DATA</span></code></p></li>
+<li><p><strong>Requirement:</strong> Mandatory</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_STD_REF_OBJ</span> <span class="pre">or</span> <span class="pre">HT5_INTEGER</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">or</span> <span class="pre">[N_DF&lt;m&gt;,N_ROW&lt;m&gt;,N_COL&lt;m&gt;]</span> <span class="pre">or</span> <span class="pre">[N_DF&lt;m&gt;,NROW&lt;m&gt;,NCOL&lt;m&gt;,N_PLANE&lt;m&gt;]</span></code></p>
+<p>can be either an array or a reference to an array</p>
+</li>
+</ul>
+</section>
+<section id="reference-trajectory">
+<h3><code class="docutils literal notranslate"><span class="pre">REFERENCE_TRAJECTORY</span></code><a class="headerlink" href="#reference-trajectory" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_UT_TSCAN_DATASET:REFERENCE_TRAJECTORY</span></code></p></li>
+<li><p><strong>Requirement:</strong> Mandatory</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_STD_REF_OBJ&lt;ONDE_ACQUISITION_TRAJECTORY&gt;</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">1</span></code></p></li>
+</ul>
+</section>
+<section id="zone-frame">
+<h3><code class="docutils literal notranslate"><span class="pre">ZONE_FRAME</span></code><a class="headerlink" href="#zone-frame" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_UT_TSCAN_DATASET:ZONE_FRAME</span></code></p></li>
+<li><p><strong>Requirement:</strong> Mandatory</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_FLOAT</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">[7]</span></code></p>
+<p>frame associated with the center of the image zone</p>
+</li>
+</ul>
+</section>
+<section id="zone-dimension">
+<h3><code class="docutils literal notranslate"><span class="pre">ZONE_DIMENSION</span></code><a class="headerlink" href="#zone-dimension" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_UT_TSCAN_DATASET:ZONE_DIMENSION</span></code></p></li>
+<li><p><strong>Requirement:</strong> Mandatory</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_FLOAT</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">[3]</span></code></p>
+<p>physical dimension of the zone</p>
+</li>
+</ul>
+</section>
+<section id="zone-size">
+<h3><code class="docutils literal notranslate"><span class="pre">ZONE_SIZE</span></code><a class="headerlink" href="#zone-size" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_UT_TSCAN_DATASET:ZONE_SIZE</span></code></p></li>
+<li><p><strong>Requirement:</strong> Mandatory</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_INTEGER</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">[3]</span></code></p>
+<p>number of pixels of the zone</p>
+</li>
+</ul>
+</section>
+<section id="reconstruction-mode">
+<h3><code class="docutils literal notranslate"><span class="pre">RECONSTRUCTION_MODE</span></code><a class="headerlink" href="#reconstruction-mode" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_UT_TSCAN_DATASET:RECONSTRUCTION_MODE</span></code></p></li>
+<li><p><strong>Requirement:</strong> Optional</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_STRING</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">1</span></code></p></li>
+</ul>
+</section>
+<section id="elementary-channels-dataset">
+<h3><code class="docutils literal notranslate"><span class="pre">ELEMENTARY_CHANNELS_DATASET</span></code><a class="headerlink" href="#elementary-channels-dataset" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_UT_TSCAN_DATASET:ELEMENTARY_CHANNELS_DATASET</span></code></p></li>
+<li><p><strong>Requirement:</strong> Optional</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_STD_REF_OBJ&lt;ONDE_UT_ASCAN_DATASET&gt;</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
+<p>optional reference to the elementary channels ascans that were used for the reconstruction</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="onde_ut_probe.html" class="btn btn-neutral float-left" title="ONDE_UT_PROBE" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="onde_wedge.html" class="btn btn-neutral float-right" title="ONDE_WEDGE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, COFREND and EPRI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

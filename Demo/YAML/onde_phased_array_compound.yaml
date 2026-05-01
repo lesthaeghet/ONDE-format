@@ -1,0 +1,43 @@
+onde_class: ONDE_PHASED_ARRAY_COMPOUND
+inherits:
+- ONDE_PHASED_ARRAY_SETUP
+description: 'The compound type mixes Escan and Sscan behavior. COMPOUND_INITIAL_ANGLE, COMPOUND_FINAL_ANGLE and COMPOUND_NUMBER_OF_ANGLES give the angle scope, while COMPOUND_NUMBER_OF_ELEMENTS gives the number of elements in the electronic scanning.
+
+![Compound configuration](../images/media/figure27.png "Figure 27")'
+fields:
+  TYPE:
+    full_name: ONDE:TYPE
+    required: true
+    storage: attribute
+    hdf5_type: H5T_STRING
+    description: ''
+    dimensions: '[2]'
+    allowed_values: '["ONDE_PHASED_ARRAY_SETUP","ONDE_PHASED_ARRAY_COMPOUND"]'
+  INITIAL_ANGLE:
+    full_name: ONDE_PHASED_ARRAY_COMPOUND:INITIAL_ANGLE
+    required: true
+    storage: attribute
+    hdf5_type: H5T_FLOAT
+    description: ''
+    dimensions: '1'
+  FINAL_ANGLE:
+    full_name: ONDE_PHASED_ARRAY_COMPOUND:FINAL_ANGLE
+    required: true
+    storage: attribute
+    hdf5_type: H5T_FLOAT
+    description: ''
+    dimensions: '1'
+  NUMBER_OF_ANGLES:
+    full_name: ONDE_PHASED_ARRAY_COMPOUND:NUMBER_OF_ANGLES
+    required: true
+    storage: attribute
+    hdf5_type: H5T_INTEGER
+    description: ''
+    dimensions: '1'
+  NUMBER_OF_ELEMENTS:
+    full_name: ONDE_PHASED_ARRAY_COMPOUND:NUMBER_OF_ELEMENTS
+    required: true
+    storage: attribute
+    hdf5_type: H5T_INTEGER
+    description: ''
+    dimensions: '1'

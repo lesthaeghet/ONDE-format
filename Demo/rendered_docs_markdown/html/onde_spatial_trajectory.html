@@ -1,0 +1,184 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ONDE_SPATIAL_TRAJECTORY &mdash; ONDE Format Specification  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ONDE_TIME_TRAJECTORY" href="onde_time_trajectory.html" />
+    <link rel="prev" title="ONDE_SINGLE_WEDGE" href="onde_single_wedge.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ONDE Format Specification
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Classes</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="root.html">ONDE Format Root Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_2dcad.html">ONDE_2DCAD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_3dcad.html">ONDE_3DCAD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_acquisition_grid.html">ONDE_ACQUISITION_GRID</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_acquisition_trajectory.html">ONDE_ACQUISITION_TRAJECTORY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_component.html">ONDE_COMPONENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_cylinder.html">ONDE_CYLINDER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_dual_wedge.html">ONDE_DUAL_WEDGE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_geometric_setup.html">ONDE_GEOMETRIC_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_immersion.html">ONDE_IMMERSION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_linear_ut_probe.html">ONDE_LINEAR_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_matrix_ut_probe.html">ONDE_MATRIX_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_mono_ut_probe.html">ONDE_MONO_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_angle.html">ONDE_PHASED_ARRAY_ANGLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_compound.html">ONDE_PHASED_ARRAY_COMPOUND</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_escan.html">ONDE_PHASED_ARRAY_ESCAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_fmc.html">ONDE_PHASED_ARRAY_FMC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_pwi.html">ONDE_PHASED_ARRAY_PWI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_setup.html">ONDE_PHASED_ARRAY_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_sscan.html">ONDE_PHASED_ARRAY_SSCAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_plane.html">ONDE_PLANE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_setup.html">ONDE_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_single_wedge.html">ONDE_SINGLE_WEDGE</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ONDE_SPATIAL_TRAJECTORY</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fields">Fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#type"><code class="docutils literal notranslate"><span class="pre">TYPE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#trajectory"><code class="docutils literal notranslate"><span class="pre">TRAJECTORY</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="onde_time_trajectory.html">ONDE_TIME_TRAJECTORY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ultrasonic_setup.html">ONDE_ULTRASONIC_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_ascan_dataset.html">ONDE_UT_ASCAN_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_coupling.html">ONDE_UT_COUPLING</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_cscan_dataset.html">ONDE_UT_CSCAN_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html">ONDE_UT_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html#open-nde-file-format-specification-version-0-4">Open NDE File Format specification - Version 0.4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html#generalities">Generalities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html#data-structure">Data structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html#appendix-a-conversion-from-quaternions-to-matrices">Appendix A – conversion from quaternions to matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_elements.html">ONDE_UT_ELEMENTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_gate.html">ONDE_UT_GATE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_law.html">ONDE_UT_LAW</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_probe.html">ONDE_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_tscan_dataset.html">ONDE_UT_TSCAN_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_wedge.html">ONDE_WEDGE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_weld.html">ONDE_WELD</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ONDE Format Specification</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ONDE_SPATIAL_TRAJECTORY</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/onde_spatial_trajectory.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="onde-spatial-trajectory">
+<h1>ONDE_SPATIAL_TRAJECTORY<a class="headerlink" href="#onde-spatial-trajectory" title="Link to this heading"></a></h1>
+<p><strong>Inherits from:</strong> ONDE_ACQUISITION_TRAJECTORY</p>
+<p>No narrative documentation provided for ONDE_SPATIAL_TRAJECTORY.</p>
+<section id="fields">
+<h2>Fields<a class="headerlink" href="#fields" title="Link to this heading"></a></h2>
+<section id="type">
+<h3><code class="docutils literal notranslate"><span class="pre">TYPE</span></code><a class="headerlink" href="#type" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE:TYPE</span></code></p></li>
+<li><p><strong>Requirement:</strong> Mandatory</p></li>
+<li><p><strong>Storage:</strong> attribute</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_STRING</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">[2]</span></code></p></li>
+<li><p><strong>Allowed Values:</strong> <code class="docutils literal notranslate"><span class="pre">[&quot;ONDE_ACQUISITION_TRAJECTORY&quot;,&quot;ONDE_SPATIAL_TRAJECTORY&quot;]</span></code></p></li>
+</ul>
+</section>
+<section id="trajectory">
+<h3><code class="docutils literal notranslate"><span class="pre">TRAJECTORY</span></code><a class="headerlink" href="#trajectory" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Full Name:</strong> <code class="docutils literal notranslate"><span class="pre">ONDE_SPATIAL_TRAJECTORY:TRAJECTORY</span></code></p></li>
+<li><p><strong>Requirement:</strong> Optional</p></li>
+<li><p><strong>Storage:</strong> dataset</p></li>
+<li><p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">H5T_FLOAT</span></code></p></li>
+<li><p><strong>Dimensions:</strong> <code class="docutils literal notranslate"><span class="pre">[N_Pos&lt;m&gt;,7]</span></code></p>
+<p>List of positions and quaternions   giving the positions and orientations of the trajectory frame    at the different positions</p>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="onde_single_wedge.html" class="btn btn-neutral float-left" title="ONDE_SINGLE_WEDGE" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="onde_time_trajectory.html" class="btn btn-neutral float-right" title="ONDE_TIME_TRAJECTORY" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, COFREND and EPRI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

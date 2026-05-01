@@ -1,0 +1,36 @@
+onde_class: ONDE_PHASED_ARRAY_ESCAN
+inherits:
+- ONDE_PHASED_ARRAY_SETUP
+description: 'In this configuration consecutive subsets of elements are used in order to form a beam at a specific angle, thus forming a sweeping set of ultrasonic beams. Figure 26 illustrates an Escan for 4 consecutive elements with a step of 3 elements on a 32 element linear transducer.
+
+![EScan configuration](../images/media/figure26.png "Figure 26")'
+fields:
+  TYPE:
+    full_name: ONDE:TYPE
+    required: true
+    storage: attribute
+    hdf5_type: H5T_STRING
+    description: ''
+    dimensions: '[2]'
+    allowed_values: '["ONDE_PHASED_ARRAY_SETUP","ONDE_PHASED_ARRAY_ESCAN"]'
+  NUMBER_OF_ELEMENTS:
+    full_name: ONDE_PHASED_ARRAY_ESCAN:NUMBER_OF_ELEMENTS
+    required: true
+    storage: attribute
+    hdf5_type: H5T_INTEGER
+    description: ''
+    dimensions: '1'
+  STEP:
+    full_name: ONDE_PHASED_ARRAY_ESCAN:STEP
+    required: true
+    storage: attribute
+    hdf5_type: H5T_INTEGER
+    description: ''
+    dimensions: '1'
+  ANGLE:
+    full_name: ONDE_PHASED_ARRAY_ESCAN:ANGLE
+    required: true
+    storage: attribute
+    hdf5_type: H5T_FLOAT
+    description: ''
+    dimensions: '1'

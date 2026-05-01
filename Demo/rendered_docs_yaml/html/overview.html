@@ -1,0 +1,946 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Open NDE File Format specification - Version 0.4 &mdash; ONDE Format Specification  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = `pre.mermaid {
+    /* Same as .mermaid-container > pre */
+    display: block;
+    width: 100%;
+}
+
+pre.mermaid > svg {
+    /* Same as .mermaid-container > pre > svg */
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}`;
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = `.mermaid-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.mermaid-container > pre {
+    display: block;
+    width: 100%;
+}
+
+.mermaid-container > pre > svg {
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}
+
+.mermaid-fullscreen-btn {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    color: #333;
+}
+
+.mermaid-fullscreen-btn:hover {
+    opacity: 100% !important;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-btn.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-btn.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 95vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    padding: 20px;
+    overflow: auto;
+}
+
+.mermaid-fullscreen-modal.dark-theme {
+    background: rgba(0, 0, 0, 0.98);
+}
+
+.mermaid-fullscreen-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen {
+    position: relative;
+    width: 95vw;
+    height: 90vh;
+    max-width: 95vw;
+    max-height: 90vh;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen.dark-theme {
+    background: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.mermaid-container-fullscreen pre.mermaid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen .mermaid svg {
+    height: 100% !important;
+    width: 100% !important;
+    cursor: grab;
+}
+
+.mermaid-fullscreen-close {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+}
+
+.mermaid-fullscreen-close:hover {
+    background: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-close.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-close.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal .mermaid-fullscreen-btn {
+    display: none !important;
+}`;
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        all_mermaids.forEach((el) => {
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+        await mermaid.run();
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    const mermaids_processed = document.querySelectorAll(".mermaid[data-processed='true']");
+
+    if ("False" === "True") {
+        const mermaids_to_add_zoom = -1 === -1 ? all_mermaids.length : -1;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("");
+            if(all_mermaids.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            } else if(svgs.size() !== mermaids_to_add_zoom) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            } else {
+                svgs.each(function() {
+                    var svg = d3.select(this);
+                    svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+                    var inner = svg.select("g");
+                    var zoom = d3.zoom().on("zoom", function(event) {
+                        inner.attr("transform", event.transform);
+                    });
+                    svg.call(zoom);
+                });
+            }
+        }
+    } else if(all_mermaids.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if ("True" !== "True") return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.style.opacity = '50%';
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scroll, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.sdisplay = 'block';
+
+                if ("False" === "True") {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+const load = async () => {
+    initStyles();
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...JSON.parse(
+                    `{"startOnLoad": false, "securityLevel": "loose"}`
+                ),
+                ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...JSON.parse(
+        `{"startOnLoad": false, "securityLevel": "loose"}`
+    ),
+    ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ONDE Format Root Fields" href="root.html" />
+    <link rel="prev" title="ONDE Format Specification" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            ONDE Format Specification
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Classes</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Open NDE File Format specification - Version 0.4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#generalities">Generalities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#preamble">Preamble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tables-legend">Tables legend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-model">Data Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hdf5-implementation">HDF5 implementation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#entry-points">Entry points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rules-for-the-hdf5-groups">Rules for the HDF5 groups</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#definition-of-frames">Definition of frames</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#d-frames">3D Frames</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">2D Frames</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="root.html">ONDE Format Root Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_2dcad.html">ONDE_2DCAD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_3dcad.html">ONDE_3DCAD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_acquisition_grid.html">ONDE_ACQUISITION_GRID</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_acquisition_trajectory.html">ONDE_ACQUISITION_TRAJECTORY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_component.html">ONDE_COMPONENT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_cylinder.html">ONDE_CYLINDER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_dual_wedge.html">ONDE_DUAL_WEDGE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_geometric_setup.html">ONDE_GEOMETRIC_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_immersion.html">ONDE_IMMERSION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_linear_ut_probe.html">ONDE_LINEAR_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_matrix_ut_probe.html">ONDE_MATRIX_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_mono_ut_probe.html">ONDE_MONO_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_angle.html">ONDE_PHASED_ARRAY_ANGLE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_compound.html">ONDE_PHASED_ARRAY_COMPOUND</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_escan.html">ONDE_PHASED_ARRAY_ESCAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_fmc.html">ONDE_PHASED_ARRAY_FMC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_pwi.html">ONDE_PHASED_ARRAY_PWI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_setup.html">ONDE_PHASED_ARRAY_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_phased_array_sscan.html">ONDE_PHASED_ARRAY_SSCAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_plane.html">ONDE_PLANE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_setup.html">ONDE_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_single_wedge.html">ONDE_SINGLE_WEDGE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_spatial_trajectory.html">ONDE_SPATIAL_TRAJECTORY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_time_trajectory.html">ONDE_TIME_TRAJECTORY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ultrasonic_setup.html">ONDE_ULTRASONIC_SETUP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_ascan_dataset.html">ONDE_UT_ASCAN_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_coupling.html">ONDE_UT_COUPLING</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_cscan_dataset.html">ONDE_UT_CSCAN_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html">ONDE_UT_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html#data-structure">Data structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_dataset.html#appendix-a-conversion-from-quaternions-to-matrices">Appendix A – conversion from quaternions to matrices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_elements.html">ONDE_UT_ELEMENTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_gate.html">ONDE_UT_GATE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_law.html">ONDE_UT_LAW</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_probe.html">ONDE_UT_PROBE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_ut_tscan_dataset.html">ONDE_UT_TSCAN_DATASET</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_wedge.html">ONDE_WEDGE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="onde_weld.html">ONDE_WELD</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ONDE Format Specification</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Open NDE File Format specification - Version 0.4</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/overview.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="open-nde-file-format-specification-version-0-4">
+<h1>Open NDE File Format specification - Version 0.4<a class="headerlink" href="#open-nde-file-format-specification-version-0-4" title="Link to this heading"></a></h1>
+<img src="../images/media/COFREND_EPRI_banner.png" alt="drawing" width="400"/>
+</section>
+<section id="generalities">
+<h1>Generalities<a class="headerlink" href="#generalities" title="Link to this heading"></a></h1>
+<section id="preamble">
+<h2>Preamble<a class="headerlink" href="#preamble" title="Link to this heading"></a></h2>
+<p>The ONDE (<strong>Open Non Destructive Evaluation</strong>) format results from a joint intiative by COFREND and EPRI to define a specification of open and efficient NDE
+format in order to facilitate interoperability between softwares and to ensure ability to read the data in the long term.
+This document is therefore a technical proposal to facilitate the establishment of a neutral and open format that can
+be a good candidate for a wide standardization effort.</p>
+<p>The objective that was assigned to this file format is to store ultrasonic raw data to be
+able to:</p>
+<ul class="simple">
+<li><p>(re)analyse it, including ultrasonic metadata required for report generation, or</p></li>
+<li><p>(re)use it for further data processing, or</p></li>
+<li><p>achieve interoperability between acquisition systems and analysis software.</p></li>
+</ul>
+<p>The objective is neither to be able to (re)produce an acquisition setup nor to (re)create a
+simulation configuration from the ultrasonic data file alone. We define as raw data the data which is produced by
+the acquisition system (AScans, TFM images, …).</p>
+<p>At this stage, it was decided to stick to the data acquired and the information that is necessary to
+perform an analysis. With a few exceptions, we did not add the information that is related to the analysis procedure
+itself (information related to the display, palette, etc…). This will be addressed in future stages (information
+related to analysis, reporting, …).</p>
+<ul class="simple">
+<li><p>The Working Group has analysed several existing contributions as a working basis to define an open and standardized
+file format for ultrasonic testing. Formats coming from organisations (ECUF, MFMC, DICONDE, ANDE) and commercial products (
+EVIDENT, TPAC, EDDYFI, SONATEST, CIVA) have been studied.<br />
+It was decided that the format would be based on the HDF5 framework, chosen for its well-established software
+ecosystem and its efficiency. The format proposal makes technical choices akin to those of the MFMC and ECUF format,
+and extends their possibilities in order to accommodate for a larger range of specimen geometries and types of data
+that are commonly encountered and were absent of the MFMC and ECUF specifications. In order to facilitate the migration
+from MFMC to ONDE, a compatibility with MFMC 2.0 specification has been added to the present specification.</p></li>
+<li><p>The format aims at finding the best compromise between two approaches : a very generic one with
+essentially raw geometric descriptions and a NDT oriented one with a representation of the objects familiar to the
+engineers. Considering that the transformation from NDT objects to the generic representation was straightforward, it
+was decided to systematically keep the generic representation and to allow to complement this representation with
+optional fields describing the objects in order to facilitate advanced analysis and visualisation. This approach was
+essentially adopted for three objects, namely the probe, the
+trajectory and the setup of the electronic laws.</p></li>
+<li><p>From an HDF5 structure perspective, architecture (flat or hierarchical) is not imposed. The relations between hdf5
+groups are translated into HDF5 references. The location of the HDF5 groups in the file is left open to the discretion of the implementor.
+The names of the groups is not imposed, the semantics of the group being defined by the mandatory TYPE attribute.
+Only TYPE and VERSION at hdf5 root level have a location that is  imposed in the file.
+In order to allow the proposed file format to coexist with other hdf5 file formats, the raw data (
+arrays of signals or array of images which typically represents the vast majority of the file weight) can be anywhere
+in the file structure.</p></li>
+<li><p>All quantities are defined with SI units. Units are therefore expressed in meters, kilograms,
+seconds. However, degrees are used instead of radians.</p></li>
+</ul>
+</section>
+<section id="tables-legend">
+<h2>Tables legend<a class="headerlink" href="#tables-legend" title="Link to this heading"></a></h2>
+<p>In the following sections, the data structure is described by blocks presented in tables.</p>
+<p>Hereafter, when pointing to ECUF and MFMC, we refer to MFMC specification document 2.0.0b<a href="#id4"><span class="problematic" id="id1">[^1]</span></a> and ECUF 1.0<a href="#id5"><span class="problematic" id="id2">[^2]</span></a>.</p>
+<p><strong>Variables used in structure definition:</strong></p>
+<p>Definitions (derived from MFMC 2.0.0b specification)</p>
+<ul class="simple">
+<li><p>Ultrasonic Element – an ultrasonic transduction device that can be excited through an electric signal externally
+driven and/or that can reversely convert ultrasound into a signal</p></li>
+<li><p>Ultrasonic Probe – a collection of ultrasonic elements that are assembled together so that their relative positions
+and orientations are fixed during the acquisition process – note that probes that possess the ability to adapt to the
+surface during the acquisition are not handled in this version of the specification</p></li>
+<li><p>Specimen – object which is the subject of the inspection</p></li>
+<li><p>Frame – position and orientation of a given object related to an acquisition</p></li>
+<li><p>Probe Element Combination (PEC) – the system used within an MFMC structure to identify a specific element in a
+specific probe, comprising an HDF5 reference to the probe group and the index of an element in that probe;</p></li>
+<li><p>Focal law – a set of instructions that specify how one or more PECs are used together;</p></li>
+<li><p>Transmit focal law – a focal law relating to transmission of ultrasound from one or more PECs;</p></li>
+<li><p>Receive focal law – a focal law relating to reception of ultrasound from one or more PECs;</p></li>
+<li><p>A-Scan – a time-domain, ultrasonic signal (comprising amplitude measurements regularly sampled in time at a specified
+sampling frequency) that is recorded for a combination of transmit focal law and receive focal law; this can be used
+to represent both summed signals and elementary channels</p></li>
+<li><p>DataFrame – a collection of coherent data obtained for a particular triggering event consisting of one of the
+following:</p>
+<ul>
+<li><p>A-scans obtained using different transmit and receive focal laws for each A-scan;</p></li>
+<li><p>Reconstructed images corresponding to specific reconstruction zones</p></li>
+<li><p>Scalar data (peak-related or corresponding to particular post-treatments)</p></li>
+</ul>
+</li>
+<li><p>Dataset – a collection of dataframes in which all acquisition parameters are fixed from one dataframe to another;</p></li>
+<li><p>Ultrasonic time – timescale over which an individual ultrasonic A-scan is recorded, which is assumed to be
+instantaneous compared to timescale associated with mechanical movement of probes;</p></li>
+<li><p>Propagation line – string of connected segments representing the ultrasonic propagation for a given focal law;</p></li>
+<li><p>Trajectory – set of frames representing the different position of a device;</p></li>
+<li><p>Acquisition grid – particular trajectory corresponding to a cartesian grid located at the surface of a plane or
+cylindrical component;</p></li>
+<li><p>Image zone – 2D or 3D regular cartesian grid used to define the reconstruction points creating the images during a
+TFM or PWI-like acquisition;</p></li>
+</ul>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Variable</strong></p></th>
+<th class="head"><p><strong>Description</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>N_Probes</p></td>
+<td><p>Number of probes</p></td>
+</tr>
+<tr class="row-odd"><td><p>N_Dataset</p></td>
+<td><p>Number of datasets</p></td>
+</tr>
+<tr class="row-even"><td><p>N_Elem&lt;p&gt;</p></td>
+<td><p>Number of elements of p-th probe</p></td>
+</tr>
+<tr class="row-odd"><td><p>N_DF&lt;m&gt;</p></td>
+<td><p>Number of dataframes in m-th dataset</p></td>
+</tr>
+<tr class="row-even"><td><p>N_Time&lt;m&gt;</p></td>
+<td><p>Number of time-points per A-Scan in m-th dataset</p></td>
+</tr>
+<tr class="row-odd"><td><p>N_Ascan&lt;m&gt;</p></td>
+<td><p>Number of A-Scans per dataframe in m-th dataset</p></td>
+</tr>
+<tr class="row-even"><td><p>N_CS&lt;m&gt;</p></td>
+<td><p>Number of scalar values stored in the m-th CSscan dataset</p></td>
+</tr>
+<tr class="row-odd"><td><p>N_Gate&lt;m&gt;</p></td>
+<td><p>Number of gates in the m-th CScan dataset</p></td>
+</tr>
+<tr class="row-even"><td><p>N_Prob&lt;m&gt;</p></td>
+<td><p>Number of probes used in m-th dataset</p></td>
+</tr>
+<tr class="row-odd"><td><p>N_Law&lt;m&gt;</p></td>
+<td><p>Number of focal laws associated with each dataframe in the m-th dataset</p></td>
+</tr>
+<tr class="row-even"><td><p>N_Comb&lt;k&gt;</p></td>
+<td><p>Number of probe/element combinations used in k-th focal law</p></td>
+</tr>
+<tr class="row-odd"><td><p>N_Points&lt;k&gt;</p></td>
+<td><p>Number of points used to describe the k-th focal law propagation_line</p></td>
+</tr>
+<tr class="row-even"><td><p>N_TSig&lt;m&gt;</p></td>
+<td><p>Number of time-points in the emission signal in the m-th dataset</p></td>
+</tr>
+<tr class="row-odd"><td><p>N_COL&lt;m&gt;</p></td>
+<td><p>Number of columns in the image zone for a Tscan in the m-th dataset</p></td>
+</tr>
+<tr class="row-even"><td><p>N_ROW&lt;m&gt;</p></td>
+<td><p>Number of rows in the image zone for a Tscan in the m-th dataset</p></td>
+</tr>
+<tr class="row-odd"><td><p>N_PLANE&lt;m&gt;</p></td>
+<td><p>Number of planes in the image zone for a 3D Tscan in the m-th dataset</p></td>
+</tr>
+<tr class="row-even"><td><p>N_U&lt;m&gt;</p></td>
+<td><p>Number of acquisition positions in the U direction for the m-th dataset</p></td>
+</tr>
+<tr class="row-odd"><td><p>N_V&lt;m&gt;</p></td>
+<td><p>Number of acquisition positions in the V direction for the m-th dataset</p></td>
+</tr>
+</tbody>
+</table>
+<p>Note : if N_U and N_V are defined (grid-like acquisition), N_DF&lt;m&gt; = N_U&lt;m&gt; x N_V&lt;m&gt;</p>
+</section>
+<section id="data-model">
+<h2>Data Model<a class="headerlink" href="#data-model" title="Link to this heading"></a></h2>
+<p>The data model of an ONDE file is described through fields that are grouped by blocks, each block corresponding to a NDE
+concept.</p>
+<pre  class="mermaid">
+        classDiagram
+  ONDE_COMPONENT &lt;|-- ONDE_2DCAD
+  ONDE_COMPONENT &lt;|-- ONDE_3DCAD
+  ONDE_ACQUISITION_TRAJECTORY &lt;|-- ONDE_ACQUISITION_GRID
+  ONDE_SPATIAL_TRAJECTORY &lt;|-- ONDE_ACQUISITION_GRID
+  ONDE_COMPONENT &lt;|-- ONDE_CYLINDER
+  ONDE_UT_COUPLING &lt;|-- ONDE_DUAL_WEDGE
+  ONDE_WEDGE &lt;|-- ONDE_DUAL_WEDGE
+  ONDE_GEOMETRIC_SETUP o-- ONDE_COMPONENT : COMPONENT
+  ONDE_GEOMETRIC_SETUP o-- ONDE_UT_PROBE : PROBE_LIST
+  ONDE_GEOMETRIC_SETUP o-- ONDE_ACQUISITION_TRAJECTORY : ACQUISITION_TRAJECTORY
+  ONDE_UT_COUPLING &lt;|-- ONDE_IMMERSION
+  ONDE_UT_PROBE &lt;|-- ONDE_LINEAR_UT_PROBE
+  ONDE_UT_PROBE &lt;|-- ONDE_MATRIX_UT_PROBE
+  ONDE_UT_PROBE &lt;|-- ONDE_MONO_UT_PROBE
+  ONDE_PHASED_ARRAY_SETUP &lt;|-- ONDE_PHASED_ARRAY_ANGLE
+  ONDE_PHASED_ARRAY_SETUP &lt;|-- ONDE_PHASED_ARRAY_COMPOUND
+  ONDE_PHASED_ARRAY_SETUP &lt;|-- ONDE_PHASED_ARRAY_ESCAN
+  ONDE_PHASED_ARRAY_SETUP &lt;|-- ONDE_PHASED_ARRAY_FMC
+  ONDE_PHASED_ARRAY_SETUP &lt;|-- ONDE_PHASED_ARRAY_PWI
+  ONDE_PHASED_ARRAY_SETUP &lt;|-- ONDE_PHASED_ARRAY_SSCAN
+  ONDE_COMPONENT &lt;|-- ONDE_PLANE
+  ONDE_SETUP o-- ONDE_ULTRASONIC_SETUP : ULTRASONIC_SETUP
+  ONDE_SETUP o-- ONDE_PHASED_ARRAY_SETUP : PHASED_ARRAY_SETUP
+  ONDE_SETUP o-- ONDE_GEOMETRIC_SETUP : GEOMETRIC_SETUP
+  ONDE_UT_COUPLING &lt;|-- ONDE_SINGLE_WEDGE
+  ONDE_ACQUISITION_TRAJECTORY &lt;|-- ONDE_SPATIAL_TRAJECTORY
+  ONDE_ACQUISITION_TRAJECTORY &lt;|-- ONDE_TIME_TRAJECTORY
+  ONDE_UT_DATASET &lt;|-- ONDE_UT_ASCAN_DATASET
+  ONDE_UT_DATASET &lt;|-- ONDE_UT_CSCAN_DATASET
+  ONDE_UT_CSCAN_DATASET o-- ONDE_ACQUISITION_TRAJECTORY : REFERENCE_TRAJECTORY
+  ONDE_UT_CSCAN_DATASET o-- ONDE_UT_GATE : GATES
+  ONDE_UT_DATASET o-- ONDE_SETUP : SETUP
+  ONDE_UT_PROBE o-- ONDE_UT_COUPLING : COUPLING
+  ONDE_UT_DATASET &lt;|-- ONDE_UT_TSCAN_DATASET
+  ONDE_UT_TSCAN_DATASET o-- ONDE_ACQUISITION_TRAJECTORY : REFERENCE_TRAJECTORY
+  ONDE_UT_TSCAN_DATASET o-- ONDE_UT_ASCAN_DATASET : ELEMENTARY_CHANNELS_DATASET
+  ONDE_UT_COUPLING &lt;|-- ONDE_WEDGE
+  ONDE_COMPONENT &lt;|-- ONDE_WELD
+  click ONDE_SINGLE_WEDGE href &quot;onde_single_wedge.html&quot;
+  click ONDE_PHASED_ARRAY_SSCAN href &quot;onde_phased_array_sscan.html&quot;
+  click ONDE_PHASED_ARRAY_ANGLE href &quot;onde_phased_array_angle.html&quot;
+  click ONDE_SETUP href &quot;onde_setup.html&quot;
+  click ONDE_SPATIAL_TRAJECTORY href &quot;onde_spatial_trajectory.html&quot;
+  click ONDE_PLANE href &quot;onde_plane.html&quot;
+  click ONDE_GEOMETRIC_SETUP href &quot;onde_geometric_setup.html&quot;
+  click ONDE_PHASED_ARRAY_PWI href &quot;onde_phased_array_pwi.html&quot;
+  click ONDE_PHASED_ARRAY_FMC href &quot;onde_phased_array_fmc.html&quot;
+  click ONDE_ACQUISITION_GRID href &quot;onde_acquisition_grid.html&quot;
+  click ONDE_WEDGE href &quot;onde_wedge.html&quot;
+  click ONDE_IMMERSION href &quot;onde_immersion.html&quot;
+  click ONDE_ULTRASONIC_SETUP href &quot;onde_ultrasonic_setup.html&quot;
+  click ONDE_PHASED_ARRAY_SETUP href &quot;onde_phased_array_setup.html&quot;
+  click ONDE_LINEAR_UT_PROBE href &quot;onde_linear_ut_probe.html&quot;
+  click ONDE_UT_DATASET href &quot;onde_ut_dataset.html&quot;
+  click ONDE_UT_GATE href &quot;onde_ut_gate.html&quot;
+  click ONDE_UT_PROBE href &quot;onde_ut_probe.html&quot;
+  click ONDE_PHASED_ARRAY_COMPOUND href &quot;onde_phased_array_compound.html&quot;
+  click ONDE_COMPONENT href &quot;onde_component.html&quot;
+  click ONDE_3DCAD href &quot;onde_3dcad.html&quot;
+  click ONDE_DUAL_WEDGE href &quot;onde_dual_wedge.html&quot;
+  click ONDE_UT_ASCAN_DATASET href &quot;onde_ut_ascan_dataset.html&quot;
+  click ROOT href &quot;root.html&quot;
+  click ONDE_PHASED_ARRAY_ESCAN href &quot;onde_phased_array_escan.html&quot;
+  click ONDE_CYLINDER href &quot;onde_cylinder.html&quot;
+  click ONDE_TIME_TRAJECTORY href &quot;onde_time_trajectory.html&quot;
+  click ONDE_UT_LAW href &quot;onde_ut_law.html&quot;
+  click ONDE_UT_CSCAN_DATASET href &quot;onde_ut_cscan_dataset.html&quot;
+  click ONDE_2DCAD href &quot;onde_2dcad.html&quot;
+  click ONDE_MONO_UT_PROBE href &quot;onde_mono_ut_probe.html&quot;
+  click ONDE_ACQUISITION_TRAJECTORY href &quot;onde_acquisition_trajectory.html&quot;
+  click ONDE_UT_TSCAN_DATASET href &quot;onde_ut_tscan_dataset.html&quot;
+  click ONDE_WELD href &quot;onde_weld.html&quot;
+  click ONDE_UT_COUPLING href &quot;onde_ut_coupling.html&quot;
+  click ONDE_MATRIX_UT_PROBE href &quot;onde_matrix_ut_probe.html&quot;
+  click ONDE_UT_ELEMENTS href &quot;onde_ut_elements.html&quot;
+    </pre><p><em>Figure 1: Relationships between the different blocks in the data model</em></p>
+<p>The ONDE format introduces an inheritance mechanism in order to specify the attributes that are mandatory and optional for a given group.
+The diagram in Figure 1 explains the relationships between the different blocks in the data model in an UML style.</p>
+<p>Three blocks type contain the data : namely, Ascan, Tscan and CScan (peak-like) blocks. Ascans can be used either to
+describe summed signals or elementary channels data. For Cscan block, it is possible to keep the track to the raw data (
+either Tscan or Ascan) from which the Cscan data originates. For Tscan blocks, it is possible to keep the track to the
+elementary channels. A link to the setup can be specified : it is attached to the raw data if it is available, to the
+post-processed data (Cscan or Tscan) otherwise.</p>
+<p>The setup description is organized in two blocks defining the ultrasonic setup and the geometric setup. In the
+ultrasonic setup we find the description of the electronic settings, with blocks describing the emitter and receive laws
+and the phased array setup for acquisition with multielement transducers.</p>
+<p>The geometric setup contains the dynamic description of the scene : inspected component, probes and acquisition
+trajectories. It is possible to define different trajectories for different probes or to have probes sharing the same
+trajectory, offsets retrieving the set of different probe positions from the trajectory.</p>
+</section>
+<section id="hdf5-implementation">
+<h2>HDF5 implementation<a class="headerlink" href="#hdf5-implementation" title="Link to this heading"></a></h2>
+<section id="entry-points">
+<h3>Entry points<a class="headerlink" href="#entry-points" title="Link to this heading"></a></h3>
+<p>/* TODO : update the description with Paul’s description of the link between the CSV specification and the hdf5 implementation */</p>
+<p>The blocks defined in the general structure are implemented as HDF5 groups, the name of which is free but which have a
+mandatory ‘TYPE’ attribute that defines their nature. The entry points are the xxx_DATASET groups (namely groups that have as a TYPE attribute
+ONDE_UT_ASCAN_DATASET, ONDE_UT_TSCAN_DATASET or ONDE_UT_CSCAN_DATASET)</p>
+<p>When discovering the content of a given file, the following procedure must therefore be applied :</p>
+<ul class="simple">
+<li><p>Read the ‘TYPE’ and ‘VERSION’ attributes at root level and verify the compatibility of the version number with the
+reader, and that the type is that of a UT ONDE file (‘ONDE_UT’)</p></li>
+<li><p>Read all groups in the file and identify the groups corresponding to the datasets blocks by checking
+which groups have a ‘TYPE’ attribute whose value is ‘ONDE_UT_ASCAN_DATASET’, ‘ONDE_UT_TSCAN_DATASET’, ‘ONDE_UT_CSCAN_DATASET’.</p></li>
+<li><p>From there follow the HDF5 references defined in the specification to retrieve the data arrays, the related datasets, the
+setup information, …</p></li>
+</ul>
+</section>
+<section id="rules-for-the-hdf5-groups">
+<h3>Rules for the HDF5 groups<a class="headerlink" href="#rules-for-the-hdf5-groups" title="Link to this heading"></a></h3>
+<p>The HDF5 implementation of the format follows the following rules :</p>
+<ul class="simple">
+<li><p>The extension of the HDF5 file is “.onde” (for Open Non Destructive Evaluation format)</p></li>
+<li><p>The block structure defined above is implemented with HDF5 groups. The name of the group is left at the discretion of
+the user. It is the mandatory TYPE attribute that defines the group type (ONDE_COMPONENT, ONDE_UT_PROBE, ONDE_ACQUISITION_TRAJECTORY,
+etc…).</p></li>
+<li><p>Links to other HDF5 groups are specific fields stored as HDF5 references or arrays of references.</p></li>
+<li><p>The following data types will be stored as attributes</p>
+<ul>
+<li><p>Integers</p></li>
+<li><p>Floating points</p></li>
+<li><p>Strings</p></li>
+<li><p>Vectors of dimension 2 or 3</p></li>
+</ul>
+</li>
+<li><p>The following data types will be stored as datasets</p>
+<ul>
+<li><p>Int arrays</p></li>
+<li><p>Float arrays</p></li>
+</ul>
+</li>
+<li><p>HDF5 polymorphism mechanism is used, so that the data can be stored with arbitrary precision (for instance, integers
+can be stored as INT16, INT32 or any user-defined integer length). The range of accessible data is implicitly defined
+by the HDF5 type. In the document, INT and FLOAT refer to this polymorphism. For instance, in the tables, an INT array
+should be interpreted as array pointing to any HDF5 integer type.</p></li>
+<li><p>The tables below specify the cardinality of the different HDF5 objects. For some of the table entries, we have given
+the liberty to specify one float instead of a complete vector. In this case, the same value implicitly applies to all
+elements of the vector. For example, it is allowed to provide a vector of size 1 for the frequency, instead of
+specifying the same frequency for all elements.</p></li>
+<li><p>For arrays (which are stored as HDF5 datasets), the tables give the dimensions of the array in row-major order (the
+last dimension corresponds to contiguous data in the file). Compression of arrays through the native compression schemes of the HDF5 libary
+(gzip3, Szip).</p></li>
+</ul>
+</section>
+</section>
+<section id="definition-of-frames">
+<h2>Definition of frames<a class="headerlink" href="#definition-of-frames" title="Link to this heading"></a></h2>
+<section id="d-frames">
+<h3>3D Frames<a class="headerlink" href="#d-frames" title="Link to this heading"></a></h3>
+<p>Figure 2 displays the different frames and convention involved in the positioning systems. The PCF (Probe Coordinate
+Frame) is the frame that is related to a specific probe or set of probes. It can be arbitrarily chosen to be centered
+along the piezoelectric cell, the index point, the carrier system, the Probe Center Separation for TOFD systems, etc…
+Through a rigid-body offset, it is related to the Trajectory Frame (TF), which for a given position is defined in
+relation to the Reference Frame. The list of these positions are defined in an Acquisition Trajectory block.</p>
+<p>The components frames are defined in the Reference Frame.</p>
+<p><img alt="Different frames and convention involved in the positioning systems" src="../images/media/figure2.png" /></p>
+<p><em>Figure 2: Different frames and convention involved in the positioning systems</em></p>
+<p>In the document, it was chosen to define the transformation between two frames in the shape of a vector consisting of 7
+values: 3 for the offset in terms of x,y,z directions, 4 for the rotation defining the frame expressed in terms of
+quaternions. The definition of rotations through quaternions was chosen because of its compactness and the absence of
+ambiguity (as opposed to Euler angles which require defining an ordering of the directions).</p>
+<p>The Wikipedia pages related to quaternion and rotation matrices provide formulae for the transition from the quaternion
+shape to rotation matrices and the reverse operation: <a class="reference external" href="https://en.wikipedia.org/wiki/Rotation_matrix#Quaternion">https://en.wikipedia.org/wiki/Rotation_matrix#Quaternion</a>.</p>
+<p>Throughout the document, a frame is provided for the following objects :</p>
+<ul class="simple">
+<li><p>The specimen frame,</p></li>
+<li><p>The trajectory frames (a frame for each position in the trajectory)</p></li>
+<li><p>The probe coordinate frames</p></li>
+<li><p>The elements</p></li>
+<li><p>The TFM Zones</p></li>
+<li><p>The index points</p></li>
+</ul>
+<p>The diagram displayed in Figure 3 defines the hierarchy between these frames:</p>
+<p><img alt="Hierarchy of the frames used for the geometric representation of the objects" src="../images/media/figure3.png" /></p>
+<p><em>Figure 3: Hierarchy of the frames used for the geometric representation of the objects</em></p>
+</section>
+<section id="id3">
+<h3>2D Frames<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>In order to refer to frames on unfolded 2D surfaces, we introduce the following transformation : the transformation
+between frame (O,u,v) and (O’,u’,v’) is expressed in the (O,a,b) frame by the (∆a,∆b,α) triplet.</p>
+<p><img alt="Definition of the (∆a,∆b,α) triplet defining transformation between two 2D frames" src="../images/media/figure4.png" /></p>
+<p><em>Figure 4: Definition of the (∆a,∆b,α) triplet defining transformation between two 2D frames</em></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="ONDE Format Specification" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="root.html" class="btn btn-neutral float-right" title="ONDE Format Root Fields" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, COFREND and EPRI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

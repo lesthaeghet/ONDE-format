@@ -1,0 +1,95 @@
+site_name: ONDE Format Specification
+use_directory_urls: false
+theme:
+  name: material
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+extra_css:
+  - stylesheets/extra.css
+nav:
+  - Overview: index.md
+
+  - ROOT: root.md
+
+  - ONDE_2DCAD: onde_2dcad.md
+
+  - ONDE_3DCAD: onde_3dcad.md
+
+  - ONDE_ACQUISITION_GRID: onde_acquisition_grid.md
+
+  - ONDE_ACQUISITION_TRAJECTORY: onde_acquisition_trajectory.md
+
+  - ONDE_COMPONENT: onde_component.md
+
+  - ONDE_CYLINDER: onde_cylinder.md
+
+  - ONDE_DUAL_WEDGE: onde_dual_wedge.md
+
+  - ONDE_GEOMETRIC_SETUP: onde_geometric_setup.md
+
+  - ONDE_IMMERSION: onde_immersion.md
+
+  - ONDE_LINEAR_UT_PROBE: onde_linear_ut_probe.md
+
+  - ONDE_MATRIX_UT_PROBE: onde_matrix_ut_probe.md
+
+  - ONDE_MONO_UT_PROBE: onde_mono_ut_probe.md
+
+  - ONDE_PHASED_ARRAY_ANGLE: onde_phased_array_angle.md
+
+  - ONDE_PHASED_ARRAY_COMPOUND: onde_phased_array_compound.md
+
+  - ONDE_PHASED_ARRAY_ESCAN: onde_phased_array_escan.md
+
+  - ONDE_PHASED_ARRAY_FMC: onde_phased_array_fmc.md
+
+  - ONDE_PHASED_ARRAY_PWI: onde_phased_array_pwi.md
+
+  - ONDE_PHASED_ARRAY_SETUP: onde_phased_array_setup.md
+
+  - ONDE_PHASED_ARRAY_SSCAN: onde_phased_array_sscan.md
+
+  - ONDE_PLANE: onde_plane.md
+
+  - ONDE_SETUP: onde_setup.md
+
+  - ONDE_SINGLE_WEDGE: onde_single_wedge.md
+
+  - ONDE_SPATIAL_TRAJECTORY: onde_spatial_trajectory.md
+
+  - ONDE_TIME_TRAJECTORY: onde_time_trajectory.md
+
+  - ONDE_ULTRASONIC_SETUP: onde_ultrasonic_setup.md
+
+  - ONDE_UT_ASCAN_DATASET: onde_ut_ascan_dataset.md
+
+  - ONDE_UT_COUPLING: onde_ut_coupling.md
+
+  - ONDE_UT_CSCAN_DATASET: onde_ut_cscan_dataset.md
+
+  - ONDE_UT_DATASET: onde_ut_dataset.md
+
+  - ONDE_UT_ELEMENTS: onde_ut_elements.md
+
+  - ONDE_UT_GATE: onde_ut_gate.md
+
+  - ONDE_UT_LAW: onde_ut_law.md
+
+  - ONDE_UT_PROBE: onde_ut_probe.md
+
+  - ONDE_UT_TSCAN_DATASET: onde_ut_tscan_dataset.md
+
+  - ONDE_WEDGE: onde_wedge.md
+
+  - ONDE_WELD: onde_weld.md
