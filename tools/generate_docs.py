@@ -23,23 +23,7 @@ from typing import Dict, List, Optional, Any
 # PYDANTIC SCHEMA DEFINITIONS
 # ==========================================
 
-class OndeField(BaseModel):
-    full_name: str
-    required: bool = False
-    storage: Optional[str] = None
-    hdf5_type: str
-    description: str = ""
-    short_description: Optional[str] = None
-    dimensions: Optional[str] = None
-    allowed_values: Optional[str] = None
-    ref_target: Optional[str] = None
-
-class OndeClass(BaseModel):
-    onde_class: str
-    inherits: List[str] = []
-    accessories: List[str] = []
-    description: str = ""
-    fields: Dict[str, OndeField] = {}
+from schema_classes import OndeClass, OndeField
 
 # ==========================================
 # JINJA2 TEMPLATES
