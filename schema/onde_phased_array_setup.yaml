@@ -24,14 +24,14 @@ fields:
     full_name: ONDE_PHASED_ARRAY_SETUP:EMITTER_PROBE
     required: true
     storage: attribute
-    hdf5_type: H5T_STD_REF_OBJ
+    hdf5_type: H5T_STD_REF_OBJ<ONDE_UT_PROBE>
     description: ''
     dimensions: '1'
   RECEIVING_PROBE:
     full_name: ONDE_PHASED_ARRAY_SETUP:RECEIVING_PROBE
     required: true
     storage: attribute
-    hdf5_type: H5T_STD_REF_OBJ
+    hdf5_type: H5T_STD_REF_OBJ<ONDE_UT_PROBE>
     description: ''
     dimensions: '1'
   SEQUENCE_ANGLE_MODE:

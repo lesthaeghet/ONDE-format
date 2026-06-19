@@ -74,7 +74,7 @@ fields:
     full_name: ONDE_ACQUISITION_GRID:REFERENCE_SPECIMEN
     required: true
     storage: attribute
-    hdf5_type: H5T_STD_REF_OBJ
+    hdf5_type: H5T_STD_REF_OBJ<ONDE_COMPONENT>
     description: When defining an acquisition grid, it is necessary to define a reference
       specimen that is either a cylinder or a plane.
     dimensions: '1'

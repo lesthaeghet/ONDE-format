@@ -32,7 +32,7 @@ fields:
     full_name: ONDE_UT_LAW:PROBE
     required: true
     storage: dataset
-    hdf5_type: H5T_STD_REF_OBJ
+    hdf5_type: H5T_STD_REF_OBJ<ONDE_UT_PROBE>
     description: ''
     dimensions: '[N_C<k>]'
   ELEMENT:
