@@ -60,14 +60,6 @@ description: '### Probes
 
   probes, a negative one for surrounded probes.'
 fields:
-  TYPE:
-    full_name: ONDE:TYPE
-    required: true
-    storage: attribute
-    hdf5_type: H5T_STRING
-    description: ''
-    dimensions: '[1]'
-    allowed_values: '["ONDE_UT_PROBE"]'
   TYPE_TAGS:
     full_name: ONDE:TYPE_TAGS
     required: true
@@ -125,7 +117,7 @@ fields:
     hdf5_type: H5T_STRING
     description: Defines the shape of the surface on which the elements are arranged
       - if absent, FLAT is assumed
-    allowed_values: FLAT|"CYLINDRICAL_INC"|"CYLINDRICAL_PERP"|"SPHERICAL"|"BIFOCAL"|"TRIFOCAL"
+    allowed_values: '"FLAT"|"CYLINDRICAL_INC"|"CYLINDRICAL_PERP"|"SPHERICAL"|"BIFOCAL"|"TRIFOCAL"'
   FOCUSING_SURFACE_PARAMETERS:
     full_name: ONDE_UT_PROBE:FOCUSING_SURFACE_PARAMETERS
     required: false

@@ -23,7 +23,7 @@ from typing import Dict, List, Optional, Any
 # PYDANTIC SCHEMA DEFINITIONS
 # ==========================================
 
-from schema_classes import OndeClass, OndeField
+from schema_classes import OndeClass, OndeModality, OndeField
 import re
 
 def get_ref_targets(hdf5_type):
@@ -68,6 +68,44 @@ classDiagram
 </div>
 {% endif %}
 """
+MODALITY_TEMPLATE = """\
+# {{ mod.modality }}
+
+{{ mod.description }}
+
+{% if fields_meta %}
+## Top-Level Fields
+
+<div class="field-list" markdown="1">
+{% for name, f in fields_meta %}
+<details class="field-details" markdown="1">
+<summary markdown="1"><div class="field-summary-top" markdown="span"><strong id="{{ mod.modality | lower }}-{{ name | lower | replace(' ', '-') }}"><code>{{ name }}</code></strong> &mdash; {{ f.short_desc }}</div><div class="field-summary-bottom" markdown="span">{{ f.html_type }}</div></summary>
+
+<div class="field-content" markdown="1">
+
+{{ f.description if f.description else "No detailed description provided." }}
+
+---
+
+**Type:** <span markdown="span">{{ f.html_type }}</span> | **Dimensions:** {% if f.dimensions %}`{{ f.dimensions }}`{% else %}-{% endif %} | **Required:** {{ f.req_str }} | **Storage:** {{ f.storage }}{% if f.allowed %} | **Allowed:** `{{ f.allowed }}`{% endif %}{% if f.min_value %} | **Min:** `{{ f.min_value }}`{% endif %}{% if f.max_value %} | **Max:** `{{ f.max_value }}`{% endif %}
+
+</div>
+</details>
+{% endfor %}
+</div>
+{% endif %}
+
+{% if mod.allowed_classes %}
+## Classes of Relevance
+
+The following classes are allowed in this modality in order:
+
+{% for c_name, c_link in allowed_classes_links -%}
+{% if c_link %}- [{{ c_name }}]({{ c_link }}){% else %}- {{ c_name }}{% endif %}
+{% endfor %}
+{% endif %}
+"""
+
 
 MKDOCS_YML = """\
 site_name: ONDE Format Specification
@@ -246,6 +284,7 @@ details.field-details .field-content hr {
     files = glob.glob(os.path.join(input_dir, '*.yaml'))
     
     parsed_classes = {}
+    parsed_modalities = {}
     children_map = {}
     
     print("Parsing and validating YAML files with Pydantic...")
@@ -254,20 +293,69 @@ details.field-details .field-content hr {
             data = yaml.safe_load(f)
             
         try:
-            # Validate with Pydantic
-            validated_data = OndeClass(**data)
-            cls_name = validated_data.onde_class
-            parsed_classes[cls_name] = validated_data
-            
-            for parent in validated_data.inherits:
-                children_map.setdefault(parent, []).append(cls_name)
+            if 'modality' in data:
+                validated_data = OndeModality(**data)
+                parsed_modalities[validated_data.modality] = validated_data
+            else:
+                validated_data = OndeClass(**data)
+                cls_name = validated_data.onde_class
+                parsed_classes[cls_name] = validated_data
+                
+                for parent in validated_data.inherits:
+                    children_map.setdefault(parent, []).append(cls_name)
         except ValidationError as e:
             print(f"Validation error in {filepath}:\n{e}")
             sys.exit(1)
             
+    # Inject TYPE fields dynamically
+    def get_inheritance_chain(c_name, visited=None):
+        if visited is None: visited = set()
+        if c_name in visited or c_name not in parsed_classes: return [c_name]
+        visited.add(c_name)
+        chain = []
+        parents = parsed_classes[c_name].inherits
+        if parents:
+            chain.extend(get_inheritance_chain(parents[0], visited))
+        chain.append(c_name)
+        return chain
+        
+    def get_relative_md_link(from_cls, to_cls):
+        from_chain = get_inheritance_chain(from_cls) if from_cls else []
+        to_chain = get_inheritance_chain(to_cls) if to_cls else []
+        ups = "../" * len(from_chain)
+        down = "/".join(c.lower() for c in to_chain) + "/index.md" if to_chain else "index.md"
+        return ups + down
+
+    def get_relative_html_link(from_cls, to_cls):
+        from_chain = get_inheritance_chain(from_cls) if from_cls else []
+        to_chain = get_inheritance_chain(to_cls) if to_cls else []
+        ups = "../" * len(from_chain)
+        down = "/".join(c.lower() for c in to_chain) + "/index.html" if to_chain else "index.html"
+        return ups + down
+
+    for cls_name, cls_obj in parsed_classes.items():
+        if cls_name == 'ONDE_UT': continue
+        chain = get_inheritance_chain(cls_name)
+        allowed_str = '["' + '", "'.join(chain) + '"]'
+        dim_str = f'[{len(chain)}]' if len(chain) > 1 else '1'
+        
+        type_field = OndeField(
+            full_name="ONDE:TYPE",
+            required=True,
+            storage="attribute",
+            hdf5_type="H5T_STRING",
+            description="",
+            dimensions=dim_str,
+            allowed_values=allowed_str
+        )
+        # Prepend TYPE field
+        new_fields = {'TYPE': type_field}
+        new_fields.update(cls_obj.fields)
+        cls_obj.fields = new_fields
+            
     print("Building relationships and generating Markdown...")
     class_names = list(parsed_classes.keys())
-    class_names.sort(key=lambda x: ("" if x == 'ROOT' else x))
+    class_names.sort()
     
     template = Template(CLASS_TEMPLATE)
     
@@ -316,7 +404,7 @@ details.field-details .field-content hr {
             mermaid_lines.append(f"  {cls_name}")
                 
         for c in unique_classes:
-            mermaid_lines.append(f'  click {c} href "{c.lower()}.html"')
+            mermaid_lines.append(f'  click {c} href "{get_relative_html_link(cls_name, c)}"')
             
         mermaid_graph = "\n".join(mermaid_lines)
         
@@ -364,10 +452,10 @@ details.field-details .field-content hr {
             ref_targets = get_ref_targets(f.hdf5_type)
             for ref_target in ref_targets:
                 if ref_target in parsed_classes:
-                    html_type = html_type.replace(f"&lt;{ref_target}&gt;", f"&lt;[{ref_target}]({ref_target.lower()}.md)&gt;")
+                    target_md = get_relative_md_link(cls_name, ref_target)
+                    html_type = html_type.replace(f"&lt;{ref_target}&gt;", f"&lt;[{ref_target}]({target_md})&gt;")
                     
             allowed = (f.allowed_values or '')
-            allowed = allowed.replace('["', '').replace('"]', '').replace('", "', ', ')
             
             dims = (f.dimensions or '')
             
@@ -397,9 +485,32 @@ details.field-details .field-content hr {
             fields_meta=fields_meta,
             all_fields=all_fields
         )
-        md_content = md_content.replace('../images/', 'images/')
         
-        out_filepath = os.path.join(docs_dir, f"{cls_name.lower()}.md")
+        # Rewrite hardcoded markdown links
+        import re
+        def link_replacer(m):
+            link_text = m.group(1)
+            target = m.group(2)
+            target_file = target.split('#')[0]
+            anchor = '#' + target.split('#')[1] if '#' in target else ''
+            
+            if target_file == 'index.md':
+                return f"[{link_text}]({get_relative_md_link(cls_name, None)}{anchor})"
+                
+            target_class = target_file.replace('.md', '').upper()
+            if target_class in parsed_classes:
+                return f"[{link_text}]({get_relative_md_link(cls_name, target_class)}{anchor})"
+            return m.group(0)
+            
+        md_content = re.sub(r'\[(.*?)\]\(([a-zA-Z0-9_]+\.md(?:#[a-zA-Z0-9_-]+)?)\)', link_replacer, md_content)
+        
+        # Images need to go up to the root docs dir first
+        ups = "../" * len(get_inheritance_chain(cls_name))
+        md_content = md_content.replace('../images/', f'{ups}images/')
+        
+        out_rel_filepath = get_relative_md_link(None, cls_name)
+        out_filepath = os.path.join(docs_dir, out_rel_filepath)
+        os.makedirs(os.path.dirname(out_filepath), exist_ok=True)
         with open(out_filepath, 'w', encoding='utf-8') as f:
             f.write(md_content)
             
@@ -422,7 +533,7 @@ details.field-details .field-content hr {
                         unique_classes.add(ref)
                     
         for c in unique_classes:
-            master_lines.append(f'  click {c} href "{c.lower()}.html"')
+            master_lines.append(f'  click {c} href "{get_relative_html_link(None, c)}"')
             
         master_mermaid = "classDiagram\n" + "\n".join(master_lines)
         
@@ -443,19 +554,9 @@ details.field-details .field-content hr {
         for parent in parsed_classes[c].inherits:
             has_incoming[c] = True
             
-        for fname, field in parsed_classes[c].fields.items():
-            refs = get_ref_targets(field.hdf5_type)
-            for ref in refs:
-                if ref in parsed_classes:
-                    has_incoming[ref] = True
-                    children_map.setdefault(c, []).append(ref)
-                
-    accessory_classes = set()
-    for obj in parsed_classes.values():
-        accessory_classes.update(obj.accessories)
-        
-    root_classes = [c for c in parsed_classes if not has_incoming[c] and c not in accessory_classes]
-    root_classes.sort(key=lambda x: ("" if x == 'ROOT' else x))
+
+    root_classes = [c for c in parsed_classes if not has_incoming[c]]
+    root_classes.sort()
 
     def build_nav(class_name, indent=2, visited=None):
         if visited is None: visited = set()
@@ -464,24 +565,84 @@ details.field-details .field-content hr {
         
         lines = []
         children = sorted(list(set(children_map.get(class_name, []))))
+        md_relpath = get_relative_md_link(None, class_name)
         
         if not children:
-            lines.append(f"{' '*indent}- {class_name}: {class_name.lower()}.md")
+            lines.append(f"{' '*indent}- {class_name}: {md_relpath}")
         else:
             lines.append(f"{' '*indent}- {class_name}:")
-            lines.append(f"{' '*(indent+4)}- {class_name}: {class_name.lower()}.md")
+            lines.append(f"{' '*(indent+4)}- {md_relpath}")
             for child in children:
                 lines.extend(build_nav(child, indent+4, set(visited)))
         return lines
 
     nav_lines = []
+    
+    if parsed_modalities:
+        impl_dir = os.path.join(docs_dir, 'implementations')
+        os.makedirs(impl_dir, exist_ok=True)
+        
+        with open(os.path.join(impl_dir, 'index.md'), 'w', encoding='utf-8') as f:
+            f.write("# Implementations\n\nThis section contains documentation for specific implementations or modalities of the ONDE format.\n")
+            
+        nav_lines.append("  - Implementations:")
+        nav_lines.append("    - implementations/index.md")
+        
+        for mod_name, mod_obj in parsed_modalities.items():
+            mod_filename = f"{mod_name.lower()}.md"
+            with open(os.path.join(impl_dir, mod_filename), 'w', encoding='utf-8') as f:
+                fields_meta = []
+                for fname, field in sorted(mod_obj.fields.items()):
+                    html_type = field.hdf5_type.replace('<', '&lt;').replace('>', '&gt;')
+                    ref_targets = get_ref_targets(field.hdf5_type)
+                    for ref_target in ref_targets:
+                        if ref_target in parsed_classes:
+                            target_chain = get_inheritance_chain(ref_target)
+                            target_md = "../" + "/".join(c.lower() for c in target_chain) + "/index.md" if target_chain else ""
+                            if target_md:
+                                html_type = html_type.replace(f"&lt;{ref_target}&gt;", f"&lt;[{ref_target}]({target_md})&gt;")
+                                
+                    short_desc = field.short_description or ""
+                    if not short_desc:
+                        full_desc = field.description or ""
+                        short_desc = full_desc.split('.')[0] + '.' if '.' in full_desc else full_desc
+                        if short_desc == '.': short_desc = ''
+                    short_desc = short_desc.replace('|', '\\|').replace('\n', '<br>')
+                    
+                    meta = {
+                        'full_name': field.full_name,
+                        'req_str': 'Yes' if field.required else 'No',
+                        'storage': field.storage or '',
+                        'html_type': html_type,
+                        'dimensions': field.dimensions or '',
+                        'allowed': field.allowed_values or '',
+                        'min_value': field.min_value or '',
+                        'max_value': field.max_value or '',
+                        'short_desc': short_desc,
+                        'description': field.description,
+                        'is_inherited': False,
+                        'is_accessory': False,
+                        'source': mod_name
+                    }
+                    fields_meta.append((fname, meta))
+                    
+                allowed_classes_links = []
+                for c_name in mod_obj.allowed_classes:
+                    to_chain = get_inheritance_chain(c_name)
+                    link = "../" + "/".join(c.lower() for c in to_chain) + "/index.md" if to_chain else ""
+                    allowed_classes_links.append((c_name, link))
+                    
+                md_content = Template(MODALITY_TEMPLATE).render(
+                    mod=mod_obj,
+                    fields_meta=fields_meta,
+                    allowed_classes_links=allowed_classes_links
+                )
+                f.write(md_content)
+            nav_lines.append(f"    - {mod_name}: implementations/{mod_filename}")
+
     for rc in root_classes:
         nav_lines.extend(build_nav(rc, 2))
         
-    if accessory_classes:
-        nav_lines.append("  - Accessory Classes:")
-        for acc in sorted(accessory_classes):
-            nav_lines.extend(build_nav(acc, 4))
     nav_yaml_str = "\n".join(nav_lines)
 
     # Write mkdocs.yml

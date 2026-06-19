@@ -3,14 +3,6 @@ inherits:
 - ONDE_COMPONENT
 description: ''
 fields:
-  TYPE:
-    full_name: ONDE:TYPE
-    required: true
-    storage: attribute
-    hdf5_type: H5T_STRING
-    description: ''
-    dimensions: '[2]'
-    allowed_values: '["ONDE_COMPONENT", "ONDE_WELD"]'
   EXTRUSION_TYPE:
     full_name: ONDE_WELD:EXTRUSION_TYPE
     required: true
@@ -18,7 +10,7 @@ fields:
     hdf5_type: H5T_STRING
     description: ''
     dimensions: '1'
-    allowed_values: PLANE|"CYLINDER"
+    allowed_values: '"PLANE"|"CYLINDER"'
   EXTRUSION_DIMENSION:
     full_name: ONDE_WELD:EXTRUSION_DIMENSION
     required: true
@@ -33,7 +25,7 @@ fields:
     hdf5_type: H5T_STRING
     description: ''
     dimensions: '1'
-    allowed_values: V|"U"
+    allowed_values: '"V"|"U"'
   WELD_SYMMETRY:
     full_name: ONDE_WELD:WELD_SYMMETRY
     required: true
@@ -41,7 +33,7 @@ fields:
     hdf5_type: H5T_STRING
     description: ''
     dimensions: '1'
-    allowed_values: SYMMETRIC|"STRAIGHT_LEFT"|"STRAIGHT_RIGHT"
+    allowed_values: '"SYMMETRIC"|"STRAIGHT_LEFT"|"STRAIGHT_RIGHT"'
   WELD_UPPER_CAP_WIDTH:
     full_name: ONDE_WELD:WELD_UPPER_CAP_WIDTH
     required: true

@@ -19,3 +19,9 @@ class OndeClass(BaseModel):
     accessories: List[str] = []
     description: str = ""
     fields: Dict[str, OndeField] = {}
+
+class OndeModality(BaseModel):
+    modality: str
+    description: str = ""
+    allowed_classes: List[str] = []
+    fields: Dict[str, OndeField] = {}

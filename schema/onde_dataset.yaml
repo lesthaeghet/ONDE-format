@@ -34,14 +34,6 @@ description: |
 
   [Phased array setup](onde_phased_array_setup.md)
 fields:
-  TYPE:
-    full_name: ONDE:TYPE
-    required: true
-    storage: attribute
-    hdf5_type: H5T_STRING
-    description: Represents a generic dataset
-    dimensions: '[1]'
-    allowed_values: '["ONDE_DATASET"]'
   LABEL:
     full_name: ONDE:LABEL
     required: false

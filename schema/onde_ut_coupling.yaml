@@ -2,14 +2,6 @@ onde_class: ONDE_UT_COUPLING
 inherits: []
 description: ''
 fields:
-  TYPE:
-    full_name: ONDE:TYPE
-    required: true
-    storage: attribute
-    hdf5_type: H5T_STRING
-    description: ''
-    dimensions: '[1]'
-    allowed_values: '["ONDE_UT_COUPLING"]'
   MEDIUM_VELOCITY:
     full_name: ONDE_UT_COUPLING:MEDIUM_VELOCITY
     required: true

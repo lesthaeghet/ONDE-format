@@ -24,13 +24,6 @@ description: '### Geometric setup
 
   identity is assumed if not provided.'
 fields:
-  TYPE:
-    full_name: ONDE:TYPE
-    required: true
-    storage: attribute
-    hdf5_type: H5T_STRING
-    description: ''
-    allowed_values: '["ONDE_GEOMETRIC_SETUP"]'
   COMPONENT:
     full_name: ONDE_GEOMETRIC_SETUP:COMPONENT
     required: false

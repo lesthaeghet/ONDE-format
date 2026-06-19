@@ -15,14 +15,6 @@ description: '### Ascan datasets
 
   dataset located in another part of the HDF5 structure.'
 fields:
-  TYPE:
-    full_name: ONDE:TYPE
-    required: true
-    storage: attribute
-    hdf5_type: H5T_STRING
-    description: ''
-    dimensions: '[3]'
-    allowed_values: '["ONDE_DATASET", "ONDE_DATASET_UT", "ONDE_DATASET_UT_ASCAN"]'
   DATA:
     full_name: ONDE_DATASET:DATA
     required: false

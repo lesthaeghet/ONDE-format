@@ -2,14 +2,6 @@ onde_class: ONDE_UT_GATE
 inherits: []
 description: ''
 fields:
-  TYPE:
-    full_name: ONDE:TYPE
-    required: true
-    storage: attribute
-    hdf5_type: H5T_STRING
-    description: ''
-    dimensions: '[1]'
-    allowed_values: '["ONDE_UT_GATE"]'
   START:
     full_name: ONDE_UT_GATE:START
     required: false
@@ -40,7 +32,7 @@ fields:
     hdf5_type: H5T_STRING
     description: ''
     dimensions: '1'
-    allowed_values: FIRST_PEAK|"LAST_PEAK"|"MAX_PEAK"|"FIRST_FLANK"|"LAST_FLANK"|"MAX_FLANK"
+    allowed_values: '"FIRST_PEAK"|"LAST_PEAK"|"MAX_PEAK"|"FIRST_FLANK"|"LAST_FLANK"|"MAX_FLANK"'
   POLARITY:
     full_name: ONDE_UT_GATE:POLARITY
     required: false
@@ -48,4 +40,4 @@ fields:
     hdf5_type: H5T_STRING
     description: ''
     dimensions: '1'
-    allowed_values: ABSOLUTE|"POSITIVE"|"NEGATIVE"
+    allowed_values: '"ABSOLUTE"|"POSITIVE"|"NEGATIVE"'

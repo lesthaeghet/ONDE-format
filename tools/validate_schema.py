@@ -2,36 +2,41 @@
 import os
 import sys
 import yaml
+import glob
 from pydantic import ValidationError
 
 # Ensure we can import from tools even if called from root
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from schema_classes import OndeClass
+from schema_classes import OndeClass, OndeModality
 
 def validate_all():
     schema_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'schema')
     if not os.path.isdir(schema_dir):
         print(f"Directory {schema_dir} not found.")
-        sys.exit(1)
-
-    yaml_files = [os.path.join(schema_dir, f) for f in os.listdir(schema_dir) if f.endswith('.yaml')]
+        return False
+        
+    yaml_files = glob.glob(os.path.join(schema_dir, '*.yaml'))
+    print(f"Found {len(yaml_files)} YAML files to validate.")
     
     errors = 0
     parsed_classes = {}
-
-    print(f"Found {len(yaml_files)} YAML files to validate.")
+    parsed_modalities = {}
     
-    # Pass 1: Validate individual file schemas
     for f in yaml_files:
         with open(f, 'r', encoding='utf-8') as file:
             try:
                 data = yaml.safe_load(file)
-                if data is None:
-                    print(f"❌ Error: {os.path.basename(f)} is empty.")
+                if not isinstance(data, dict):
+                    print(f"❌ {os.path.basename(f)} is not a valid YAML dictionary.")
                     errors += 1
                     continue
-                c = OndeClass(**data)
-                parsed_classes[c.onde_class] = c
+                
+                if 'modality' in data:
+                    c = OndeModality(**data)
+                    parsed_modalities[c.modality] = c
+                else:
+                    c = OndeClass(**data)
+                    parsed_classes[c.onde_class] = c
                 print(f"✅ {os.path.basename(f)} valid")
             except ValidationError as e:
                 print(f"❌ Validation error in {os.path.basename(f)}:")

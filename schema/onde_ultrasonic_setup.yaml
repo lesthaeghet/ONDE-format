@@ -38,14 +38,6 @@ description: "\n### Ultrasonic setup\n\n**Acquisition gate**\n\nThe acquisition 
   \nVariable gates are not handled in this version -- it can be emulated by zero---padding\
   \ the data block"
 fields:
-  TYPE:
-    full_name: ONDE:TYPE
-    required: true
-    storage: attribute
-    hdf5_type: H5T_STRING
-    description: ''
-    dimensions: '[1]'
-    allowed_values: '["ONDE_ULTRASONIC_SETUP"]'
   LABEL:
     full_name: ONDE:LABEL
     required: false
@@ -60,7 +52,7 @@ fields:
     hdf5_type: H5T_STRING
     description: Defines if the data are FULL_WAVE or RECTIFIED_POSITIVE, RECTIFIED_NEGATIVE,
       RECTIFIED_FULL
-    allowed_values: FULL_WAVE,"RECTIFIED_POSITIVE","RECTIFIED_NEGATIVE","RECTIFIED_FULL"
+    allowed_values: '"FULL_WAVE","RECTIFIED_POSITIVE","RECTIFIED_NEGATIVE","RECTIFIED_FULL"'
   FILTER_TYPE:
     full_name: ONDE_ULTRASONIC_SETUP:FILTER_TYPE
     required: false
@@ -68,7 +60,7 @@ fields:
     hdf5_type: H5T_STRING
     description: 'Defines the type of filtering applied to the signals : NO_FILTER,
       LOW_PASS, HIGH_PASS, BAND_PASS, OTHER'
-    allowed_values: NO_FILTER,"LOW_PASS","HIGH_PASS","BAND_PASS","OTHER"
+    allowed_values: '"NO_FILTER","LOW_PASS","HIGH_PASS","BAND_PASS","OTHER"'
   FILTER_PARAMETERS:
     full_name: ONDE_ULTRASONIC_SETUP:FILTER_PARAMETERS
     required: false

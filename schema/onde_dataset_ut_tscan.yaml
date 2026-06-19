@@ -26,14 +26,6 @@ description: "### Tscan datasets\n\n**General**\n\nEven though the name (Tscans 
   \n**Pixel ordering**\n\nThe pixels are stored in the (X,Y,Z) order (X being the\
   \ outer loop, Z the inner loop in the array)"
 fields:
-  TYPE:
-    full_name: ONDE:TYPE
-    required: true
-    storage: attribute
-    hdf5_type: H5T_STRING
-    description: ''
-    dimensions: '[3]'
-    allowed_values: '["ONDE_DATASET", "ONDE_DATASET_UT", "ONDE_DATASET_UT_TSCAN"]'
   DATA:
     full_name: ONDE_DATASET:DATA
     required: true

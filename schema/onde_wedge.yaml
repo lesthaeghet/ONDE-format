@@ -41,14 +41,6 @@ description: "**Wedge angles conventions**\n\nFor contact probes, wedge angles a
   \ velocities (Longitudinal and shear) are not available, the missing one should\
   \ be replaced by a\nNaN)."
 fields:
-  TYPE:
-    full_name: ONDE:TYPE
-    required: true
-    storage: attribute
-    hdf5_type: H5T_STRING
-    description: ''
-    dimensions: '[2]'
-    allowed_values: '["ONDE_UT_COUPLING", "ONDE_WEDGE"]'
   LABEL:
     full_name: ONDE:LABEL
     required: false
@@ -77,7 +69,7 @@ fields:
     hdf5_type: H5T_STRING
     description: Type of the wedge contact surface - PLANAR, SPHERICAL, CYLINDRICAL_MAJOR,
       CYLINDRICAL_MINOR - If missing PLANAR assumed
-    allowed_values: PLANAR|"SPHERICAL"|"CYLINDRICAL_MAJOR"|"CYLINDRICAL_MINOR"
+    allowed_values: '"PLANAR"|"SPHERICAL"|"CYLINDRICAL_MAJOR"|"CYLINDRICAL_MINOR"'
   CURVATURE_RADIUS:
     full_name: ONDE_WEDGE:CURVATURE_RADIUS
     required: false
