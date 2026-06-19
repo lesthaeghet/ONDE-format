@@ -2009,12 +2009,12 @@
 <h1 id="onde_dataset_ut_cscan">ONDE_DATASET_UT_CSCAN</h1>
 <pre class="mermaid"><code>classDiagram
   ONDE_DATASET_UT &lt;|-- ONDE_DATASET_UT_CSCAN
-  ONDE_DATASET_UT_CSCAN o-- ONDE_UT_GATE : DATA
-  ONDE_DATASET_UT_CSCAN o-- ONDE_UT_GATE : CSCAN_GRID
+  ONDE_DATASET_UT_CSCAN o-- ONDE_ACQUISITION_GRID : CSCAN_GRID
   ONDE_DATASET_UT_CSCAN o-- ONDE_UT_GATE : GATES
-  click ONDE_DATASET_UT_CSCAN href "../../../onde_dataset/onde_dataset_ut/onde_dataset_ut_cscan/index.html"
-  click ONDE_UT_GATE href "../../../onde_ut_gate/index.html"
   click ONDE_DATASET_UT href "../../../onde_dataset/onde_dataset_ut/index.html"
+  click ONDE_UT_GATE href "../../../onde_ut_gate/index.html"
+  click ONDE_DATASET_UT_CSCAN href "../../../onde_dataset/onde_dataset_ut/onde_dataset_ut_cscan/index.html"
+  click ONDE_ACQUISITION_GRID href "../../../onde_acquisition_trajectory/onde_spatial_trajectory/onde_acquisition_grid/index.html"
   style ONDE_DATASET_UT_CSCAN stroke:#3f51b5,stroke-width:3px</code></pre>
 <h3 id="cscan-datasets-and-gates">CScan datasets and gates</h3>
 <p><strong>CScan data and peaks</strong></p>
@@ -2071,24 +2071,24 @@ GATE_POLARITY defines the mode that was used for the detection (absolute, positi
 <summary>
 <div class="field-summary-top"><strong id="onde_dataset_ut_cscan-cscan_grid"><code>CSCAN_GRID</code></strong> &mdash; </div>
 
-<div class="field-summary-bottom">H5T_STD_REF_OBJ&lt;<a href="../../../onde_ut_gate/index.html">ONDE_UT_GATE</a>&gt;</div>
+<div class="field-summary-bottom">H5T_STD_REF_OBJ&lt;<a href="../../../onde_acquisition_trajectory/onde_spatial_trajectory/onde_acquisition_grid/index.html">ONDE_ACQUISITION_GRID</a>&gt;</div>
 </summary>
 <div class="field-content">
 <p>No detailed description provided.</p>
 <hr />
-<p><strong>Type:</strong> <span markdown="span">H5T_STD_REF_OBJ&lt;<a href="../../../onde_ut_gate/index.html">ONDE_UT_GATE</a>&gt;</span> | <strong>Dimensions:</strong> <code>1</code> | <strong>Required:</strong> Yes | <strong>Storage:</strong> attribute</p>
+<p><strong>Type:</strong> <span markdown="span">H5T_STD_REF_OBJ&lt;<a href="../../../onde_acquisition_trajectory/onde_spatial_trajectory/onde_acquisition_grid/index.html">ONDE_ACQUISITION_GRID</a>&gt;</span> | <strong>Dimensions:</strong> <code>1</code> | <strong>Required:</strong> Yes | <strong>Storage:</strong> attribute</p>
 </div>
 </details>
 <details class="field-details">
 <summary>
 <div class="field-summary-top"><strong id="onde_dataset_ut_cscan-data"><code>DATA</code></strong> &mdash; references to arrays containing the different values stored in the dataset</div>
 
-<div class="field-summary-bottom">H5T_STD_REF_OBJ&lt;<a href="../../../onde_ut_gate/index.html">ONDE_UT_GATE</a>&gt; or HT5_INTEGER</div>
+<div class="field-summary-bottom">H5T_STD_REF_OBJ&lt;data&gt; or H5T_INTEGER or H5T_FLOAT</div>
 </summary>
 <div class="field-content">
 <p>references to arrays containing the different values stored in the dataset</p>
 <hr />
-<p><strong>Type:</strong> <span markdown="span">H5T_STD_REF_OBJ&lt;<a href="../../../onde_ut_gate/index.html">ONDE_UT_GATE</a>&gt; or HT5_INTEGER</span> | <strong>Dimensions:</strong> <code>[N_CS&lt;m&gt;] |[N_CS&lt;m&gt;,N_Gate&lt;m&gt;]</code> | <strong>Required:</strong> Yes | <strong>Storage:</strong> A or D</p>
+<p><strong>Type:</strong> <span markdown="span">H5T_STD_REF_OBJ&lt;data&gt; or H5T_INTEGER or H5T_FLOAT</span> | <strong>Dimensions:</strong> <code>[N_CS&lt;m&gt;] |[N_CS&lt;m&gt;,N_Gate&lt;m&gt;]</code> | <strong>Required:</strong> Yes | <strong>Storage:</strong> A or D</p>
 </div>
 </details>
 <details class="field-details">
@@ -2167,12 +2167,12 @@ GATE_POLARITY defines the mode that was used for the detection (absolute, positi
 <summary>
 <div class="field-summary-top"><strong id="onde_dataset_ut_cscan-setup"><code>SETUP</code></strong> <span class="inherited-badge" markdown="span">Inherited from <a href="../../index.html">ONDE_DATASET</a></span> &mdash; </div>
 
-<div class="field-summary-bottom">H5T_STD_REF_OBJ&lt;<a href="../../../onde_dimension/index.html">ONDE_DIMENSION</a>&gt;</div>
+<div class="field-summary-bottom">H5T_STD_REF_OBJ&lt;<a href="../../../onde_setup/index.html">ONDE_SETUP</a>&gt;</div>
 </summary>
 <div class="field-content">
 <p>No detailed description provided.</p>
 <hr />
-<p><strong>Type:</strong> <span markdown="span">H5T_STD_REF_OBJ&lt;<a href="../../../onde_dimension/index.html">ONDE_DIMENSION</a>&gt;</span> | <strong>Dimensions:</strong> <code>1</code> | <strong>Required:</strong> Yes | <strong>Storage:</strong> attribute</p>
+<p><strong>Type:</strong> <span markdown="span">H5T_STD_REF_OBJ&lt;<a href="../../../onde_setup/index.html">ONDE_SETUP</a>&gt;</span> | <strong>Dimensions:</strong> <code>1</code> | <strong>Required:</strong> Yes | <strong>Storage:</strong> attribute</p>
 </div>
 </details>
 <details class="field-details">
