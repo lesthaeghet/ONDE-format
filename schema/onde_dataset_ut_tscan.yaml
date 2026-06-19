@@ -38,7 +38,7 @@ fields:
     full_name: ONDE_DATASET:DATA
     required: true
     storage: A or D
-    hdf5_type: H5T_STD_REF_OBJ or HT5_INTEGER
+    hdf5_type: H5T_STD_REF_OBJ<ONDE_UT_ASCAN_DATASET> or HT5_INTEGER
     description: can be either an array or a reference to an array
     dimensions: 1 or [N_DF<m>,N_ROW<m>,N_COL<m>] or [N_DF<m>,NROW<m>,NCOL<m>,N_PLANE<m>]
   ZONE_FRAME:
@@ -81,8 +81,7 @@ fields:
     full_name: ONDE_DATASET_UT_TSCAN:SOURCE_ASCAN_DATASET
     required: true
     storage: attribute
-    hdf5_type: H5T_STD_REF_OBJ
+    hdf5_type: H5T_STD_REF_OBJ<ONDE_UT_ASCAN_DATASET>
     description: reference to the elementary channels ascans that were used for the
       reconstruction
-    ref_target: ONDE_UT_ASCAN_DATASET
     dimensions: '1'

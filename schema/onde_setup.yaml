@@ -19,7 +19,6 @@ fields:
     full_name: ONDE_SETUP:GEOMETRIC_SETUP
     required: true
     storage: attribute
-    hdf5_type: H5T_STD_REF_OBJ
+    hdf5_type: H5T_STD_REF_OBJ<ONDE_GEOMETRIC_SETUP>
     description: ''
-    ref_target: ONDE_GEOMETRIC_SETUP
     dimensions: '[1]'

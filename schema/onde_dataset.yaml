@@ -53,9 +53,8 @@ fields:
     full_name: ONDE_DATASET:SETUP
     required: true
     storage: attribute
-    hdf5_type: H5T_STD_REF_OBJ
+    hdf5_type: H5T_STD_REF_OBJ<ONDE_DIMENSION>
     description: ''
-    ref_target: ONDE_SETUP
     dimensions: '1'
   OPERATOR:
     full_name: ONDE_DATASET:OPERATOR
@@ -84,17 +83,15 @@ fields:
     full_name: ONDE_DATASET:AMPLITUDE_DIMENSION
     required: false
     storage: attribute
-    hdf5_type: H5T_STD_REF_OBJ
+    hdf5_type: H5T_STD_REF_OBJ<ONDE_DIMENSION>
     description: If absent, treated as coordinate "Amplitude", units "Arbitrary",
       offset 0.0, scale 1.0
-    ref_target: ONDE_DIMENSION
     dimensions: '1'
   INDEX_DIMENSIONS:
     full_name: ONDE_DATASET:INDEX_DIMENSIONS
     required: false
     storage: attribute
-    hdf5_type: H5T_STD_REF_OBJ
+    hdf5_type: H5T_STD_REF_OBJ<ONDE_DIMENSION>
     description: One entry per dimension of ONDE_DATASET:DATA. Any that are absent
       are treated as coordinate "Time", units "seconds", offset 0.0, scale 1.0
-    ref_target: ONDE_DIMENSION
     dimensions: '[n_data_dims]'

@@ -142,7 +142,6 @@ fields:
     full_name: ONDE_UT_PROBE:COUPLING
     required: true
     storage: attribute
-    hdf5_type: H5T_STD_REF_OBJ
+    hdf5_type: H5T_STD_REF_OBJ<ONDE_UT_COUPLING>
     description: Reference to the coupling system (wedge, immersion, direct)
-    ref_target: ONDE_UT_COUPLING
     dimensions: '1'

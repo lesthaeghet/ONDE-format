@@ -72,8 +72,8 @@ def generate_csv():
                     hdf5_type,
                     field.get('dimensions', ''),
                     field.get('allowed_values', ''),
-                    '',
-                    '',
+                    field.get('min_value', ''),
+                    field.get('max_value', ''),
                     ''
                 ]
                 

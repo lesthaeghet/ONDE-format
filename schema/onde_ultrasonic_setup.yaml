@@ -138,7 +138,6 @@ fields:
     required: false
     storage: attribute
     hdf5_type: H5T_STD_REF_OBJ<ONDE_PHASED_ARRAY_SETUP>
-    ref_target: ONDE_PHASED_ARRAY_SETUP
     description: ''
     dimensions: '1'
   TRANSMIT_LAW:
@@ -146,7 +145,6 @@ fields:
     required: true
     storage: dataset
     hdf5_type: H5T_STD_REF_OBJ<ONDE_UT_LAW>
-    ref_target: ONDE_UT_LAW
     description: Each A-scan in a dataframe must be associated with both a transmit
       and a receive focal law through the datafields. These contain HDF5 references
       to the groups which provide the detailed description of each focal laws (the
@@ -158,6 +156,5 @@ fields:
     required: false
     storage: dataset
     hdf5_type: H5T_STD_REF_OBJ<ONDE_UT_LAW>
-    ref_target: ONDE_UT_LAW
     description: Each A-scan in a dataframe must be associated with both a transmit and a receive focal law through the datafields. These contain HDF5 references to the groups which provide the detailed description of each focal laws (the same structure is used for both transmit and receive focal laws).Mandatory for phased array setups.
     dimensions: '[N_Ascan<m>] or [N_DF<m>,N_Ascan<m>]'

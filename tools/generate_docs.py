@@ -24,6 +24,11 @@ from typing import Dict, List, Optional, Any
 # ==========================================
 
 from schema_classes import OndeClass, OndeField
+import re
+
+def get_ref_targets(hdf5_type):
+    if not hdf5_type: return []
+    return re.findall(r'H5T_STD_REF_OBJ<([^>]+)>', hdf5_type)
 
 # ==========================================
 # JINJA2 TEMPLATES
@@ -55,7 +60,7 @@ classDiagram
 
 ---
 
-**Type:** <span markdown="span">{{ f.html_type }}</span> | **Dimensions:** {% if f.dimensions %}`{{ f.dimensions }}`{% else %}-{% endif %} | **Required:** {{ f.req_str }} | **Storage:** {{ f.storage }}{% if f.allowed %} | **Allowed:** `{{ f.allowed }}`{% endif %}
+**Type:** <span markdown="span">{{ f.html_type }}</span> | **Dimensions:** {% if f.dimensions %}`{{ f.dimensions }}`{% else %}-{% endif %} | **Required:** {{ f.req_str }} | **Storage:** {{ f.storage }}{% if f.allowed %} | **Allowed:** `{{ f.allowed }}`{% endif %}{% if f.min_value %} | **Min:** `{{ f.min_value }}`{% endif %}{% if f.max_value %} | **Max:** `{{ f.max_value }}`{% endif %}
 
 </div>
 </details>
@@ -283,10 +288,11 @@ details.field-details .field-content hr {
             unique_classes.add(child)
             
         for fname, field in cls_obj.fields.items():
-            ref = field.ref_target
-            if ref and ref in parsed_classes:
-                mermaid_lines.append(f"  {cls_name} o-- {ref} : {fname}")
-                unique_classes.add(ref)
+            refs = get_ref_targets(field.hdf5_type)
+            for ref in refs:
+                if ref in parsed_classes:
+                    mermaid_lines.append(f"  {cls_name} o-- {ref} : {fname}")
+                    unique_classes.add(ref)
                 
         # Add outgoing accessories
         for acc in cls_obj.accessories:
@@ -297,7 +303,7 @@ details.field-details .field-content hr {
         for other_name, other_obj in parsed_classes.items():
             if other_name == cls_name: continue
             for fname, field in other_obj.fields.items():
-                if field.ref_target == cls_name:
+                if cls_name in get_ref_targets(field.hdf5_type):
                     mermaid_lines.append(f"  {other_name} o-- {cls_name} : {fname}")
                     unique_classes.add(other_name)
             
@@ -355,16 +361,18 @@ details.field-details .field-content hr {
             
             # HTML type with hyperlink if ref target exists
             html_type = f.hdf5_type.replace('<', '&lt;').replace('>', '&gt;')
-            if f.ref_target:
-                if f.ref_target in parsed_classes:
-                    html_type += f"&lt;[{f.ref_target}]({f.ref_target.lower()}.md)&gt;"
-                else:
-                    html_type += f"&lt;{f.ref_target}&gt;"
+            ref_targets = get_ref_targets(f.hdf5_type)
+            for ref_target in ref_targets:
+                if ref_target in parsed_classes:
+                    html_type = html_type.replace(f"&lt;{ref_target}&gt;", f"&lt;[{ref_target}]({ref_target.lower()}.md)&gt;")
                     
             allowed = (f.allowed_values or '')
             allowed = allowed.replace('["', '').replace('"]', '').replace('", "', ', ')
             
             dims = (f.dimensions or '')
+            
+            min_val = f.min_value or ''
+            max_val = f.max_value or ''
             
             meta = {
                 'full_name': f.full_name,
@@ -373,6 +381,8 @@ details.field-details .field-content hr {
                 'html_type': html_type,
                 'dimensions': dims,
                 'allowed': allowed,
+                'min_value': min_val,
+                'max_value': max_val,
                 'short_desc': short_desc,
                 'description': f.description,
                 'is_inherited': is_inherited,
@@ -405,10 +415,11 @@ details.field-details .field-content hr {
                 master_lines.append(f"  {parent} <|-- {cls_name}")
                 unique_classes.add(parent)
             for fname, field in cls_obj.fields.items():
-                ref = field.ref_target
-                if ref and ref in parsed_classes:
-                    master_lines.append(f"  {cls_name} o-- {ref} : {fname}")
-                    unique_classes.add(ref)
+                refs = get_ref_targets(field.hdf5_type)
+                for ref in refs:
+                    if ref in parsed_classes:
+                        master_lines.append(f"  {cls_name} o-- {ref} : {fname}")
+                        unique_classes.add(ref)
                     
         for c in unique_classes:
             master_lines.append(f'  click {c} href "{c.lower()}.html"')
@@ -433,10 +444,11 @@ details.field-details .field-content hr {
             has_incoming[c] = True
             
         for fname, field in parsed_classes[c].fields.items():
-            ref = field.ref_target
-            if ref and ref in parsed_classes:
-                has_incoming[ref] = True
-                children_map.setdefault(c, []).append(ref)
+            refs = get_ref_targets(field.hdf5_type)
+            for ref in refs:
+                if ref in parsed_classes:
+                    has_incoming[ref] = True
+                    children_map.setdefault(c, []).append(ref)
                 
     accessory_classes = set()
     for obj in parsed_classes.values():

@@ -10,7 +10,8 @@ class OndeField(BaseModel):
     short_description: Optional[str] = None
     dimensions: Optional[str] = None
     allowed_values: Optional[str] = None
-    ref_target: Optional[str] = None
+    min_value: Optional[str] = None
+    max_value: Optional[str] = None
 
 class OndeClass(BaseModel):
     onde_class: str
