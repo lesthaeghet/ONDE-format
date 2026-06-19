@@ -406,7 +406,7 @@ details.field-details .field-content hr {
         for c in unique_classes:
             mermaid_lines.append(f'  click {c} href "{get_relative_html_link(cls_name, c)}"')
             
-        mermaid_lines.append(f'  style {cls_name} stroke-width:4px,stroke:var(--md-default-fg-color)')
+        mermaid_lines.append(f'  style {cls_name} stroke-width:4px')
             
         mermaid_graph = "\n".join(mermaid_lines)
         
