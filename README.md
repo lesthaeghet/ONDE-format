@@ -9,7 +9,7 @@ In order to achieve these objectives, it is based on the HDF5 library.
 
 The present repository contains the Single Source of Truth (SSOT) for the data model in the `class_definitions/` directory. The specification is defined through a series of YAML files. Each YAML file contains both the machine-readable metadata defining the HDF5 structure as well as the human-readable Markdown narrative explaining the concepts.
 
-The human-readable version resulting from this SSOT is available here : https://cofrend.github.io/ONDE-format/ [cofrend.github.io].
+The human-readable version resulting from this SSOT is available here : https://cofrend.github.io/ONDE-format/ .
 This version of the specification is the latest one available. 
 
 At this stage, only ultrasound testing is considered.
