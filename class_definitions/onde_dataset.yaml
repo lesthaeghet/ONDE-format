@@ -67,23 +67,26 @@ fields:
     required: false
     storage: A or D
     hdf5_type: H5T_STD_REF_OBJ<data> or H5T_INTEGER or H5T_FLOAT
-    description: Data can be either an array or a reference to an array. Omitting
-      this field is possible, in the event when Tscan or Cscan data is recorded but
-      the underlying Ascan data is not. The dimensions of the dataset are application
-      dependent, subclasses can override and specify the dimensions.
+    description: |-
+      Data can be either an array or a reference to an array. Omitting this
+      field is possible, in the event when Tscan or Cscan data is recorded but
+      the underlying Ascan data is not. The dimensions of the dataset are
+      application dependent, subclasses can override and specify the dimensions.
   AMPLITUDE_DIMENSION:
     full_name: ONDE_DATASET:AMPLITUDE_DIMENSION
     required: false
     storage: attribute
     hdf5_type: H5T_STD_REF_OBJ<ONDE_DIMENSION>
-    description: If absent, treated as coordinate "Amplitude", units "Arbitrary",
-      offset 0.0, scale 1.0
+    description: |-
+      If absent, treated as coordinate "Amplitude", units "Arbitrary", offset
+      0.0, scale 1.0
     dimensions: '1'
   INDEX_DIMENSIONS:
     full_name: ONDE_DATASET:INDEX_DIMENSIONS
     required: false
     storage: attribute
     hdf5_type: H5T_STD_REF_OBJ<ONDE_DIMENSION>
-    description: One entry per dimension of ONDE_DATASET:DATA. Any that are absent
-      are treated as coordinate "Time", units "seconds", offset 0.0, scale 1.0
+    description: |-
+      One entry per dimension of ONDE_DATASET:DATA. Any that are absent are
+      treated as coordinate "Time", units "seconds", offset 0.0, scale 1.0
     dimensions: '[n_data_dims]'

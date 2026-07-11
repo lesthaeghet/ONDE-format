@@ -94,20 +94,22 @@ fields:
     required: false
     storage: attribute
     hdf5_type: H5T_STRING
-    description: Defines the shape of the surface on which the elements are arranged
-      - if absent, FLAT is assumed
+    description: |-
+      Defines the shape of the surface on which the elements are arranged - if
+      absent, FLAT is assumed
     allowed_values: '"FLAT"|"CYLINDRICAL_INC"|"CYLINDRICAL_PERP"|"SPHERICAL"|"BIFOCAL"|"TRIFOCAL"'
   FOCUSING_SURFACE_PARAMETERS:
     full_name: ONDE_UT_PROBE:FOCUSING_SURFACE_PARAMETERS
     required: false
     storage: attribute
     hdf5_type: H5T_FLOAT
-    description: 'Multi values : value in mm - FLAT : no value - CYLINDRICAL_INC,
-      CYLINDRICAL_PER : Surface radius - SPHERICAL : Surface radius - BIFOCAL : Surface
-      radius in the incidence plane, surface radius in the plane perpendicular to
-      the incidence plane - TRIFOCAL : Surface radius in the incidence plane (bottom),
-      Surface radius in the incidence plane (top), surface radius in the plane perpendicular
-      to the incidence plane.'
+    description: |-
+      Multi values : value in mm - FLAT : no value - CYLINDRICAL_INC,
+      CYLINDRICAL_PER : Surface radius - SPHERICAL : Surface radius - BIFOCAL :
+      Surface radius in the incidence plane, surface radius in the plane
+      perpendicular to the incidence plane - TRIFOCAL : Surface radius in the
+      incidence plane (bottom), Surface radius in the incidence plane (top),
+      surface radius in the plane perpendicular to the incidence plane.
     dimensions: '[3]'
   COUPLING:
     full_name: ONDE_UT_PROBE:COUPLING

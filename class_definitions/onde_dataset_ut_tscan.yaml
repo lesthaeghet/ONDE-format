@@ -91,14 +91,16 @@ fields:
     required: false
     storage: attribute
     hdf5_type: H5T_INTEGER
-    description: Points the the index of the reference probe in the Geometric setup
-      probe list. Defaults to 0.
+    description: |-
+      Points the the index of the reference probe in the Geometric setup probe
+      list. Defaults to 0.
     dimensions: '1'
   SOURCE_ASCAN_DATASET:
     full_name: ONDE_DATASET_UT_TSCAN:SOURCE_ASCAN_DATASET
     required: true
     storage: attribute
     hdf5_type: H5T_STD_REF_OBJ<ONDE_UT_ASCAN_DATASET>
-    description: reference to the elementary channels ascans that were used for the
+    description: |-
+      reference to the elementary channels ascans that were used for the
       reconstruction
     dimensions: '1'

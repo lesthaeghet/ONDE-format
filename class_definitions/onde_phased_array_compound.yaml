@@ -4,8 +4,8 @@ inherits:
 description: |-
     **Compound**
 
-    The compound type mixes Escan and Sscan behavior (see [Figure
-    27](onde_phased_array_compound.md)). COMPOUND_INITIAL_ANGLE,
+    The compound type mixes Escan and Sscan behavior
+    (see [Figure 27](onde_phased_array_compound.md)). COMPOUND_INITIAL_ANGLE,
     COMPOUND_FINAL_ANGLE and COMPOUND_NUMBER_OF_ANGLES give the angle scope,
     while COMPOUND_NUMBER_OF_ELEMENTS gives the number of elements in the
     electronic scanning.

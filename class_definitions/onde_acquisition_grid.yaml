@@ -87,8 +87,9 @@ fields:
     required: true
     storage: attribute
     hdf5_type: H5T_STRING
-    description: Defines whether the data is ordered in the same direction for each
-      scan (COMB) or is inversed every second scan (RASTER)
+    description: |-
+      Defines whether the data is ordered in the same direction for each scan
+      (COMB) or is inversed every second scan (RASTER)
     dimensions: '1'
     allowed_values: '"COMB"|"RASTER"'
   U_ENCODER:
@@ -110,6 +111,7 @@ fields:
     required: false
     storage: dataset
     hdf5_type: H5T_FLOAT
-    description: For grid data, direction of the probe in the (u,v,w) coordinate system.
+    description: |-
+      For grid data, direction of the probe in the (u,v,w) coordinate system.
       Defaults to identity matrix.
     dimensions: '[3,3]'

@@ -56,8 +56,7 @@ description: |-
     The global coordinate system is distinct from the specimen coordinate system
     : for example, 2D and 3D CAD coordinates are defined in the specimen frame
     and repositioned in the global coordinate system with the transformation
-    defined in COMPONENT_FRAME ([see paragraph
-    1.6](index.md#definition-of-frames)).
+    defined in COMPONENT_FRAME ([see paragraph 1.6](index.md#definition-of-frames)).
 
     **Visualization CAD**
 
@@ -119,15 +118,17 @@ fields:
     required: false
     storage: attribute
     hdf5_type: H5T_FLOAT
-    description: Definition of the frame defining the visualisation CAD with offset
-      and quaternions in the specimen frame- Identity is used if absent
+    description: |-
+      Definition of the frame defining the visualisation CAD with offset and
+      quaternions in the specimen frame- Identity is used if absent
     dimensions: '[7]'
   COMPONENT_FRAME:
     full_name: ONDE_COMPONENT:COMPONENT_FRAME
     required: false
     storage: attribute
     hdf5_type: H5T_FLOAT
-    description: Definition of the specimen frame in the reference frame. If not provided,
+    description: |-
+      Definition of the specimen frame in the reference frame. If not provided,
       default value is identity with the reference frame.
     dimensions: '[7]'
   COMMENT:

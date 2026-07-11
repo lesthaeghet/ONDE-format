@@ -31,8 +31,8 @@ description: |-
     *[Figure 15](onde_wedge.md): Definition of wedge parameters for contact and dual probes*
 
     The definition of the index point for contact probes with planar and
-    cylindrical wedges along the major and minor axis are given in [Figure
-    16](onde_wedge.md), [Figure 17](onde_wedge.md), [Figure 18](onde_wedge.md)
+    cylindrical wedges along the major and minor axis are given in
+    [Figure 16](onde_wedge.md), [Figure 17](onde_wedge.md), [Figure 18](onde_wedge.md)
     respectively.
 
     ![Definition of wedge parameters for contact planar probe](../images/media/wedge_parameters_contact_planar.png "Figure 16")
@@ -48,9 +48,9 @@ description: |-
     *[Figure 18](onde_wedge.md): Definition of wedge parameters for CYLINDRICAL_MINOR contact probe*
 
     The definition of the index point for dual probes with planar and
-    cylindrical wedges along the major and minor axis are given in [Figure
-    19](onde_wedge.md), [Figure 20](onde_wedge.md) and [Figure
-    21](onde_wedge.md) respectively.
+    cylindrical wedges along the major and minor axis are given in
+    [Figure 19](onde_wedge.md), [Figure 20](onde_wedge.md) and
+    [Figure 21](onde_wedge.md) respectively.
 
     ![Definition of wedge parameters for a dual planar probe](../images/media/wedge_parameters_dual_planar.png "Figure 19")
 
@@ -95,7 +95,8 @@ fields:
     required: true
     storage: attribute
     hdf5_type: H5T_STRING
-    description: Type of the wedge contact surface - PLANAR, SPHERICAL, CYLINDRICAL_MAJOR,
+    description: |-
+      Type of the wedge contact surface - PLANAR, SPHERICAL, CYLINDRICAL_MAJOR,
       CYLINDRICAL_MINOR - If missing PLANAR assumed
     allowed_values: '"PLANAR"|"SPHERICAL"|"CYLINDRICAL_MAJOR"|"CYLINDRICAL_MINOR"'
   CURVATURE_RADIUS:
@@ -103,8 +104,13 @@ fields:
     required: false
     storage: attribute
     hdf5_type: H5T_FLOAT
-    description: 'Wedge curvature radius - Concave : positive - Convex : negative
-      - 0 in the case of a planar wedge - If missing 0 assumed.'
+    description: |-
+      Wedge curvature radius
+
+      - Concave : positive
+      - Convex : negative
+      - 0 in the case of a planar wedge
+      - If missing 0 assumed.
     dimensions: '1'
   CONTACT_AREA:
     full_name: ONDE_WEDGE:CONTACT_AREA
@@ -118,8 +124,9 @@ fields:
     required: true
     storage: attribute
     hdf5_type: H5T_FLOAT
-    description: For a wedge, distance of the ultrasonic beam between the probe center
-      and the index point (See Figure 15)
+    description: |-
+      For a wedge, distance of the ultrasonic beam between the probe center and
+      the index point (See Figure 15)
     dimensions: '1'
   SKEW_ANGLE:
     full_name: ONDE_WEDGE:SKEW_ANGLE
