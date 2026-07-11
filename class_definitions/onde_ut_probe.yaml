@@ -2,63 +2,35 @@ onde_class: ONDE_UT_PROBE
 inherits: []
 accessories:
 - ONDE_UT_ELEMENTS
-description: '### Probes
-
-
-  **Probe representation**
-
-
-  The probe block of the data model accommodates two distinct levels of representation:
-  a very generic one that describes
-
-  the exact positions and shapes of the elements forming the transducer and another
-  one that more closely follows ordinary
-
-  technical specifications of the transducer in terms of transducer dimension, pitch,
-  shape, wedge dimensions, etc...
-
-
-  As indicated in the preamble, as for other matters, we have imposed the generic
-  representations and provide optionally
-
-  the possibility to have a more NDE-oriented description.
-
-
-  **Dual probes**
-
-
-  In the file format, when using the NDE-oriented description, dual probes are handled
-  as one PROBE block. When using only
-
-  the generic description, the freedom to define one or two blocks remains, as in
-  MFMC and ECUF formats.
-
-
-  **Frequencies**
-
-
-  In order to accommodate for advanced setups, we have chosen to give the possibility
-  to define one frequency per element.
-
-  A common usage will however be to have one frequency for all elements, and in this
-  case, it is possible to define an
-
-  array of size one with the frequency applied to all elements. The same possibility
-  to provide one value applied to all
-
-  elements is also provided for other fields related to elements except ELEMENT_POSITION.
-  The cardinality can thus either
-
-  be 1 or N.
-
-
-  **Surrounded and surrounding probes**
-
-
-  These can be defined by using the cylindrical FOCALISATION_SURFACE. A positive radius
-  will be used for surrounding
-
-  probes, a negative one for surrounded probes.'
+description: |-
+    ### Probes
+  
+    **Probe representation**
+  
+    The probe block of the data model accommodates two distinct levels of representation: a very generic one that describes
+    the exact positions and shapes of the elements forming the transducer and another one that more closely follows ordinary
+    technical specifications of the transducer in terms of transducer dimension, pitch, shape, wedge dimensions, etc...
+  
+    As indicated in the preamble, as for other matters, we have imposed the generic representations and provide optionally
+    the possibility to have a more NDE-oriented description.
+  
+    **Dual probes**
+  
+    In the file format, when using the NDE-oriented description, dual probes are handled as one PROBE block. When using only
+    the generic description, the freedom to define one or two blocks remains, as in MFMC and ECUF formats.
+  
+    **Frequencies**
+  
+    In order to accommodate for advanced setups, we have chosen to give the possibility to define one frequency per element.
+    A common usage will however be to have one frequency for all elements, and in this case, it is possible to define an
+    array of size one with the frequency applied to all elements. The same possibility to provide one value applied to all
+    elements is also provided for other fields related to elements except ELEMENT_POSITION. The cardinality can thus either
+    be 1 or N.
+  
+    **Surrounded and surrounding probes**
+  
+    These can be defined by using the cylindrical FOCALISATION_SURFACE. A positive radius will be used for surrounding
+    probes, a negative one for surrounded probes.
 fields:
   TYPE_TAGS:
     full_name: ONDE:TYPE_TAGS
