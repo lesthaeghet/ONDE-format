@@ -9,9 +9,9 @@ description: |+
     While this Cscan dataset is mostly meant for the storage of peak-like data
     (amplitude, time of flight, etc…) it is more generic and can accommodate
     different values. DATA contains a vector of references to datasets containing scalar raw
-    data. The size of the data can be either \(N_{\mathrm{DF}}^{(m)} \times N_{\mathrm{Ascan}}^{(m)}\) arrays
-    (for data resulting from analysis of signals or \(N_{\mathrm{DF}}^{(m)}\) arrays for encoder
-    data or data resulting from Tscan or monoelement scans.
+    data. The size of the data can be either \(N_{\mathrm{DF}}^{<m>} \times N_{\mathrm{Ascan}}^{<m>}\) arrays
+    (for data resulting from analysis of signals) or \(N_{\mathrm{DF}}^{<m>}\) arrays (for encoder
+    data or data resulting from Tscan or monoelement scans).
 
     #### Data description
 

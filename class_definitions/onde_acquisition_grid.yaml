@@ -27,7 +27,7 @@ description: |-
 
     #### Grid positions
 
-    The grid positions which are targeted during the acquisition are given by U_GRID_DATA and V_GRID_DATA : these specify a
+    The grid positions which are targeted during the acquisition are given by U_GRID_DATA and V_GRID_DATA: these specify a
     cartesian grid. The actual values of the coder at each point of the grid are stored in U_ENCODER and V_ENCODER. For 1D
     acquisitions, V_GRID_DATA and V_ENCODER are not to be used.
 
