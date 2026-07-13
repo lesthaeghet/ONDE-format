@@ -8,7 +8,7 @@ description: |-
     a sweeping set of ultrasonic beams. [Figure 26](onde_phased_array_escan.md) illustrates an Escan for 4 consecutive elements with a step of 3 elements
     on a 32 element linear transducer.
 
-    ![EScan configuration](../images/media/escan_config.png "Figure 26")
+  ![EScan configuration](../images/media/escan_config.png "Figure 26")
 
     *[Figure 26](onde_phased_array_escan.md): EScan configuration*
 fields:

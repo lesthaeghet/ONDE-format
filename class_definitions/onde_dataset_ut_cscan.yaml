@@ -8,11 +8,10 @@ description: |+
 
     While this Cscan dataset is mostly meant for the storage of peak-like data
     (amplitude, time of flight, etc…) it is more generic and can accommodate
-    different values. DATA contains a vector of references to datasets
-    containing scalar raw data. The size of the data can be either
-    N_U<m> x N_V<m> x N_Ascan<m> arrays (for data resulting from analysis of
-    signals or N_U<m>xN_V<m> arrays for encoder data or data resulting from
-    Tscan or monoelement scans.
+    different values. DATA contains a vector of references to datasets containing scalar raw
+    data. The size of the data can be either \(N_{\mathrm{DF}}^{(m)} \times N_{\mathrm{Ascan}}^{(m)}\) arrays
+    (for data resulting from analysis of signals or \(N_{\mathrm{DF}}^{(m)}\) arrays for encoder
+    data or data resulting from Tscan or monoelement scans.
 
     #### Data description
 
@@ -78,9 +77,10 @@ fields:
     required: true
     storage: dataset
     hdf5_type: H5T_STRING
-    description: 'string defining the stored data - the name can be either custom
-      (MY_MATERIAL_PROPERTY for instance) or a standardized name : THICKNESS, TIME_OF_FLIGHT,
-      DEPTH, AMAX'
+    description: |-
+      string defining the stored data - the name can be either custom
+      (MY_MATERIAL_PROPERTY for instance) or a standardized name: THICKNESS,
+      TIME_OF_FLIGHT, DEPTH, AMAX
     dimensions: '[N_CS<m>]'
   UNDERLYING_DATA:
     full_name: ONDE_DATASET_UT_CSCAN:UNDERLYING_DATA
@@ -94,10 +94,11 @@ fields:
     required: true
     storage: dataset
     hdf5_type: H5T_INTEGER
-    description: Correspondancy between the C-Scan scalar data and the scan originating.
-      For a A-Scan, the scan is expressed in terms of (dataframe, law). For a 2D Tscan,
-      it will be (dataframe, column), for a 3D Tscan, it will be (dataframe, plane,
-      column)
+    description: |-
+      Correspondancy between the C-Scan scalar data and the scan originating.
+      For a A-Scan, the scan is expressed in terms of (dataframe, law). For a 2D
+      Tscan, it will be (dataframe, column), for a 3D Tscan, it will be
+      (dataframe, plane, column)
     dimensions: '[N_U<m>,N_V<m>,2] or [N_U<m>,N_V<m>,3]'
   CSCAN_GRID:
     full_name: ONDE_DATASET_UT_CSCAN:CSCAN_GRID

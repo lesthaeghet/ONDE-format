@@ -15,7 +15,8 @@ fields:
     required: true
     storage: attribute
     hdf5_type: H5T_FLOAT
-    description: For dual probes and only for dual probes defines the roof angle (See
+    description: |-
+      For dual probes and only for dual probes defines the roof angle (See
       Figure 15)
     dimensions: '1'
   SQUINT_ANGLE:

@@ -16,7 +16,8 @@ fields:
     required: false
     storage: A or D
     hdf5_type: H5T_STD_REF_OBJ<data> or H5T_INTEGER or H5T_FLOAT
-    description: Data can be either an array or a reference to an array. Omitting
-      this field is possible, in the event when Tscan or Cscan data is recorded but
+    description: |-
+      Data can be either an array or a reference to an array. Omitting this
+      field is possible, in the event when Tscan or Cscan data is recorded but
       the underlying Ascan data is not.
     dimensions: 1 or [N_U<m>,N_V<m>,N_Ascan<m>,Ntime<m>]

@@ -4,8 +4,10 @@ inherits:
 description: |-
     #### Conventions for cylindrical components
 
-    In the cylindrical coordinate system, the x direction is the one corresponding to the cylinder axis (see [Figure 7](onde_cylinder.md)). The
-    dimensions are given by CYLINDER_DIMENSIONS, with a triplet for outer diameter, thickness, and length .
+    In the cylindrical coordinate system, the x direction is the one
+    corresponding to the cylinder axis (see [Figure 7](onde_cylinder.md)). The
+    dimensions are given by CYLINDER_DIMENSIONS, with a triplet for outer
+    diameter, thickness, and length .
 
     ![Trajectory cylindrical coordinate system convention](../images/media/trajectory_cylindrical_coords.png "Figure 7")
 

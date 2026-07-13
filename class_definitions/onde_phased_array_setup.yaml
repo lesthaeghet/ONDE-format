@@ -9,7 +9,7 @@ description: |-
     permits any description and is fully generic). However, it is intended to cover most of the situations that are common
     in industrial controls and represent a large share of the acquisition files produced in the industry. In this version of
     the specification, it encompasses only the most basic setups. The SEQUENCE_TYPE field describes the sequence with the
-    following choice : ANGLE, SSCAN, ESCAN, COMPOUND, FMC, PWI, CUSTOM. The propagation mode used for the settings is given
+    following choice: ANGLE, SSCAN, ESCAN, COMPOUND, FMC, PWI, CUSTOM. The propagation mode used for the settings is given
     in SEQUENCE_ANGLE_MODE.
 
     ```mermaid

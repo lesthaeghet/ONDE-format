@@ -11,4 +11,13 @@ description: |-
     ONDE_ACQUISITION_TRAJECTORY class is subtyped in the ONDE_TIME_TRAJECTORY
     class, which describes the temporal trajectory of the acquisition frame.
 
+    #### Frame used for trajectory definition
+
+    The trajectory is given in the global reference frame.
+
+    #### Generic description
+
+    A generic description of the trajectory is given in the TRAJECTORY field. It
+    describes successive positions under the shape of frames, each giving a
+    position and an orientation.
 fields: {}

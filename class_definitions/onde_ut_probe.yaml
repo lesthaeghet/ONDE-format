@@ -9,7 +9,7 @@ description: |-
 
     The probe block of the data model accommodates two distinct levels of representation: a very generic one that describes
     the exact positions and shapes of the elements forming the transducer and another one that more closely follows ordinary
-    technical specifications of the transducer in terms of transducer dimension, pitch, shape, wedge dimensions, etc...
+    technical specifications of the transducer in terms of transducer dimension, pitch, shape, wedge dimensions, etc…
 
     As indicated in the preamble, as for other matters, we have imposed the generic representations and provide optionally
     the possibility to have a more NDE-oriented description.
@@ -87,20 +87,26 @@ fields:
     required: false
     storage: attribute
     hdf5_type: H5T_STRING
-    description: Defines the shape of the surface on which the elements are arranged
-      - if absent, FLAT is assumed
+    description: |-
+      Defines the shape of the surface on which the elements are arranged —if
+      absent, FLAT is assumed
     allowed_values: '"FLAT"|"CYLINDRICAL_INC"|"CYLINDRICAL_PERP"|"SPHERICAL"|"BIFOCAL"|"TRIFOCAL"'
   FOCUSING_SURFACE_PARAMETERS:
     full_name: ONDE_UT_PROBE:FOCUSING_SURFACE_PARAMETERS
     required: false
     storage: attribute
     hdf5_type: H5T_FLOAT
-    description: 'Multi values : value in mm - FLAT : no value - CYLINDRICAL_INC,
-      CYLINDRICAL_PER : Surface radius - SPHERICAL : Surface radius - BIFOCAL : Surface
-      radius in the incidence plane, surface radius in the plane perpendicular to
-      the incidence plane - TRIFOCAL : Surface radius in the incidence plane (bottom),
-      Surface radius in the incidence plane (top), surface radius in the plane perpendicular
-      to the incidence plane.'
+    description: |-
+      Multi values: value in mm
+
+      - FLAT: no value
+      - CYLINDRICAL_INC, CYLINDRICAL_PER: Surface radius
+      - SPHERICAL: Surface radius
+      - BIFOCAL: Surface radius in the incidence plane, surface radius in the plane
+        perpendicular to the incidence plane
+      - TRIFOCAL: Surface radius in the incidence plane (bottom), Surface radius in
+        the incidence plane (top), surface radius in the plane perpendicular to the
+        incidence plane.
     dimensions: '[3]'
   COUPLING:
     full_name: ONDE_UT_PROBE:COUPLING
