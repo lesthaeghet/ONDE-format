@@ -116,7 +116,7 @@ Definitions (derived from MFMC 2.0.0b specification)
 | N_U\<m\>      | Number of acquisition positions in the U direction for the m-th dataset  | 
 | N_V\<m\>      | Number of acquisition positions in the V direction for the m-th dataset  |
 
-Note : if N_U and N_V are defined (grid-like acquisition), N_DF\<m\> = N_U\<m\> x N_V\<m\>
+Note : N_DF\<m\> = N_U\<m\> x N_V\<m\>
 
 ## Data Model
 

@@ -10,9 +10,10 @@ description: |-
 
     #### Trajectories
 
-    ACQUISITION_TRAJECTORY gives references to the groups describing the trajectory -- references have the same order as
-    PROBE_LIST. PROBE_COORDINATE_FRAME can be used to define an offset between a referenced trajectory and the probe -
-    identity is assumed if not provided.
+    ACQUISITION_TRAJECTORY gives references to the groups describing the
+    trajectory —references have the same order as
+    PROBE_LIST. PROBE_COORDINATE_FRAME can be used to define an offset between a
+    referenced trajectory and the probe —identity is assumed if not provided.
 fields:
   COMPONENT:
     full_name: ONDE_GEOMETRIC_SETUP:COMPONENT
