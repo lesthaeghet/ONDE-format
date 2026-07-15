@@ -10,9 +10,9 @@ description: |-
     The size is provided through 6 parameters in ELEMENT_SIZE. These 6 parameters indicate the dimensions of each element
     according to their geometry, see [Figure 12](onde_ut_elements.md).
 
-    - ELE_GEOM_REC: \(\mathrm{Dim}_x, \mathrm{Dim}_y, 0.0, 0.0, 0.0, 0.0\).
-    - ELE_GEOM_RING_PART: \(R, e, \theta_{\min}, \theta_{\max}, 0.0, 0.0\)
-    - ELE_GEOM_ELLIPSE_PART: \(R_x, e_x, R_y, e_y, \theta_{\min}, \theta_{\max}\)
+    - ELE_GEOM_REC: Dim_x, Dim_y, 0.0, 0.0, 0.0, 0.0.
+    - ELE_GEOM_RING_PART: R, e, theta_min, theta_max, 0.0, 0.0
+    - ELE_GEOM_ELLIPSE_PART: R_x, e_x, R_y, e_y, theta_min, theta_max
 
     ![Different types of element shape](../images/media/element_shapes.png "Figure 12")
 
@@ -41,9 +41,9 @@ description: |-
     probe, the origin being taken on the major axis.
 
     For dual probes (see [Figure 14](onde_ut_elements.md)), the two probes have
-    a symmetrical cutout. The right probe has elements from \(1\) to \(N\) following the
+    a symmetrical cutout. The right probe has elements from 1 to N following the
     numbering convention established previously. The left probe has elements
-    from \(N+1\) to \(2N\) with a numbering symmetrical to that of the right probe
+    from N+1 to 2N with a numbering symmetrical to that of the right probe
     according to the major axis.
 
     ![Convention for element numbering](../images/media/element_numbering.png "Figure 13")

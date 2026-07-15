@@ -25,7 +25,7 @@ description: |-
     A common usage will however be to have one frequency for all elements, and in this case, it is possible to define an
     array of size one with the frequency applied to all elements. The same possibility to provide one value applied to all
     elements is also provided for other fields related to elements except ELEMENT_POSITION. The cardinality can thus either
-    be \(1\) or \(N\).
+    be 1 or N.
 
     #### Surrounded and surrounding probes
 
