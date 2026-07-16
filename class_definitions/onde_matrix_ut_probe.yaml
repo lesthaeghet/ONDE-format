@@ -50,7 +50,8 @@ fields:
     required: false
     storage: dataset
     hdf5_type: H5T_INTEGER
-    description: Defines the element numbering relating the numbering implicitly defined
-      by the probe description and the order defined in the element tables (ELEMENT_POSITION,
-      ELEMENT_GEOMETRY, etc)
+    description: |-
+      Defines the element numbering relating the numbering implicitly defined by
+      the probe description and the order defined in the element tables
+      (ELEMENT_POSITION, ELEMENT_GEOMETRY, etc)
     dimensions: '[N_Elem<p>]'
