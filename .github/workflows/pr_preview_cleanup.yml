@@ -1,0 +1,21 @@
+name: Cleanup PR Docs Preview
+on:
+  pull_request_target:
+    types: [closed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  cleanup-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Base
+        uses: actions/checkout@v4
+        
+      - name: Remove Preview Artifacts
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: build/docs/site
+          action: remove

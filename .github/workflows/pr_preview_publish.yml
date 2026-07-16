@@ -1,0 +1,44 @@
+name: Publish PR Docs Preview
+on:
+  workflow_run:
+    workflows: ["Build PR Docs Preview"]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency: 
+  group: pages-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    # Enforce execution only on successful builds to prevent broken deployments
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout Base Repository (Git Initialization Only)
+        uses: actions/checkout@v4
+        with:
+          ref: main 
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: docs-preview-build
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+          
+      - name: Read Target PR Number
+        id: pr-info
+        run: |
+          PR_NUMBER=$(cat pr-metadata/pr-number)
+          echo "pr_num=$PR_NUMBER" >> $GITHUB_OUTPUT
+          
+      - name: Execute Preview Deployment
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: build/docs/site
+          pr-number: ${{ steps.pr-info.outputs.pr_num }}
+          action: auto
