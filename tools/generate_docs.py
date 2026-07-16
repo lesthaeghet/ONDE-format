@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#   "pydantic",
+#   "pyyaml",
+#   "jinja2",
+#   "mkdocs-material",
+# ]
+# ///
+
 """
 Generate Documentation for ONDE Format using YAML Single Source of Truth.
 This script uses Pydantic for validation, Jinja2 for templating, and MkDocs for rendering.
