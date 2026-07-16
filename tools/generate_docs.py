@@ -61,19 +61,27 @@ classDiagram
 
 <div class="field-list" markdown="1">
 {% for name, f in fields_meta %}
+{% set summary_content %}
+<div class="field-summary-top" markdown="span"><strong id="{{ cls.onde_class | lower }}-{{ name | lower | replace(' ', '-') }}"><code>{{ name }}</code></strong>{% if f.is_inherited %} <span class="inherited-badge" markdown="span">Inherited from [{{ f.source }}]({{ f.source | lower }}.md)</span>{% elif f.is_accessory %} <span class="accessory-badge" markdown="span">From accessory class [{{ f.source }}]({{ f.source | lower }}.md)</span>{% endif %}{% if f.short_desc %} &mdash; {{ f.short_desc }}{% endif %}</div>
+<div class="field-summary-bottom" markdown="span"><span markdown="span">**Type:** {{ f.html_type }}</span><span markdown="span">**Dimensions:** {% if f.dimensions %}`{{ f.dimensions }}`{% else %}-{% endif %}</span><span markdown="span">**Required:** {{ f.req_str }}</span><span markdown="span">**Storage:** {{ f.storage }}</span>{% if f.allowed %}<span markdown="span">**Allowed:** `{{ f.allowed }}`</span>{% endif %}{% if f.min_value %}<span markdown="span">**Min:** `{{ f.min_value }}`</span>{% endif %}{% if f.max_value %}<span markdown="span">**Max:** `{{ f.max_value }}`</span>{% endif %}</div>
+{% endset %}
+
+{% if f.description %}
 <details class="field-details{% if f.is_inherited %} inherited-field{% elif f.is_accessory %} accessory-field{% endif %}" markdown="1">
-<summary markdown="1"><div class="field-summary-top" markdown="span"><strong id="{{ cls.onde_class | lower }}-{{ name | lower | replace(' ', '-') }}"><code>{{ name }}</code></strong>{% if f.is_inherited %} <span class="inherited-badge" markdown="span">Inherited from [{{ f.source }}]({{ f.source | lower }}.md)</span>{% elif f.is_accessory %} <span class="accessory-badge" markdown="span">From accessory class [{{ f.source }}]({{ f.source | lower }}.md)</span>{% endif %} &mdash; {{ f.short_desc }}</div><div class="field-summary-bottom" markdown="span">{{ f.html_type }}</div></summary>
-
+<summary markdown="1">
+{{ summary_content }}
+</summary>
 <div class="field-content" markdown="1">
-
-{{ f.description if f.description else "No detailed description provided." }}
-
----
-
-**Type:** <span markdown="span">{{ f.html_type }}</span> | **Dimensions:** {% if f.dimensions %}`{{ f.dimensions }}`{% else %}-{% endif %} | **Required:** {{ f.req_str }} | **Storage:** {{ f.storage }}{% if f.allowed %} | **Allowed:** `{{ f.allowed }}`{% endif %}{% if f.min_value %} | **Min:** `{{ f.min_value }}`{% endif %}{% if f.max_value %} | **Max:** `{{ f.max_value }}`{% endif %}
-
+{{ f.description }}
 </div>
 </details>
+{% else %}
+<details class="field-details empty-details{% if f.is_inherited %} inherited-field{% elif f.is_accessory %} accessory-field{% endif %}" markdown="1">
+<summary onclick="event.preventDefault();" style="cursor: default;" tabindex="-1" markdown="1">
+{{ summary_content }}
+</summary>
+</details>
+{% endif %}
 {% endfor %}
 </div>
 {% endif %}
@@ -88,19 +96,27 @@ MODALITY_TEMPLATE = """\
 
 <div class="field-list" markdown="1">
 {% for name, f in fields_meta %}
+{% set summary_content %}
+<div class="field-summary-top" markdown="span"><strong id="{{ mod.modality | lower }}-{{ name | lower | replace(' ', '-') }}"><code>{{ name }}</code></strong>{% if f.short_desc %} &mdash; {{ f.short_desc }}{% endif %}</div>
+<div class="field-summary-bottom" markdown="span"><span markdown="span">**Type:** {{ f.html_type }}</span><span markdown="span">**Dimensions:** {% if f.dimensions %}`{{ f.dimensions }}`{% else %}-{% endif %}</span><span markdown="span">**Required:** {{ f.req_str }}</span><span markdown="span">**Storage:** {{ f.storage }}</span>{% if f.allowed %}<span markdown="span">**Allowed:** `{{ f.allowed }}`</span>{% endif %}{% if f.min_value %}<span markdown="span">**Min:** `{{ f.min_value }}`</span>{% endif %}{% if f.max_value %}<span markdown="span">**Max:** `{{ f.max_value }}`</span>{% endif %}</div>
+{% endset %}
+
+{% if f.description %}
 <details class="field-details" markdown="1">
-<summary markdown="1"><div class="field-summary-top" markdown="span"><strong id="{{ mod.modality | lower }}-{{ name | lower | replace(' ', '-') }}"><code>{{ name }}</code></strong> &mdash; {{ f.short_desc }}</div><div class="field-summary-bottom" markdown="span">{{ f.html_type }}</div></summary>
-
+<summary markdown="1">
+{{ summary_content }}
+</summary>
 <div class="field-content" markdown="1">
-
-{{ f.description if f.description else "No detailed description provided." }}
-
----
-
-**Type:** <span markdown="span">{{ f.html_type }}</span> | **Dimensions:** {% if f.dimensions %}`{{ f.dimensions }}`{% else %}-{% endif %} | **Required:** {{ f.req_str }} | **Storage:** {{ f.storage }}{% if f.allowed %} | **Allowed:** `{{ f.allowed }}`{% endif %}{% if f.min_value %} | **Min:** `{{ f.min_value }}`{% endif %}{% if f.max_value %} | **Max:** `{{ f.max_value }}`{% endif %}
-
+{{ f.description }}
 </div>
 </details>
+{% else %}
+<details class="field-details empty-details" markdown="1">
+<summary onclick="event.preventDefault();" style="cursor: default;" tabindex="-1" markdown="1">
+{{ summary_content }}
+</summary>
+</details>
+{% endif %}
 {% endfor %}
 </div>
 {% endif %}
@@ -189,7 +205,7 @@ def main():
     line-height: 1.3;
 }
 
-details.inherited-field > summary {
+.inherited-field > summary, .inherited-field > .field-summary-empty {
     background-color: var(--md-default-bg-color--light);
     opacity: 0.85;
 }
@@ -207,7 +223,7 @@ details.inherited-field > summary {
     text-decoration: underline;
 }
 
-details.accessory-field > summary {
+.accessory-field > summary, .accessory-field > .field-summary-empty {
     background-color: var(--md-code-bg-color);
     opacity: 0.95;
 }
@@ -226,8 +242,10 @@ details.accessory-field > summary {
 }
 
 details.field-details {
+    display: block;
     border: 1px solid var(--md-default-fg-color--lightest, rgba(0,0,0,0.12));
     border-radius: 0.2rem;
+    margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     background-color: var(--md-default-bg-color);
     box-shadow: 0 2px 2px rgba(0,0,0,0.05);
@@ -260,6 +278,9 @@ details.field-details[open] > summary::before {
     transform: rotate(45deg);
     top: 1rem;
 }
+details.empty-details > summary::after {
+    display: none !important;
+}
 details.field-details > summary:hover {
     background-color: rgba(128, 128, 128, 0.05);
 }
@@ -269,22 +290,34 @@ details.field-details > summary .field-summary-top {
     color: var(--md-default-fg-color);
 }
 details.field-details > summary .field-summary-bottom {
-    font-family: var(--md-code-font-family);
     font-size: 0.85em;
     color: var(--md-default-fg-color--light);
-    word-break: break-word;
+    margin-top: 0.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 0.1rem;
+    column-gap: 0.5rem;
+}
+details.field-details > summary .field-summary-bottom > span {
+    white-space: nowrap;
+}
+details.field-details > summary .field-summary-bottom > span:not(:last-child)::after {
+    content: " •";
+    color: var(--md-default-fg-color--lightest);
+}
+details.field-details > summary .field-summary-bottom code {
+    font-size: 0.9em;
 }
 details.field-details[open] > summary {
     border-bottom: 1px solid var(--md-default-fg-color--lightest, rgba(0,0,0,0.12));
 }
-details.field-details .field-content {
+.field-details .field-content {
     padding: 1rem;
 }
-details.field-details .field-content hr {
+.field-details .field-content hr {
     margin: 1rem 0;
 }
 ''')
-    
     # Fix the src_images path since it's one level up (ONDE-format/images)
     src_images = os.path.normpath(os.path.join(input_dir, '..', 'images'))
     dest_images = os.path.join(docs_dir, 'images')
