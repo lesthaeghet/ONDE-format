@@ -62,8 +62,28 @@ classDiagram
 <div class="field-list" markdown="1">
 {% for name, f in fields_meta %}
 {% set summary_content %}
-<div class="field-summary-top" markdown="span"><strong id="{{ cls.onde_class | lower }}-{{ name | lower | replace(' ', '-') }}"><code>{{ name }}</code></strong>{% if f.is_inherited %} <span class="inherited-badge" markdown="span">Inherited from [{{ f.source }}]({{ f.source | lower }}.md)</span>{% elif f.is_accessory %} <span class="accessory-badge" markdown="span">From accessory class [{{ f.source }}]({{ f.source | lower }}.md)</span>{% endif %}{% if f.short_desc %} &mdash; {{ f.short_desc }}{% endif %}</div>
-<div class="field-summary-bottom" markdown="span"><span markdown="span">**Type:** {{ f.html_type }}</span><span markdown="span">**Dimensions:** {% if f.dimensions %}`{{ f.dimensions }}`{% else %}-{% endif %}</span><span markdown="span">**Required:** {{ f.req_str }}</span><span markdown="span">**Storage:** {{ f.storage }}</span>{% if f.allowed %}<span markdown="span">**Allowed:** `{{ f.allowed }}`</span>{% endif %}{% if f.min_value %}<span markdown="span">**Min:** `{{ f.min_value }}`</span>{% endif %}{% if f.max_value %}<span markdown="span">**Max:** `{{ f.max_value }}`</span>{% endif %}</div>
+<div class="field-summary-header" markdown="span">
+  <strong class="field-name" id="{{ cls.onde_class | lower }}-{{ name | lower | replace(' ', '-') }}"><code>{{ name }}</code></strong>
+  <span class="field-type" markdown="span">{{ f.html_type }}</span>
+  {% if f.req_str == 'Yes' %}<span class="req-badge req-yes">Required</span>{% else %}<span class="req-badge req-no">Optional</span>{% endif %}
+  {% if f.is_inherited %}
+    <span class="inherited-badge" markdown="span">Inherited from [{{ f.source }}]({{ f.source | lower }}.md)</span>
+  {% elif f.is_accessory %}
+    <span class="accessory-badge" markdown="span">From accessory class [{{ f.source }}]({{ f.source | lower }}.md)</span>
+  {% endif %}
+</div>
+{% if f.short_desc %}
+<div class="field-summary-desc" markdown="span">{{ f.short_desc }}</div>
+{% endif %}
+<table class="field-meta-table">
+  <tbody>
+    <tr><td>Storage:</td><td><span markdown="span">{{ f.storage }}</span></td></tr>
+    {% if f.dimensions %}<tr><td>Dimensions:</td><td><code>{{ f.dimensions | e }}</code></td></tr>{% endif %}
+    {% if f.allowed %}<tr><td>Allowed:</td><td><code>{{ f.allowed | e }}</code></td></tr>{% endif %}
+    {% if f.min_value %}<tr><td>Min:</td><td><code>{{ f.min_value | e }}</code></td></tr>{% endif %}
+    {% if f.max_value %}<tr><td>Max:</td><td><code>{{ f.max_value | e }}</code></td></tr>{% endif %}
+  </tbody>
+</table>
 {% endset %}
 
 {% if f.description %}
@@ -97,8 +117,23 @@ MODALITY_TEMPLATE = """\
 <div class="field-list" markdown="1">
 {% for name, f in fields_meta %}
 {% set summary_content %}
-<div class="field-summary-top" markdown="span"><strong id="{{ mod.modality | lower }}-{{ name | lower | replace(' ', '-') }}"><code>{{ name }}</code></strong>{% if f.short_desc %} &mdash; {{ f.short_desc }}{% endif %}</div>
-<div class="field-summary-bottom" markdown="span"><span markdown="span">**Type:** {{ f.html_type }}</span><span markdown="span">**Dimensions:** {% if f.dimensions %}`{{ f.dimensions }}`{% else %}-{% endif %}</span><span markdown="span">**Required:** {{ f.req_str }}</span><span markdown="span">**Storage:** {{ f.storage }}</span>{% if f.allowed %}<span markdown="span">**Allowed:** `{{ f.allowed }}`</span>{% endif %}{% if f.min_value %}<span markdown="span">**Min:** `{{ f.min_value }}`</span>{% endif %}{% if f.max_value %}<span markdown="span">**Max:** `{{ f.max_value }}`</span>{% endif %}</div>
+<div class="field-summary-header" markdown="span">
+  <strong class="field-name" id="{{ mod.modality | lower }}-{{ name | lower | replace(' ', '-') }}"><code>{{ name }}</code></strong>
+  <span class="field-type" markdown="span">{{ f.html_type }}</span>
+  {% if f.req_str == 'Yes' %}<span class="req-badge req-yes">Required</span>{% else %}<span class="req-badge req-no">Optional</span>{% endif %}
+</div>
+{% if f.short_desc %}
+<div class="field-summary-desc" markdown="span">{{ f.short_desc }}</div>
+{% endif %}
+<table class="field-meta-table">
+  <tbody>
+    <tr><td>Storage:</td><td><span markdown="span">{{ f.storage }}</span></td></tr>
+    {% if f.dimensions %}<tr><td>Dimensions:</td><td><code>{{ f.dimensions | e }}</code></td></tr>{% endif %}
+    {% if f.allowed %}<tr><td>Allowed:</td><td><code>{{ f.allowed | e }}</code></td></tr>{% endif %}
+    {% if f.min_value %}<tr><td>Min:</td><td><code>{{ f.min_value | e }}</code></td></tr>{% endif %}
+    {% if f.max_value %}<tr><td>Max:</td><td><code>{{ f.max_value | e }}</code></td></tr>{% endif %}
+  </tbody>
+</table>
 {% endset %}
 
 {% if f.description %}
@@ -251,6 +286,7 @@ details.field-details {
     box-shadow: 0 2px 2px rgba(0,0,0,0.05);
 }
 details.field-details > summary {
+    display: block !important;
     padding: 0.8rem 1rem;
     cursor: pointer;
     list-style: none;
@@ -284,28 +320,99 @@ details.empty-details > summary::after {
 details.field-details > summary:hover {
     background-color: rgba(128, 128, 128, 0.05);
 }
-details.field-details > summary .field-summary-top {
-    font-weight: 500;
-    margin-bottom: 0.2rem;
-    color: var(--md-default-fg-color);
+details.field-details > summary .field-summary-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.3rem;
 }
-details.field-details > summary .field-summary-bottom {
+details.field-details > summary .field-summary-header .field-name code {
+    font-size: 1.05em;
+    color: var(--md-default-fg-color);
+    font-family: var(--md-text-font-family, inherit);
+    background: transparent;
+    padding: 0;
+    font-weight: 700;
+}
+details.field-details > summary .field-summary-header .field-type {
+    font-family: var(--md-code-font-family);
+    font-size: 0.7em;
+    font-weight: 600;
+    background-color: var(--md-primary-fg-color--lightest, rgba(64, 81, 181, 0.1));
+    color: var(--md-primary-fg-color);
+    padding: 0.15rem 0.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--md-primary-fg-color--light, rgba(64, 81, 181, 0.2));
+}
+details.field-details > summary .field-summary-header .field-type a {
+    color: inherit;
+    text-decoration: underline;
+}
+details.field-details > summary .field-summary-header .field-type code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+    box-shadow: none;
+}
+details.field-details > summary .field-summary-header .req-badge {
+    font-size: 0.7em;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+details.field-details > summary .field-summary-header .req-yes {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #d32f2f;
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+details.field-details > summary .field-summary-header .req-no {
+    background-color: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+    border: 1px solid rgba(108, 117, 125, 0.2);
+}
+details.field-details > summary .field-summary-desc {
+    font-size: 0.95em;
+    color: var(--md-default-fg-color);
+    margin-bottom: 0.4rem;
+    line-height: 1.4;
+    font-weight: normal;
+}
+details.field-details > summary .field-meta-table {
+    display: table !important;
+    table-layout: auto !important;
     font-size: 0.85em;
     color: var(--md-default-fg-color--light);
     margin-top: 0.4rem;
-    display: flex;
-    flex-wrap: wrap;
-    row-gap: 0.1rem;
-    column-gap: 0.5rem;
+    border-collapse: collapse;
+    width: 100%;
+    background: transparent;
+    box-shadow: none;
+    font-weight: normal;
 }
-details.field-details > summary .field-summary-bottom > span {
+details.field-details > summary .field-meta-table td {
+    display: table-cell !important;
+    padding: 0 0.75rem 0 0 !important;
+    line-height: 1.2;
+    border: none;
+    vertical-align: top;
+    background: transparent;
+}
+details.field-details > summary .field-meta-table td:nth-child(2) {
+    width: 99%;
+}
+details.field-details > summary .field-meta-table tr:hover td {
+    background: transparent;
+}
+details.field-details > summary .field-meta-table td:first-child {
+    font-weight: 600;
     white-space: nowrap;
+    width: 1%;
+    color: var(--md-default-fg-color);
 }
-details.field-details > summary .field-summary-bottom > span:not(:last-child)::after {
-    content: " •";
-    color: var(--md-default-fg-color--lightest);
-}
-details.field-details > summary .field-summary-bottom code {
+details.field-details > summary .field-meta-table code {
     font-size: 0.9em;
 }
 details.field-details[open] > summary {
