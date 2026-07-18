@@ -33,14 +33,16 @@ The generated documentation site will be available in the `build/docs/site/` dir
 
 ## Legacy CSV Generation
 
-While the Single Source of Truth is defined using the YAML schemas in `class_definitions/`, you may occasionally need the legacy CSV format for compatibility with older tooling.
+While the Single Source of Truth is defined using the YAML schemas in `class_definitions/`, you may occasionally need the legacy CSV format for compatibility with older tooling. 
 
-You can generate the CSV file at any time by running:
+You can download the generated CSV file directly from the documentation site here: [ONDE_fields.csv](ONDE_fields.csv).
+
+You can also generate the CSV file manually at any time by running:
 ```bash
 python tools/generate_csv.py
 ```
 
-The generated CSV file will be available at `build/ONDE_fields.csv`.
+The generated CSV file will be available at `build/ONDE_fields.csv` locally.
 
 ## Instructions for contributors
 
