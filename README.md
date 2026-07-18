@@ -31,11 +31,11 @@ The documentation is built using MkDocs. You can render it locally using the pro
 
 The generated documentation site will be available in the `build/docs/site/` directory.
 
-## Legacy CSV Generation
+## CSV Export for Automated Tooling
 
-While the Single Source of Truth is defined using the YAML schemas in `class_definitions/`, you may occasionally need the legacy CSV format for compatibility with older tooling. 
+While the Single Source of Truth for the specification is defined using the individual YAML files in the `class_definitions/` directory, navigating multiple YAML files can become cumbersome for quick import or validation purposes in automated tooling.
 
-You can download the generated CSV file directly from the documentation site here: [ONDE_fields.csv](ONDE_fields.csv).
+For simplified use in these scenarios, we provide a unified CSV export of the data model. You can download the latest generated CSV file directly from the documentation site here: [https://COFREND.github.io/ONDE-format/ONDE_fields.csv](https://COFREND.github.io/ONDE-format/ONDE_fields.csv).
 
 You can also generate the CSV file manually at any time by running:
 ```bash
